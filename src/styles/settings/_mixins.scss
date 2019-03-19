@@ -1,0 +1,27 @@
+/**
+ * Mixins
+*/
+
+/* Breakpoints */
+
+$breakTablet: 760px;
+$breakDesktop: 1024px;
+$breakLarge: 1280px;
+
+@mixin mediaTablet {
+  @media (min-width: #{$breakTablet}) {
+    @content;
+  }
+}
+
+@mixin mediaDesktop {
+  @media (min-width: #{$breakDesktop}) {
+    @content;
+  }
+}
+
+@mixin mediaLarge {
+  @media (min-width: #{$breakLarge}) {
+    @content;
+  }
+}
