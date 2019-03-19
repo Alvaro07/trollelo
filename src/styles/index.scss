@@ -1,5 +1,14 @@
+/* No code */
 @import "settings/variables";
 @import "settings/mixins";
-@import "vendor/reset";
 
+/* Base */
+@import "vendor/reset";
 @import "base/tags";
+
+/* Components */
+@import "../components/App/app"; 
+@import "../components/Login/login"; 
+
+/* Helper classes */
+@import "base/helpers"; 

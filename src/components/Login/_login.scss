@@ -1,0 +1,38 @@
+/**
+ * Login component
+ */
+
+.login-wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $blue;
+  flex-direction: column;
+
+  &__header {
+    margin-bottom: 30px;
+
+    &__brand {
+      color: white;
+      font-size: 4.8rem;
+      font-family: "Pacifico", cursive;
+      text-shadow: 1px 1px $darkBlue;
+
+      svg {
+        filter: drop-shadow(1px 1px $darkBlue);
+      }
+    }
+  }
+}
+
+.login {
+  width: calc(90vw - 7px);
+  max-width: 450px;
+  min-height: 500px;
+  padding: 30px;
+
+  background-color: white;
+  box-shadow: $darkBlue 7px 7px 0px;
+  border-radius: 4px;
+}

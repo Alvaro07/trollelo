@@ -2,12 +2,6 @@
  * Mixins
 */
 
-/* Breakpoints */
-
-$breakTablet: 760px;
-$breakDesktop: 1024px;
-$breakLarge: 1280px;
-
 @mixin mediaTablet {
   @media (min-width: #{$breakTablet}) {
     @content;

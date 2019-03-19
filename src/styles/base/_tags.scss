@@ -10,21 +10,24 @@
   padding: 0;
 }
 
-html,
+html {
+  font-size: 62.5%;
+  height: 100%;
+}
+
 body {
   min-width: 320px;
   height: 100%;
-  // font-family: "Roboto", sans-serif;
-  // color: var(--darkGrey);
-  // font-size: 14px;
+  
+  font-family: "Roboto", sans-serif;
+  font-size: 1.4rem;
 }
 
 input,
 button,
 select {
   font-family: "Roboto", sans-serif;
-  // color: var(--darkGrey);
-  // font-size: 14px;
+  font-size: 1.4rem;
 }
 
 a,
