@@ -3,6 +3,7 @@
  */
 
 .c-input-text {
+  --border-color: #{$grey};
 
   &__label {
     font-weight: 700;
@@ -13,15 +14,19 @@
   &__field {
     width: 100%;
     border: none;
-    border-bottom: 1px solid $grey;
+    border-bottom: 1px solid var(--border-color);
     padding: 5px 0;
-    
+    outline: 0px 0px 1px 0px;
 
-    &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-      opacity: .8;
+    &::placeholder {
+      opacity: 0.8;
       font-style: italic;
     }
   }
 
-  
+  /* error state */
+
+  &--error {
+    --border-color: red;
+  }
 }

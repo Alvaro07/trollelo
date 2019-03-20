@@ -17,7 +17,7 @@
 
     &__brand {
       color: white;
-      font-size: 4.8rem;
+      font-size: 5.6rem;
       font-family: "Pacifico", cursive;
       text-shadow: 1px 1px $darkBlue;
 
@@ -33,7 +33,7 @@
 .login {
   width: calc(90vw - 7px);
   max-width: 600px;
-  padding: 30px;
+  padding: 20px;
 
   background-color: white;
   box-shadow: $darkBlue 7px 7px 0px;
@@ -41,22 +41,25 @@
 
   @include mediaTablet {
     display: flex;
-    padding: 60px 30px;
+    padding: 30px;
+    padding: 30px;
   }
 
   &__form {
-    margin-bottom: 30px;
-    padding-bottom: 30px;
-    border-bottom: 1px dotted $grey;
-
     @include mediaTablet {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-
       flex: 1;
+    }
 
-      &:first-child {
+    &:first-child {
+      margin-bottom: 30px;
+      padding-bottom: 30px;
+      border-bottom: 1px dotted $grey;
+
+      @include mediaTablet {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+
         padding-right: 20px;
         margin-right: 20px;
         border-right: 1px dotted $grey;
@@ -65,15 +68,9 @@
   }
 
   &__title {
-    --title-size: 2.2rem;
-
-    font-size: var(--title-size);
+    font-size: 2.6rem;
     font-weight: 700;
     margin-bottom: 20px;
-
-    @include mediaDesktop {
-      --title-size: 2.6rem;
-    }
   }
 
   &__field {
