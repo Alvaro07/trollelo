@@ -6,7 +6,7 @@
   font-weight: 700;
 }
 
-/* Paddings */
+/* Paddings & margins */
 
 $positions: ("", "-top", "-right", "-bottom", "-left");
 
@@ -28,10 +28,19 @@ $positions: ("", "-top", "-right", "-bottom", "-left");
 
 /* colors */
 
+
 .color-blue {
   color: $blue;
 }
 .color-dark-blue {
   color: $darkBlue;
 }
-
+.color-green {
+  color: $green;
+}
+.color-dark-green {
+  color: $darkGreen;
+}
+.color-orange {
+  color: $orange;
+}

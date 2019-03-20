@@ -3,17 +3,25 @@
  */
 
 .c-button {
-  border: none;
+  --bg-color: #{$darkBlue};
+  --bg-hover-color: #{$blue};
+
   padding: 10px 40px;
-  background-color: $darkBlue;
-  cursor: pointer;
   color: white;
   font-weight: 700;
   font-size: 1.6rem;
+  cursor: pointer;
+  border: none;
   border-radius: 4px;
+  background-color: var(--bg-color);
   transition: 0.2s all ease;
 
   &:hover {
-    background-color: $blue;
+    background-color: var(--bg-hover-color);
+  }
+
+  &--secondary {
+    --bg-color: #{$darkGreen};
+    --bg-hover-color: #{$green};
   }
 }

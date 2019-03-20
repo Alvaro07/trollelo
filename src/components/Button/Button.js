@@ -1,8 +1,11 @@
 import React from "react";
 
-const Button = ({ text, extraClass, onClick }) => {
+const Button = ({ text, extraClass, onClick, type }) => {
+  const extra = extraClass ? extraClass : "";
+  const typeClass = !type ? "" : type === "secondary" ? "c-button--secondary" : null;
+
   return (
-    <button className={`c-button ${extraClass}`} onClick={onClick}>
+    <button className={`c-button ${typeClass} ${extra}`} onClick={onClick}>
       {text}
     </button>
   );
