@@ -2,6 +2,8 @@
  * Login component
  */
 
+/* Login wrap page */
+
 .login-wrap {
   height: 100%;
   display: flex;
@@ -11,7 +13,7 @@
   flex-direction: column;
 
   &__header {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 
     &__brand {
       color: white;
@@ -26,13 +28,55 @@
   }
 }
 
+/* Login box */
+
 .login {
   width: calc(90vw - 7px);
-  max-width: 450px;
-  min-height: 500px;
+  max-width: 600px;
   padding: 30px;
 
   background-color: white;
   box-shadow: $darkBlue 7px 7px 0px;
   border-radius: 4px;
+
+  @include mediaTablet {
+    display: flex;
+    padding: 60px 30px;
+  }
+
+  &__form {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px dotted $grey;
+
+    @include mediaTablet {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+
+      flex: 1;
+
+      &:first-child {
+        padding-right: 20px;
+        margin-right: 20px;
+        border-right: 1px dotted $grey;
+      }
+    }
+  }
+
+  &__title {
+    --title-size: 2.2rem;
+    
+    font-size: var(--title-size);
+    font-weight: 700;
+    margin-bottom: 20px;
+
+    @include mediaDesktop {
+      --title-size: 2.6rem;
+    }
+  }
+
+  &__field {
+    margin-bottom: 10px;
+  }
 }

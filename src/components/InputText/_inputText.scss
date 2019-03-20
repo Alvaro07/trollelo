@@ -1,0 +1,27 @@
+/**
+ * Input text component
+ */
+
+.c-input-text {
+
+  &__label {
+    font-weight: 700;
+    display: block;
+    padding-bottom: 5px;
+  }
+
+  &__field {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid $grey;
+    padding: 5px 0;
+    
+
+    &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      opacity: .8;
+      font-style: italic;
+    }
+  }
+
+  
+}

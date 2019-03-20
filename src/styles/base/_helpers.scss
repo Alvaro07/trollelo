@@ -6,38 +6,22 @@
   font-weight: 700;
 }
 
-// Paddings
+/* Paddings */
 
-.padding-10 {
-  padding: 10px;
-}
-.padding-top-10 {
-  padding-top: 10px;
-}
-.padding-right-10 {
-  padding-right: 10px;
-}
-.padding-bottom-10 {
-  padding-bottom: 10px;
-}
-.padding-left-10 {
-  padding-left: 10px;
+$positions: ("", "-top", "-right", "-bottom", "-left");
+
+@each $pos in $positions {
+  @for $i from 1 through 3 {
+    .padding#{$pos}-#{$i * 10} {
+      padding#{$pos}: #{$i * 10}px;
+    }
+  }
 }
 
-// Paddings
-
-.margin-10 {
-  margin: 10px;
-}
-.margin-top-10 {
-  margin-top: 10px;
-}
-.margin-right-10 {
-  margin-right: 10px;
-}
-.margin-bottom-10 {
-  margin-bottom: 10px;
-}
-.margin-left-10 {
-  margin-left: 10px;
+@each $pos in $positions {
+  @for $i from 1 through 3 {
+    .margin#{$pos}-#{$i * 10} {
+      margin#{$pos}: #{$i * 10}px;
+    }
+  }
 }
