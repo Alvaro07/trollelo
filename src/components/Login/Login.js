@@ -13,7 +13,7 @@ const Login = () => {
       <main className="login">
         <form className="login__form">
           <h2 className="login__title">
-            <FontAwesomeIcon icon="street-view" className="color-dark-blue" /> Sign in
+            Sign in <FontAwesomeIcon icon="street-view" className="color-dark-blue" />
           </h2>
           <InputText
             type="text"
