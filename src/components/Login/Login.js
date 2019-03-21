@@ -1,26 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
 
 const Login = () => {
+  /**
+   * Component State
+   */
+
   const [dataLogin, setDataLogin] = useState({
     user: "",
     password: "",
     isValid: true,
-    errorMessage: "Complete all the fields"
+    errorMessage: "Complete all the fields to login"
   });
 
   const [dataRegister, setDataRegister] = useState({
     user: "",
+    email: "",
     password: "",
     isValid: true,
-    errorMessage: "Complete all the fields"
+    errorMessage: "The register is not complete"
   });
+
+  const [shake, setShake] = useState(false);
+
+  /**
+   * Effect
+   */
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShake(false);
+    }, 500);
+  }, [shake]);
+
+  /**
+   * Handle functions
+   */
 
   const handleLogin = e => {
     e.preventDefault();
     if (!dataLogin.user.length || !dataLogin.password.length) {
       setDataLogin({ ...dataLogin, isValid: false });
+      setShake(true);
     } else {
       setDataLogin({ ...dataLogin, isValid: true });
     }
@@ -30,6 +52,7 @@ const Login = () => {
     e.preventDefault();
     if (!dataRegister.user.length || !dataRegister.email.length || !dataRegister.password.length) {
       setDataRegister({ ...dataRegister, isValid: false });
+      setShake(true);
     } else {
       setDataRegister({ ...dataRegister, isValid: true });
     }
@@ -41,7 +64,7 @@ const Login = () => {
         <h1 className="login-wrap__header__brand">Trolello</h1>
       </header>
 
-      <main className="login">
+      <main className={`login ${shake === true ? "login--shake" : ""}`}>
         <form className="login__form">
           <h2 className="login__title">Sign in</h2>
           <InputText
@@ -65,9 +88,7 @@ const Login = () => {
 
           <Button text="Log in" onClick={e => handleLogin(e)} />
 
-          {dataLogin.isValid === false && (
-            <p className="color-orange bold padding-top-20">{dataLogin.errorMessage}</p>
-          )}
+          {dataLogin.isValid === false && <p className="color-orange bold padding-top-20">{dataLogin.errorMessage}</p>}
         </form>
         <form className="login__form">
           <h2 className="login__title">Register</h2>
