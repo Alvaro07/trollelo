@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+
 import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
 
-const Login = () => {
+const Login = props => {
   /**
    * Component State
    */
@@ -58,7 +61,9 @@ const Login = () => {
     }
   };
 
-  return (
+  return props.state.isLogin ? (
+    <Redirect from="/" to="/dashboard" />
+  ) : (
     <section className="login-wrap">
       <header className="login-wrap__header">
         <h1 className="login-wrap__header__brand">Trolello</h1>
@@ -130,4 +135,9 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapStateToProps = state => ({ state });
+
+export default connect(
+  mapStateToProps,
+  null
+)(Login);
