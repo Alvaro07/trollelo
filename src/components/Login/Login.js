@@ -3,33 +3,37 @@ import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
 
 const Login = () => {
-  const [userLogin, setUserLogin] = useState("");
-  const [passLogin, setPassLogin] = useState("");
-  const [validationLogin, setValidationLogin] = useState({ isValid: true, message: "Complete all the fields" });
+  const [dataLogin, setDataLogin] = useState({
+    user: "",
+    password: "",
+    isValid: true,
+    errorMessage: "Complete all the fields"
+  });
 
-  const [userRegister, setUserRegister] = useState("");
-  const [emailRegister, setEmailRegister] = useState("");
-  const [passRegister, setPassRegister] = useState("");
-  const [validationRegister, setValidationRegister] = useState({ isValid: true, message: "Complete all the fields" });
+  const [dataRegister, setDataRegister] = useState({
+    user: "",
+    password: "",
+    isValid: true,
+    errorMessage: "Complete all the fields"
+  });
 
   const handleLogin = e => {
     e.preventDefault();
-    if (!userLogin.length || !passLogin.length) {
-      setValidationLogin({ ...validationLogin, isValid: false });
+    if (!dataLogin.user.length || !dataLogin.password.length) {
+      setDataLogin({ ...dataLogin, isValid: false });
     } else {
-      setValidationLogin({ ...validationLogin, isValid: true });
+      setDataLogin({ ...dataLogin, isValid: true });
     }
   };
 
   const handleRegister = e => {
     e.preventDefault();
-    if (!userRegister.length || !emailRegister.length || !passRegister.length) {
-      setValidationRegister({ ...validationRegister, isValid: false });
+    if (!dataRegister.user.length || !dataRegister.email.length || !dataRegister.password.length) {
+      setDataRegister({ ...dataRegister, isValid: false });
     } else {
-      setValidationRegister({ ...validationRegister, isValid: true });
+      setDataRegister({ ...dataRegister, isValid: true });
     }
   };
-
 
   return (
     <section className="login-wrap">
@@ -46,8 +50,8 @@ const Login = () => {
             labelText="User"
             placeholder="type your user..."
             extraClass="margin-bottom-30"
-            onKeyUp={e => setUserLogin(e.target.value)}
-            error={validationLogin.isValid === false && userLogin.length === 0 ? true : false}
+            onKeyUp={e => setDataLogin({ ...dataLogin, user: e.target.value })}
+            error={dataLogin.isValid === false && dataLogin.user.length === 0 ? true : false}
           />
           <InputText
             type="password"
@@ -55,13 +59,15 @@ const Login = () => {
             labelText="Password"
             placeholder="enter your password..."
             extraClass="margin-bottom-20"
-            onKeyUp={e => setPassLogin(e.target.value)}
-            error={validationLogin.isValid === false && passLogin.length === 0 ? true : false}
+            onKeyUp={e => setDataLogin({ ...dataLogin, password: e.target.value })}
+            error={dataLogin.isValid === false && dataLogin.password.length === 0 ? true : false}
           />
 
           <Button text="Log in" onClick={e => handleLogin(e)} />
 
-          {validationLogin.isValid === false && <p className="color-orange bold padding-top-20">{validationLogin.message}</p>}
+          {dataLogin.isValid === false && (
+            <p className="color-orange bold padding-top-20">{dataLogin.errorMessage}</p>
+          )}
         </form>
         <form className="login__form">
           <h2 className="login__title">Register</h2>
@@ -71,8 +77,8 @@ const Login = () => {
             labelText="User"
             placeholder="type your user..."
             extraClass="margin-bottom-30"
-            onKeyUp={e => setUserRegister(e.target.value)}
-            error={validationRegister.isValid === false && userRegister.length === 0 ? true : false}
+            onKeyUp={e => setDataRegister({ ...dataRegister, user: e.target.value })}
+            error={dataRegister.isValid === false && dataRegister.user.length === 0 ? true : false}
           />
           <InputText
             type="email"
@@ -80,8 +86,8 @@ const Login = () => {
             labelText="Email"
             placeholder="type your email..."
             extraClass="margin-bottom-30"
-            onKeyUp={e => setEmailRegister(e.target.value)}
-            error={validationRegister.isValid === false && emailRegister.length === 0 ? true : false}
+            onKeyUp={e => setDataRegister({ ...dataRegister, email: e.target.value })}
+            error={dataRegister.isValid === false && dataRegister.email.length === 0 ? true : false}
           />
           <InputText
             type="password"
@@ -89,12 +95,14 @@ const Login = () => {
             labelText="Password"
             placeholder="enter your new password..."
             extraClass="margin-bottom-20"
-            onKeyUp={e => setPassRegister(e.target.value)}
-            error={validationRegister.isValid === false && passRegister.length === 0 ? true : false}
+            onKeyUp={e => setDataRegister({ ...dataRegister, password: e.target.value })}
+            error={dataRegister.isValid === false && dataRegister.password.length === 0 ? true : false}
           />
           <Button text="Register" type="secondary" onClick={e => handleRegister(e)} />
 
-          {validationRegister.isValid === false && <p className="color-orange bold padding-top-20">{validationRegister.message}</p>}
+          {dataRegister.isValid === false && (
+            <p className="color-orange bold padding-top-20">{dataRegister.errorMessage}</p>
+          )}
         </form>
       </main>
     </section>
