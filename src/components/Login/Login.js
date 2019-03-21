@@ -72,7 +72,7 @@ const Login = () => {
             id="signInUser"
             labelText="User"
             placeholder="type your user..."
-            extraClass="margin-bottom-30"
+            extraClass="margin-bottom-20"
             onKeyUp={e => setDataLogin({ ...dataLogin, user: e.target.value })}
             error={dataLogin.isValid === false && dataLogin.user.length === 0 ? true : false}
           />
@@ -81,7 +81,7 @@ const Login = () => {
             id="signInPassword"
             labelText="Password"
             placeholder="enter your password..."
-            extraClass="margin-bottom-20"
+            extraClass="margin-bottom-30"
             onKeyUp={e => setDataLogin({ ...dataLogin, password: e.target.value })}
             error={dataLogin.isValid === false && dataLogin.password.length === 0 ? true : false}
           />
@@ -97,7 +97,7 @@ const Login = () => {
             id="registerUser"
             labelText="User"
             placeholder="type your user..."
-            extraClass="margin-bottom-30"
+            extraClass="margin-bottom-20"
             onKeyUp={e => setDataRegister({ ...dataRegister, user: e.target.value })}
             error={dataRegister.isValid === false && dataRegister.user.length === 0 ? true : false}
           />
@@ -106,7 +106,7 @@ const Login = () => {
             id="registerEmail"
             labelText="Email"
             placeholder="type your email..."
-            extraClass="margin-bottom-30"
+            extraClass="margin-bottom-20"
             onKeyUp={e => setDataRegister({ ...dataRegister, email: e.target.value })}
             error={dataRegister.isValid === false && dataRegister.email.length === 0 ? true : false}
           />
@@ -115,7 +115,7 @@ const Login = () => {
             id="registerPassword"
             labelText="Password"
             placeholder="enter your new password..."
-            extraClass="margin-bottom-20"
+            extraClass="margin-bottom-30"
             onKeyUp={e => setDataRegister({ ...dataRegister, password: e.target.value })}
             error={dataRegister.isValid === false && dataRegister.password.length === 0 ? true : false}
           />

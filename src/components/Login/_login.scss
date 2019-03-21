@@ -19,7 +19,7 @@
       color: white;
       font-size: 5.6rem;
       font-family: "Pacifico", cursive;
-      text-shadow: 4px 4px $darkBlue;
+      text-shadow: 3px 3px $darkBlue;
 
       svg {
         filter: drop-shadow(1px 1px $darkBlue);
@@ -36,7 +36,7 @@
   padding: 20px;
 
   background-color: white;
-  box-shadow: $darkBlue 7px 7px 0px;
+  box-shadow: $darkBlue 6px 6px 0px;
   border-radius: 4px;
 
   @include mediaTablet {
