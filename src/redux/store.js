@@ -5,7 +5,9 @@ import { createStore } from "redux";
  * Initial state
  */
 
-let initialState = {};
+let initialState = {
+  isLogin: false
+};
 
 /**
  * Redux store
