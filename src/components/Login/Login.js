@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { createUser } from "../../firebase/functions/authentication";
+
+import { connect } from "react-redux";
+import { setLogin } from "../../redux/reducer";
+import { createUser, getUserByUid } from "../../firebase/functions/user";
+
 import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
 
@@ -31,6 +34,17 @@ const Login = props => {
    * Effect
    */
 
+  // Comprbamos si hay usuario en localstorage y accedemos
+
+  useEffect(() => {
+    if (localStorage.userName) {
+      getUserByUid(localStorage.userName, data => {
+        if (data) return; // acceder con login
+      });
+    }
+  }, []);
+
+  // Reseteamos el estado de shake para que pueda funcionar una y otra vez
   useEffect(() => {
     setTimeout(() => {
       setShake(false);
@@ -72,6 +86,7 @@ const Login = props => {
       createUser(dataRegister.user, dataRegister.email, dataRegister.password, error => {
         if (!error) {
           setDataRegister({ ...dataRegister, isValid: true });
+          props.setLogin(true);
         } else {
           setDataRegister({ ...dataRegister, isValid: false, errorMessage: error.message });
           setShake(true);
@@ -157,8 +172,11 @@ const Login = props => {
 };
 
 const mapStateToProps = state => ({ state });
+const mapDispatchToProps = dispatch => ({
+  setLogin: boolean => dispatch(setLogin(boolean))
+});
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Login);
