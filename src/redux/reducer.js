@@ -2,7 +2,7 @@
  * Reducer actions
  */
 
-// export const setUser = (user, data) => ({ type: "SET_USER", user, data });
+export const setLogin = boolean => ({ type: "SET_LOGIN", boolean });
 
 /**
  * Reducer
@@ -12,8 +12,8 @@ export const reducer = (state, action) => {
   let newState = { ...state };
 
   switch (action.type) {
-    // case "SET_USER":
-    //   return { ...newState, user: action.user, data: action.data };
+    case "SET_LOGIN":
+      return { ...newState, isLogin: action.boolean };
 
     default:
       return newState;
