@@ -4,7 +4,7 @@ import "firebase/auth";
 import "firebase/database";
 import "firebase/storage";
 import "firebase/functions";
-import { firebaseData } from "./firebaseConfig";
+import { firebaseData } from "./config";
 
 // Initialize Firebase
 export const firebaseConfig = {
