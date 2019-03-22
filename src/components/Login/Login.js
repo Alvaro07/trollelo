@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { setLogin } from "../../redux/reducer";
-import { createUser, getUserByUid } from "../../firebase/functions/user";
+import { createUser, getUserByUid, authUser } from "../../firebase/functions/user";
 
 import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
@@ -35,11 +35,19 @@ const Login = props => {
    */
 
   // Comprbamos si hay usuario en localstorage y accedemos
-
   useEffect(() => {
     if (localStorage.userName) {
       getUserByUid(localStorage.userName, data => {
-        if (data) return; // acceder con login
+        if (data) {
+          authUser(data.userName, data.password, error => {
+            if (!error) {
+              props.setLogin(true);
+            } else {
+              setDataLogin({ ...dataLogin, isValid: false, errorMessage: error.message });
+              setShake(true);
+            }
+          });
+        }
       });
     }
   }, []);
@@ -66,6 +74,14 @@ const Login = props => {
       // Si los datos son correctos nos logueamos
     } else {
       setDataLogin({ ...dataLogin, isValid: true });
+      authUser(dataLogin.user, dataLogin.password, error => {
+        if (!error) {
+          props.setLogin(true);
+        } else {
+          setDataLogin({ ...dataLogin, isValid: false, errorMessage: error.message });
+          setShake(true);
+        }
+      });
     }
   };
 
