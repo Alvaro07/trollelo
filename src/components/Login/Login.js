@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-
+import { createUser } from "../../firebase/functions/authentication";
 import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
 
@@ -38,28 +38,51 @@ const Login = props => {
   }, [shake]);
 
   /**
-   * Handle functions
+   * Authentication
    */
 
-  const handleLogin = e => {
+  const handleAuth = e => {
     e.preventDefault();
+
+    // Comprobamos que los datos sean correctos
     if (!dataLogin.user.length || !dataLogin.password.length) {
       setDataLogin({ ...dataLogin, isValid: false });
       setShake(true);
+
+      // Si los datos son correctos nos logueamos
     } else {
       setDataLogin({ ...dataLogin, isValid: true });
     }
   };
 
+  /**
+   * Register
+   */
+
   const handleRegister = e => {
     e.preventDefault();
+
+    // Comprobamos que los datos sean correctos, si no lo son mostramos el error
     if (!dataRegister.user.length || !dataRegister.email.length || !dataRegister.password.length) {
       setDataRegister({ ...dataRegister, isValid: false });
       setShake(true);
+
+      // Si los datos son correctos registramos, antes comporbando si el usuario ya existe
     } else {
-      setDataRegister({ ...dataRegister, isValid: true });
+      createUser(dataRegister.user, dataRegister.email, dataRegister.password, error => {
+        if (!error) {
+          setDataRegister({ ...dataRegister, isValid: true });
+        } else {
+          setDataRegister({ ...dataRegister, isValid: false, errorMessage: error.message });
+          setShake(true);
+        }
+      });
     }
   };
+
+  /**
+   * Render
+   */
 
   return props.state.isLogin ? (
     <Redirect from="/" to="/dashboard" />
@@ -79,7 +102,7 @@ const Login = props => {
             placeholder="type your user..."
             extraClass="margin-bottom-20"
             onKeyUp={e => setDataLogin({ ...dataLogin, user: e.target.value })}
-            error={dataLogin.isValid === false && dataLogin.user.length === 0 ? true : false}
+            error={dataLogin.isValid === false && !dataLogin.user.length ? true : false}
           />
           <InputText
             type="password"
@@ -88,10 +111,10 @@ const Login = props => {
             placeholder="enter your password..."
             extraClass="margin-bottom-30"
             onKeyUp={e => setDataLogin({ ...dataLogin, password: e.target.value })}
-            error={dataLogin.isValid === false && dataLogin.password.length === 0 ? true : false}
+            error={dataLogin.isValid === false && !dataLogin.password.length ? true : false}
           />
 
-          <Button text="Log in" onClick={e => handleLogin(e)} />
+          <Button text="Log in" onClick={e => handleAuth(e)} />
 
           {dataLogin.isValid === false && <p className="color-orange bold padding-top-20">{dataLogin.errorMessage}</p>}
         </form>
@@ -104,7 +127,7 @@ const Login = props => {
             placeholder="type your user..."
             extraClass="margin-bottom-20"
             onKeyUp={e => setDataRegister({ ...dataRegister, user: e.target.value })}
-            error={dataRegister.isValid === false && dataRegister.user.length === 0 ? true : false}
+            error={dataRegister.isValid === false && !dataRegister.user.length ? true : false}
           />
           <InputText
             type="email"
@@ -113,7 +136,7 @@ const Login = props => {
             placeholder="type your email..."
             extraClass="margin-bottom-20"
             onKeyUp={e => setDataRegister({ ...dataRegister, email: e.target.value })}
-            error={dataRegister.isValid === false && dataRegister.email.length === 0 ? true : false}
+            error={!dataRegister.isValid && !dataRegister.email.length ? true : false}
           />
           <InputText
             type="password"
@@ -122,13 +145,11 @@ const Login = props => {
             placeholder="enter your new password..."
             extraClass="margin-bottom-30"
             onKeyUp={e => setDataRegister({ ...dataRegister, password: e.target.value })}
-            error={dataRegister.isValid === false && dataRegister.password.length === 0 ? true : false}
+            error={dataRegister.isValid === false && !dataRegister.password.length ? true : false}
           />
           <Button text="Register" type="secondary" onClick={e => handleRegister(e)} />
 
-          {dataRegister.isValid === false && (
-            <p className="color-orange bold padding-top-20">{dataRegister.errorMessage}</p>
-          )}
+          {dataRegister.isValid === false && <p className="color-orange bold padding-top-20">{dataRegister.errorMessage}</p>}
         </form>
       </main>
     </section>
