@@ -4,9 +4,10 @@ import firebase from "firebase/app";
 /**
  * Funcion para crear usuarios
  * @user necesario para acceder a los datos y devolver el email para loguearnos.
- * @email Email del usuario
- * @password Password de acceso
- * @callback Función para devolver los datos, o el mensaje error
+ * @param {string} user
+ * @param {string} email
+ * @param {string} password
+ * @callback callback
  */
 
 export const createUser = (user, email, password, callback) => {
@@ -33,9 +34,9 @@ export const createUser = (user, email, password, callback) => {
 
 /**
  * Funcion para autentificar
- * @user necesario para acceder a los datos y devolver el email para loguearnos.
- * @password Password de acceso.
- * @callback Función para devolver los datos, o el mensaje error
+ * @param {string} user
+ * @param {string} password
+ * @callback callback
  */
 
 export const authUser = (user, password, callback) => {
@@ -57,8 +58,8 @@ export const authUser = (user, password, callback) => {
 
 /**
  * Función para obtener usuario a traves del uId.
- * @uId Key de firebase del usuario.
- * @callback Función para devolver los datos, o el mensaje error.
+ * @param {string} uId
+ * @callback callback
  */
 
 export const getUserByUid = (uId, callback) => {
@@ -78,8 +79,8 @@ export const getUserByUid = (uId, callback) => {
 
 /**
  * Funcion para obtener userPath a traves del userName
- * @userName Nombre del usuario
- * @callback Función para devolver los datos, o el mensaje error.
+ * @param {string} userName
+ * @callback callback
  */
 
 export const getUserDataByUserName = (userName, callback) => {

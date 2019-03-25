@@ -74,11 +74,11 @@ const Login = props => {
       // Si los datos son correctos nos logueamos
     } else {
       setDataLogin({ ...dataLogin, isValid: true });
-      authUser(dataLogin.user, dataLogin.password, error => {
-        if (!error) {
+      authUser(dataLogin.user, dataLogin.password, result => {
+        if (!result) {
           props.setLogin(true);
         } else {
-          setDataLogin({ ...dataLogin, isValid: false, errorMessage: error.message });
+          setDataLogin({ ...dataLogin, isValid: false, errorMessage: result.message });
           setShake(true);
         }
       });
@@ -99,12 +99,12 @@ const Login = props => {
 
       // Si los datos son correctos registramos, antes comporbando si el usuario ya existe
     } else {
-      createUser(dataRegister.user, dataRegister.email, dataRegister.password, error => {
-        if (!error) {
+      createUser(dataRegister.user, dataRegister.email, dataRegister.password, result => {
+        if (!result) {
           setDataRegister({ ...dataRegister, isValid: true });
           props.setLogin(true);
         } else {
-          setDataRegister({ ...dataRegister, isValid: false, errorMessage: error.message });
+          setDataRegister({ ...dataRegister, isValid: false, errorMessage: result.message });
           setShake(true);
         }
       });
