@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 
 import { connect } from "react-redux";
-import { setLogin } from "../../redux/reducer";
-import { createUser, getUserByUid, authUser } from "../../firebase/functions/user";
+import { setLogin, setUser } from "../../redux/reducer";
+import { createUser, getUserByUserName, authUser } from "../../firebase/functions/user";
 
 import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
@@ -36,19 +36,17 @@ const Login = props => {
 
   // Comprbamos si hay usuario en localstorage y accedemos
   useEffect(() => {
-    if (localStorage.userName) {
-      getUserByUid(localStorage.userName, data => {
-        if (data) {
-          authUser(data.userName, data.password, error => {
-            if (!error) {
-              props.setLogin(true);
-            } else {
-              setDataLogin({ ...dataLogin, isValid: false, errorMessage: error.message });
-              setShake(true);
-            }
+    if (localStorage.user) {
+      getUserByUserName(localStorage.user)
+        .then(data => {
+          authUser(data.user).then(() => {
+            props.setUser(data)
+            props.setLogin(true);
           });
-        }
-      });
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }, []);
 
@@ -189,7 +187,8 @@ const Login = props => {
 
 const mapStateToProps = state => ({ state });
 const mapDispatchToProps = dispatch => ({
-  setLogin: boolean => dispatch(setLogin(boolean))
+  setLogin: boolean => dispatch(setLogin(boolean)),
+  setUser: data => dispatch(setUser(data))
 });
 
 export default connect(

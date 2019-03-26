@@ -1,7 +1,8 @@
 import firebase from "firebase/app";
 import "firebase/app";
 import "firebase/auth";
-import "firebase/database";
+import "firebase/firestore";
+// import "firebase/database";
 import "firebase/storage";
 import "firebase/functions";
 import { firebaseData } from "./config";
@@ -20,8 +21,9 @@ firebase.initializeApp(firebaseConfig);
 
 export const provider = new firebase.auth.GoogleAuthProvider();
 export const auth = firebase.auth();
-export const databaseRefUsers = firebase.database().ref("/users/");
+// export const databaseRefUsers = firebase.database().ref("/users/");
 export const storage = firebase.storage();
 export const functions = firebase.functions();
+export const database = firebase.firestore();
 
 export default firebase;
