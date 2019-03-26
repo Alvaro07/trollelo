@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 
 import { connect } from "react-redux";
-import { setLogin } from "../../redux/reducer";
-import { createUser, getUserByUid, authUser } from "../../firebase/functions/user";
+import { setLogin, setUser } from "../../redux/reducer";
+import { createUser, getUserByUserName, authUser } from "../../firebase/functions/user";
 
 import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
@@ -36,19 +36,17 @@ const Login = props => {
 
   // Comprbamos si hay usuario en localstorage y accedemos
   useEffect(() => {
-    if (localStorage.userName) {
-      getUserByUid(localStorage.userName, data => {
-        if (data) {
-          authUser(data.userName, data.password, error => {
-            if (!error) {
-              props.setLogin(true);
-            } else {
-              setDataLogin({ ...dataLogin, isValid: false, errorMessage: error.message });
-              setShake(true);
-            }
+    if (localStorage.user) {
+      getUserByUserName(localStorage.user)
+        .then(data => {
+          authUser(data.user).then(() => {
+            props.setUser(data)
+            props.setLogin(true);
           });
-        }
-      });
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }, []);
 
@@ -74,11 +72,11 @@ const Login = props => {
       // Si los datos son correctos nos logueamos
     } else {
       setDataLogin({ ...dataLogin, isValid: true });
-      authUser(dataLogin.user, dataLogin.password, error => {
-        if (!error) {
+      authUser(dataLogin.user, dataLogin.password, result => {
+        if (!result) {
           props.setLogin(true);
         } else {
-          setDataLogin({ ...dataLogin, isValid: false, errorMessage: error.message });
+          setDataLogin({ ...dataLogin, isValid: false, errorMessage: result.message });
           setShake(true);
         }
       });
@@ -99,12 +97,12 @@ const Login = props => {
 
       // Si los datos son correctos registramos, antes comporbando si el usuario ya existe
     } else {
-      createUser(dataRegister.user, dataRegister.email, dataRegister.password, error => {
-        if (!error) {
+      createUser(dataRegister.user, dataRegister.email, dataRegister.password, result => {
+        if (!result) {
           setDataRegister({ ...dataRegister, isValid: true });
           props.setLogin(true);
         } else {
-          setDataRegister({ ...dataRegister, isValid: false, errorMessage: error.message });
+          setDataRegister({ ...dataRegister, isValid: false, errorMessage: result.message });
           setShake(true);
         }
       });
@@ -189,7 +187,8 @@ const Login = props => {
 
 const mapStateToProps = state => ({ state });
 const mapDispatchToProps = dispatch => ({
-  setLogin: boolean => dispatch(setLogin(boolean))
+  setLogin: boolean => dispatch(setLogin(boolean)),
+  setUser: data => dispatch(setUser(data))
 });
 
 export default connect(

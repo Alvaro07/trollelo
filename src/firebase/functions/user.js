@@ -1,107 +1,120 @@
-import { auth, databaseRefUsers } from "../firebase";
-import firebase from "firebase/app";
+import { auth, database } from "../firebase";
 
 /**
  * Funcion para crear usuarios
  * @user necesario para acceder a los datos y devolver el email para loguearnos.
- * @email Email del usuario
- * @password Password de acceso
- * @callback Función para devolver los datos, o el mensaje error
+ * @param {string} user
+ * @param {string} email
+ * @param {string} password
+ * @callback callback
  */
 
 export const createUser = (user, email, password, callback) => {
-  // Creamos el usuario en la autenticación de firebase
-  auth
-    .createUserWithEmailAndPassword(email, password)
-    .then(result => {
-      // Creamos el usuario en database
-      firebase
-        .database()
-        .ref("users/" + result.user.uid)
-        .set({ userName: user, email, password })
-        .then(() => {
-          // mantenemos el usuario en localstorage
-          localStorage.setItem("userName", result.user.uid);
-        });
+  let userExist = false;
 
-      callback(false);
+  // Accedemos a la colección de usuarios
+  database
+    .collection("users")
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        // Si existe seteamos que existe para no pasar al Auth.
+        if (doc.id === user) {
+          callback({ message: "The user name already exists" });
+          userExist = true;
+        }
+      });
     })
-    .catch(error => {
-      callback(error);
+    .then(() => {
+      // Si existe salimos de la función
+      if (userExist) return false;
+
+      // Si no creamos el usuario en la autenticación de firebase
+      auth
+        .createUserWithEmailAndPassword(email, password)
+        .then(result => {
+          database
+            .collection("users")
+            .doc(user)
+            .set({
+              uid: result.user.uid,
+              user: user,
+              email: email,
+              password: password
+            })
+            .then(docRef => {
+              localStorage.setItem("user", user);
+              callback(docRef);
+            })
+            .catch(error => {
+              callback(error);
+            });
+        })
+        .catch(error => {
+          callback(error);
+        });
     });
 };
 
 /**
  * Funcion para autentificar
- * @user necesario para acceder a los datos y devolver el email para loguearnos.
- * @password Password de acceso.
- * @callback Función para devolver los datos, o el mensaje error
+ * @param {string} user
+ * @param {string} password
+ * @callback callback
  */
 
-export const authUser = (user, password, callback) => {
-  getUserDataByUserName(user, data => {
-    if (!data) {
-      callback({ message: "The user not exist" });
-    } else {
+export const authUser = (user) => {
+  return new Promise((resolve, reject) => {
+    getUserByUserName(user).then(data => {
       auth
-        .signInWithEmailAndPassword(data.email, password)
+        .signInWithEmailAndPassword(data.email, data.password)
         .then(result => {
-          callback(false);
+          return resolve();
         })
         .catch(error => {
-          callback(error);
+          return reject(error);
         });
-    }
-  });
-};
-
-/**
- * Función para obtener usuario a traves del uId.
- * @uId Key de firebase del usuario.
- * @callback Función para devolver los datos, o el mensaje error.
- */
-
-export const getUserByUid = (uId, callback) => {
-  firebase
-    .database()
-    .ref("/users/" + uId)
-    .once("value")
-    .then(result => {
-      // Devolvemos los datos del usuario
-      callback(result.val());
-    })
-    .catch(error => {
-      // Devolvemos el error
-      callback(error);
     });
+  });
+
+  // getUserDataByUserName(user, data => {
+  //   if (!data) {
+  //     callback({ message: "The user not exist" });
+  //   } else {
+  //     auth
+  //       .signInWithEmailAndPassword(data.email, password)
+  //       .then(result => {
+  //         callback(false);
+  //       })
+  //       .catch(error => {
+  //         callback(error);
+  //       });
+  //   }
+  // });
 };
 
 /**
  * Funcion para obtener userPath a traves del userName
- * @userName Nombre del usuario
- * @callback Función para devolver los datos, o el mensaje error.
+ * @param {string} userName
+ * @returns {promise}
  */
 
-export const getUserDataByUserName = (userName, callback) => {
-  let userPath = null;
-
-  databaseRefUsers
-    .orderByChild("userName")
-    .equalTo(userName)
-    .once("value", snapshot => {
-      if (!snapshot.val()) {
-        callback(userPath);
-        return;
-      }
-
-      snapshot.forEach(data => {
-        databaseRefUsers
-          .orderByKey()
-          .equalTo(data.key)
-          .on("value", snapshot => {
-            userPath = snapshot.child(data.key).val();
-            callback(userPath);
-          });
+export const getUserByUserName = userName => {
+  // Accedemos a la colección de usuarios
+  return new Promise((resolve, reject) => {
+    database
+      .collection("users")
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          // Si existe seteamos que existe para no pasar al Auth.
+          if (doc.id === userName) {
+            return resolve(doc.data());
+          }
+        });
+      })
+      .catch(error => {
+        return reject(error);
       });
-    });
+  });
 };
