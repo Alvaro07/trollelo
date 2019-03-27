@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-
 import { connect } from "react-redux";
 import { setLogin, setUser } from "../../redux/reducer";
 import { createUser, getUserByUserName, authUser } from "../../firebase/functions/user";

@@ -19,12 +19,9 @@ export const reducer = (state, action) => {
 
     case "SET_LOGIN":
       return { ...newState, isLogin: action.boolean };
-    
-    case "SET_USER":
-      return { ...newState, dataUser: action.data};
 
-    
-    
+    case "SET_USER":
+      return { ...newState, dataUser: action.data };
 
     default:
       return newState;

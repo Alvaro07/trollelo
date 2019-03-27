@@ -1,8 +1,8 @@
 // Fontawesome Icons
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-import { faStreetView, faMotorcycle } from "@fortawesome/free-solid-svg-icons";
+import { faSignInAlt, faColumns } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faStreetView, faMotorcycle);
+library.add(faSignInAlt,faColumns);
 
 export default library;
