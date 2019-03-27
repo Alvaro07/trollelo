@@ -6,6 +6,7 @@ import { createUser, getUserByUserName, authUser } from "../../firebase/function
 
 import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
+import Loader from "../Loader/Loader";
 
 const Login = props => {
   /**
@@ -127,7 +128,7 @@ const Login = props => {
   /**
    * Render
    */
-  if (isLoading) return <div className="dashboard">Cargando ...</div>;
+  if (isLoading) return <Loader />;
 
   return props.state.isLogin ? (
     <Redirect from="/" to="/dashboard" />
