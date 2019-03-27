@@ -6,7 +6,6 @@ import Login from "../Login/Login";
 import Dashboard from "../Dashboard/Dashboard";
 
 const App = props => {
-
   return (
     <React.Fragment>
       <Switch>

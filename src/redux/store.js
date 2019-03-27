@@ -6,7 +6,6 @@ import { createStore } from "redux";
  */
 
 let initialState = {
-  isLoading: false,
   isLogin: false
 };
 

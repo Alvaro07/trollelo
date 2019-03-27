@@ -3,25 +3,40 @@
  */
 
 .c-button {
-  --bg-color: #{$darkBlue};
-  --bg-hover-color: #{$blue};
+  --btn-bg-color: #{$skyBlue};
+  --btn-bg-hover-color: #{rgba($skyBlue, 0.8)};
+  --btn-padding: 10px 20px;
+  --btn-font-size: 1.6rem;
 
-  padding: 10px 40px;
+  padding: var(--btn-padding);
   color: white;
   font-weight: 700;
-  font-size: 1.6rem;
+  font-size: var(--btn-font-size);
   cursor: pointer;
   border: none;
   border-radius: 4px;
-  background-color: var(--bg-color);
+  background-color: var(--btn-bg-color);
   transition: 0.2s all ease;
 
   &:hover {
-    background-color: var(--bg-hover-color);
+    background-color: var(--btn-bg-hover-color);
+  }
+
+  &__icon {
+    margin-right: 10px;
+  }
+
+  /**
+  * Modifiers
+  */
+
+  &--small {
+    --btn-padding: 7px 15px;
+    --btn-font-size: 1.4rem;
   }
 
   &--secondary {
-    --bg-color: #{$darkGreen};
-    --bg-hover-color: #{$green};
+    --btn-bg-color: #{$pink};
+    --btn-bg-hover-color: #{rgba($pink, 0.8)};
   }
 }
