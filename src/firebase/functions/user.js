@@ -44,6 +44,7 @@ export const createUser = (user, email, password, callback) => {
             })
             .then(docRef => {
               localStorage.setItem("user", user);
+              localStorage.setItem("password", password);
               callback(docRef);
             })
             .catch(error => {
@@ -60,37 +61,20 @@ export const createUser = (user, email, password, callback) => {
  * Funcion para autentificar
  * @param {string} user
  * @param {string} password
- * @callback callback
+ * @returns {promise}
  */
 
-export const authUser = (user) => {
+export const authUser = (email, password) => {
   return new Promise((resolve, reject) => {
-    getUserByUserName(user).then(data => {
-      auth
-        .signInWithEmailAndPassword(data.email, data.password)
-        .then(result => {
-          return resolve();
-        })
-        .catch(error => {
-          return reject(error);
-        });
-    });
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        return resolve();
+      })
+      .catch(error => {
+        return reject(error);
+      });
   });
-
-  // getUserDataByUserName(user, data => {
-  //   if (!data) {
-  //     callback({ message: "The user not exist" });
-  //   } else {
-  //     auth
-  //       .signInWithEmailAndPassword(data.email, password)
-  //       .then(result => {
-  //         callback(false);
-  //       })
-  //       .catch(error => {
-  //         callback(error);
-  //       });
-  //   }
-  // });
 };
 
 /**
@@ -104,14 +88,11 @@ export const getUserByUserName = userName => {
   return new Promise((resolve, reject) => {
     database
       .collection("users")
+      .where("user", "==", userName)
       .get()
       .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          // Si existe seteamos que existe para no pasar al Auth.
-          if (doc.id === userName) {
-            return resolve(doc.data());
-          }
-        });
+        // Filtrar mediante firestore para conseguir saber si hay usuario o no, y devolver la promesa fallida
+        return !querySnapshot.empty ? querySnapshot.forEach(doc => resolve(doc.data())) : reject("The user not exists");
       })
       .catch(error => {
         return reject(error);
