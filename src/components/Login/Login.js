@@ -29,28 +29,34 @@ const Login = props => {
   });
 
   const [shake, setShake] = useState(false);
+  const [isLoading, setLoad] = useState(true);
 
   /**
    * Effect
    */
 
-  // Comprbamos si hay usuario en localstorage y accedemos
+  /**
+   * Comprbamos si hay usuario en localstorage y accedemos
+   */
+
   useEffect(() => {
     if (localStorage.user) {
-      getUserByUserName(localStorage.user)
-        .then(data => {
-          authUser(data.user).then(() => {
-            props.setUser(data)
-            props.setLogin(true);
-          });
-        })
-        .catch(error => {
-          console.log(error);
+      getUserByUserName(localStorage.user).then(data => {
+        authUser(data.email, localStorage.password).then(() => {
+          props.setUser(data);
+          props.setLogin(true);
+          setLoad(false);
         });
+      });
+    } else {
+      setLoad(false);
     }
   }, []);
 
-  // Reseteamos el estado de shake para que pueda funcionar una y otra vez
+  /**
+   * Reseteamos el estado de shake para que pueda funcionar una y otra vez
+   */
+
   useEffect(() => {
     setTimeout(() => {
       setShake(false);
@@ -60,7 +66,6 @@ const Login = props => {
   /**
    * Authentication
    */
-
   const handleAuth = e => {
     e.preventDefault();
 
@@ -72,14 +77,25 @@ const Login = props => {
       // Si los datos son correctos nos logueamos
     } else {
       setDataLogin({ ...dataLogin, isValid: true });
-      authUser(dataLogin.user, dataLogin.password, result => {
-        if (!result) {
-          props.setLogin(true);
-        } else {
-          setDataLogin({ ...dataLogin, isValid: false, errorMessage: result.message });
+
+      getUserByUserName(dataLogin.user)
+        .then(data => {
+          authUser(data.email, dataLogin.password)
+            .then(() => {
+              localStorage.setItem("user", dataLogin.user);
+              localStorage.setItem("password", dataLogin.password);
+              props.setUser(data);
+              props.setLogin(true);
+            })
+            .catch(error => {
+              setDataLogin({ ...dataLogin, isValid: false, errorMessage: error.message });
+              setShake(true);
+            });
+        })
+        .catch(error => {
+          setDataLogin({ ...dataLogin, isValid: false, errorMessage: error });
           setShake(true);
-        }
-      });
+        });
     }
   };
 
@@ -112,6 +128,7 @@ const Login = props => {
   /**
    * Render
    */
+  if (isLoading) return <div className="dashboard">Cargando ...</div>;
 
   return props.state.isLogin ? (
     <Redirect from="/" to="/dashboard" />
