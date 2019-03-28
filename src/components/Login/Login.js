@@ -145,18 +145,18 @@ const Login = props => {
           <InputText
             type="text"
             id="signInUser"
-            labelText="User"
-            placeholder="type your user..."
-            extraClass="margin-bottom-20"
+            placeholder="User"
+            extraClass="margin-bottom-10"
+            icon='user'
             onKeyUp={e => setDataLogin({ ...dataLogin, user: e.target.value })}
             error={dataLogin.isValid === false && !dataLogin.user.length ? true : false}
           />
           <InputText
             type="password"
             id="signInPassword"
-            labelText="Password"
-            placeholder="enter your password..."
-            extraClass="margin-bottom-30"
+            placeholder="Password"
+            extraClass="margin-bottom-20"
+            icon='key'
             onKeyUp={e => setDataLogin({ ...dataLogin, password: e.target.value })}
             error={dataLogin.isValid === false && !dataLogin.password.length ? true : false}
           />
@@ -170,27 +170,27 @@ const Login = props => {
           <InputText
             type="text"
             id="registerUser"
-            labelText="User"
-            placeholder="type your user..."
-            extraClass="margin-bottom-20"
+            placeholder="User"
+            icon='user'
+            extraClass="margin-bottom-10"
             onKeyUp={e => setDataRegister({ ...dataRegister, user: e.target.value })}
             error={dataRegister.isValid === false && !dataRegister.user.length ? true : false}
           />
           <InputText
             type="email"
             id="registerEmail"
-            labelText="Email"
-            placeholder="type your email..."
-            extraClass="margin-bottom-20"
+            placeholder="Email"
+            icon='envelope'
+            extraClass="margin-bottom-10"
             onKeyUp={e => setDataRegister({ ...dataRegister, email: e.target.value })}
             error={!dataRegister.isValid && !dataRegister.email.length ? true : false}
           />
           <InputText
             type="password"
             id="registerPassword"
-            labelText="Password"
-            placeholder="enter your new password..."
-            extraClass="margin-bottom-30"
+            placeholder="Password"
+            icon='key'
+            extraClass="margin-bottom-20"
             onKeyUp={e => setDataRegister({ ...dataRegister, password: e.target.value })}
             error={dataRegister.isValid === false && !dataRegister.password.length ? true : false}
           />

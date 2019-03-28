@@ -3,7 +3,7 @@
  */
 
 .c-input-text {
-  --border-color: #{$grey};
+  --border-color: #{$lightGrey};
 
   &__label {
     font-weight: 700;
@@ -12,21 +12,35 @@
   }
 
   &__field {
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid var(--border-color);
-    padding: 5px 0;
-    outline: 0px 0px 1px 0px;
+    display: flex;
 
-    &::placeholder {
-      opacity: 0.8;
-      font-style: italic;
+    input {
+      flex: 1;
+      width: 100%;
+      border: 1px solid var(--border-color);
+      padding: 10px;
+      outline: 0px 0px 1px 0px;
+
+      &::placeholder {
+        opacity: 0.8;
+      }
     }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+    width: 40px;
+    color: $grey;
   }
 
   /* error state */
 
   &--error {
-    --border-color: red;
+    --border-color: #{$orange};
   }
 }

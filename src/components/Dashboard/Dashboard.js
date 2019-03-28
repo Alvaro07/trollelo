@@ -8,6 +8,8 @@ import Header from "../Header/Header";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import ModalContent from "../Modal/ModalContent";
+import InputText from "../InputText/InputText";
+import Textarea from "../Textarea/Textarea";
 
 const Dashboard = props => {
   if (!props.state.isLogin) {
@@ -22,7 +24,9 @@ const Dashboard = props => {
           {props.state.modal === "new-board" && (
             <Modal>
               <ModalContent modalTitle="Add new board" type="small">
-                <p>Thinking with portals</p>
+                <InputText type="text" id="newBoardName" placeholder="Board Name" icon="columns" extraClass="margin-bottom-10" />
+                <Textarea placeholder="Description" noResize={true} extraClass="margin-bottom-20" />
+                <Button text="Create Board" />
               </ModalContent>
             </Modal>
           )}
