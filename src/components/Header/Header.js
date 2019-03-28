@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setLogin } from "../../redux/reducer";
+import { setLogin, setUser, setBoards } from "../../redux/reducer";
 
 // Components
 import Button from "../Button/Button";
@@ -12,6 +12,8 @@ const Header = props => {
   const logOut = () => {
     localStorage.clear();
     props.setLogin(false);
+    props.setUser(null);
+    props.setBoards(null);
   };
 
   return (
@@ -26,7 +28,9 @@ const Header = props => {
 
 const mapStateToProps = state => ({ state });
 const mapDispatchToProps = dispatch => ({
-  setLogin: boolean => dispatch(setLogin(boolean))
+  setLogin: boolean => dispatch(setLogin(boolean)),
+  setUser: data => dispatch(setUser(data)),
+  setBoards: boards => dispatch(setBoards(boards))
 });
 
 export default connect(

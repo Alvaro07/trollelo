@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { setLogin, setUser } from "../../redux/reducer";
+import { setLogin, setUser} from "../../redux/reducer";
 import { createUser, getUserByUserName, authUser } from "../../firebase/functions/user";
 
 // Components
@@ -67,6 +67,7 @@ const Login = props => {
   /**
    * Authentication
    */
+
   const handleAuth = e => {
     e.preventDefault();
 
@@ -85,7 +86,7 @@ const Login = props => {
             .then(() => {
               localStorage.setItem("user", dataLogin.user);
               localStorage.setItem("password", dataLogin.password);
-              props.setUser({ user: data.user, email: data.email, uid: data.uid });
+              props.setUser({ user: data.user, email: data.email });
               props.setLogin(true);
             })
             .catch(error => {
@@ -117,6 +118,7 @@ const Login = props => {
       createUser(dataRegister.user, dataRegister.email, dataRegister.password, result => {
         if (!result) {
           setDataRegister({ ...dataRegister, isValid: true });
+          props.setUser({ user: dataRegister.user, email: dataRegister.email });
           props.setLogin(true);
         } else {
           setDataRegister({ ...dataRegister, isValid: false, errorMessage: result.message });
