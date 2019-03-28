@@ -1,0 +1,16 @@
+.c-textarea {
+  --border-color: #{$lightGrey};
+
+  width: 100%;
+  border: 1px solid var(--border-color);
+  min-height: 100px;
+  padding: 15px;
+
+  &::placeholder {
+    opacity: 0.8;
+  }
+
+  &--no-resize {
+    resize: none;
+  }
+}

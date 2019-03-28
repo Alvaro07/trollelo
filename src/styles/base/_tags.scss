@@ -26,9 +26,10 @@ body {
 
 input,
 button,
-select {
+select,
+textarea {
   font-family: "Roboto", sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: $darkGrey;
 }
 
