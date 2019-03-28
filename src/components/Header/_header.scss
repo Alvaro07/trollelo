@@ -1,20 +1,28 @@
 .c-header {
   --bg-header-color: white;
   --logo-size: 3.2rem;
+  --header-padding: 1.5rem;
 
   display: flex;
   width: 100%;
   height: 6rem;
-  padding: 1.5rem 3rem;
+  padding: var(--header-padding);
 
   background-color: var(--bg-header-color);
   box-shadow: 10px -3px 10px rgba(133, 133, 133, 0.2);
 
+  @include mediaTablet {
+    --header-padding: 1.5rem 3rem;
+  }
+
   &__logo {
-    margin-left: auto;
     font-size: var(--logo-size);
     color: $skyBlue;
     font-family: $pacificoFont;
+
+    @include mediaTablet {
+      margin-left: auto;
+    }
   }
 
   &__actions {

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { setLogin, setUser } from "../../redux/reducer";
 import { createUser, getUserByUserName, authUser } from "../../firebase/functions/user";
 
+// Components
 import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
 import Loader from "../Loader/Loader";
