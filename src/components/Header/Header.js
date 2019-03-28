@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { setLogin } from "../../redux/reducer";
 
+// Components
 import Button from "../Button/Button";
 
 const Header = props => {

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 
+// Components
 import Login from "../Login/Login";
 import Dashboard from "../Dashboard/Dashboard";
 
