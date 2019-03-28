@@ -6,6 +6,9 @@ import { setLogin } from "../../redux/reducer";
 import Button from "../Button/Button";
 
 const Header = props => {
+  /**
+   * Logout function
+   */
   const logOut = () => {
     localStorage.clear();
     props.setLogin(false);
@@ -15,7 +18,7 @@ const Header = props => {
     <header className="c-header">
       <h1 className="c-header__logo">Trollelo</h1>
       <div className="c-header__actions">
-        <Button type="secondary" text="logOut" size="small" iconClass="sign-in-alt" onClick={() => logOut()} />
+        <Button type="secondary" text="logOut" size="small" icon="sign-in-alt" onClick={() => logOut()} />
       </div>
     </header>
   );

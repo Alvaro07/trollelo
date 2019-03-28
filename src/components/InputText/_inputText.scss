@@ -4,6 +4,7 @@
 
 .c-input-text {
   --border-color: #{$lightGrey};
+  --icon-color: #{$grey};
 
   &__label {
     font-weight: 700;
@@ -35,12 +36,14 @@
     border-bottom: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
     width: 40px;
-    color: $grey;
+    color: var(--icon-color);
   }
 
   /* error state */
 
   &--error {
     --border-color: #{$orange};
+    --icon-color: #{$orange};
+
   }
 }
