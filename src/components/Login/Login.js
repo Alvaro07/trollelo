@@ -85,7 +85,7 @@ const Login = props => {
             .then(() => {
               localStorage.setItem("user", dataLogin.user);
               localStorage.setItem("password", dataLogin.password);
-              props.setUser(data);
+              props.setUser({ user: data.user, email: data.email, uid: data.uid });
               props.setLogin(true);
             })
             .catch(error => {
@@ -147,7 +147,7 @@ const Login = props => {
             id="signInUser"
             placeholder="User"
             extraClass="margin-bottom-10"
-            icon='user'
+            icon="user"
             onKeyUp={e => setDataLogin({ ...dataLogin, user: e.target.value })}
             error={dataLogin.isValid === false && !dataLogin.user.length ? true : false}
           />
@@ -156,7 +156,7 @@ const Login = props => {
             id="signInPassword"
             placeholder="Password"
             extraClass="margin-bottom-20"
-            icon='key'
+            icon="key"
             onKeyUp={e => setDataLogin({ ...dataLogin, password: e.target.value })}
             error={dataLogin.isValid === false && !dataLogin.password.length ? true : false}
           />
@@ -171,7 +171,7 @@ const Login = props => {
             type="text"
             id="registerUser"
             placeholder="User"
-            icon='user'
+            icon="user"
             extraClass="margin-bottom-10"
             onKeyUp={e => setDataRegister({ ...dataRegister, user: e.target.value })}
             error={dataRegister.isValid === false && !dataRegister.user.length ? true : false}
@@ -180,7 +180,7 @@ const Login = props => {
             type="email"
             id="registerEmail"
             placeholder="Email"
-            icon='envelope'
+            icon="envelope"
             extraClass="margin-bottom-10"
             onKeyUp={e => setDataRegister({ ...dataRegister, email: e.target.value })}
             error={!dataRegister.isValid && !dataRegister.email.length ? true : false}
@@ -189,7 +189,7 @@ const Login = props => {
             type="password"
             id="registerPassword"
             placeholder="Password"
-            icon='key'
+            icon="key"
             extraClass="margin-bottom-20"
             onKeyUp={e => setDataRegister({ ...dataRegister, password: e.target.value })}
             error={dataRegister.isValid === false && !dataRegister.password.length ? true : false}

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { showModal } from "../../redux/reducer";
+import { showModal, hideModal, setBoards } from "../../redux/reducer";
+import { createBoard, getUserBoards } from "../../firebase/functions/board";
 
 // Components
 import Header from "../Header/Header";
@@ -12,6 +13,54 @@ import InputText from "../InputText/InputText";
 import Textarea from "../Textarea/Textarea";
 
 const Dashboard = props => {
+  const [newBoard, setNewBoard] = useState({
+    name: "",
+    description: "",
+    errorMessage: "Complete all the fields",
+    isValid: true
+  });
+
+  /**
+   * Obtenemos todos los usuarios
+   */
+
+  useEffect(() => {
+    if (props.state.isLogin) {
+      getUserBoards(props.state.dataUser.user)
+        .then(boards => {
+          props.setBoards(boards);
+        })
+        .catch(error => console.log(error));
+    }
+  }, []);
+
+  /**
+   * Creamos/cerramos el modal 
+   */
+
+  const handleCreateBoard = () => {
+    if (newBoard.name.length !== 0 && newBoard.description.length !== 0) {
+      createBoard(props.state.dataUser.user, newBoard.name, newBoard.errorMessage)
+        .then(() => {
+          setNewBoard({ ...newBoard, isValid: true, name: "", description: "" });
+          props.hideModal();
+          
+          // obtenemos la lista de boards actualziadas
+          getUserBoards(props.state.dataUser.user).then(boards => {
+            props.setBoards(boards);
+          });
+        })
+        .catch(error => console.log(error));
+    } else {
+      setNewBoard({ ...newBoard, isValid: false });
+    }
+  };
+
+  const handleCloseNewBoard = () => {
+    setNewBoard({ ...newBoard, name: "", description: "", isValid: true });
+    props.hideModal();
+  };
+
   if (!props.state.isLogin) {
     return <Redirect from="/" to="/login" />;
   } else {
@@ -19,14 +68,36 @@ const Dashboard = props => {
       <div className="dashboard">
         <Header />
         <div className="dashboard__table">
-          <Button type="primary" text="New Board" iconClass="columns" onClick={() => props.showModal("new-board")} />
+          {props.state.boards &&
+            props.state.boards.map((e, i) => {
+              return <div key={i}>Card</div>;
+            })}
+
+          <Button type="primary" text="New Board" icon="columns" onClick={() => props.showModal("new-board")} />
 
           {props.state.modal === "new-board" && (
             <Modal>
-              <ModalContent modalTitle="Add new board" type="small">
-                <InputText type="text" id="newBoardName" placeholder="Board Name" icon="columns" extraClass="margin-bottom-10" />
-                <Textarea placeholder="Description" noResize={true} extraClass="margin-bottom-20" />
-                <Button text="Create Board" />
+              <ModalContent modalTitle="Add new board" type="small" onClose={() => handleCloseNewBoard()}>
+                <InputText
+                  type="text"
+                  id="newBoardName"
+                  placeholder="Board Name"
+                  icon="columns"
+                  extraClass="margin-bottom-10"
+                  onKeyUp={e => setNewBoard({ ...newBoard, name: e.target.value })}
+                  error={newBoard.isValid === false && !newBoard.name.length ? true : false}
+                />
+
+                <Textarea
+                  placeholder="Description"
+                  noResize={true}
+                  extraClass="margin-bottom-20"
+                  onKeyUp={e => setNewBoard({ ...newBoard, description: e.target.value })}
+                  error={newBoard.isValid === false && !newBoard.description.length ? true : false}
+                />
+
+                <Button text="Create Board" icon="columns" onClick={() => handleCreateBoard()} />
+                {newBoard.isValid === false && <p className="color-orange bold padding-top-20">{newBoard.errorMessage}</p>}
               </ModalContent>
             </Modal>
           )}
@@ -38,7 +109,9 @@ const Dashboard = props => {
 
 const mapStateToProps = state => ({ state });
 const mapDispatchToProps = dispatch => ({
-  showModal: modal => dispatch(showModal(modal))
+  showModal: modal => dispatch(showModal(modal)),
+  hideModal: () => dispatch(hideModal()),
+  setBoards: boards => dispatch(setBoards(boards))
 });
 
 export default connect(

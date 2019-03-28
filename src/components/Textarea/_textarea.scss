@@ -13,4 +13,8 @@
   &--no-resize {
     resize: none;
   }
+
+  &--error {
+    --border-color: #{$orange};
+  }
 }
