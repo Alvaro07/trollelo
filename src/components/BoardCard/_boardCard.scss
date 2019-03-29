@@ -2,13 +2,41 @@
   background-color: white;
   border: 1px solid $lightGrey;
   border-radius: 2px;
-  padding: 15px;
+  padding: 15px 15px 40px 15px;
   display: inline-block;
+  position: relative;
 
   &__name {
     padding-bottom: 15px;
     font-size: 1.6rem;
     font-weight: 700;
-    color: $darkBlue;
+    color: $skyBlue;
+    transition: 0.3s all ease;
+    cursor: pointer;
+
+    &:hover {
+      color: rgba($skyBlue, 0.8);
+    }
+  }
+
+  &__delete {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+
+    color: $grey;
+    font-size: 1.2rem;
+    font-weight: 700;
+    transition: 0.3s all ease;
+    cursor: pointer;
+
+    &:hover {
+      color: $pink;
+    }
+
+    svg {
+      font-size: 1.4rem;
+      margin-right: 5px;
+    }
   }
 }

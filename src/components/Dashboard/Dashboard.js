@@ -71,12 +71,19 @@ const Dashboard = props => {
     return <Loader />;
   } else {
     return (
-      <div className="dashboard">
+      <main className="dashboard">
         <Header />
-        <div className="dashboard__table">
+        <section className="dashboard__table">
           {props.state.boards &&
             props.state.boards.map((e, i) => {
-              return <BoardCard key={i} name={props.state.boards[i].name} description={props.state.boards[i].description} />;
+              return (
+                <BoardCard
+                  key={i}
+                  name={props.state.boards[i].name}
+                  description={props.state.boards[i].description}
+                  id={props.state.boards[i].id}
+                />
+              );
             })}
 
           <div>
@@ -109,8 +116,8 @@ const Dashboard = props => {
               </ModalContent>
             </Modal>
           )}
-        </div>
-      </div>
+        </section>
+      </main>
     );
   }
 };
