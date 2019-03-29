@@ -11,6 +11,8 @@ import Modal from "../Modal/Modal";
 import ModalContent from "../Modal/ModalContent";
 import InputText from "../InputText/InputText";
 import Textarea from "../Textarea/Textarea";
+import BoardCard from "../BoardCard/BoardCard";
+import Loader from "../Loader/Loader";
 
 const Dashboard = props => {
   const [newBoard, setNewBoard] = useState({
@@ -20,31 +22,34 @@ const Dashboard = props => {
     isValid: true
   });
 
+  const [isLoading, setLoad] = useState(true);
+
   /**
    * Obtenemos todos los usuarios
    */
 
   useEffect(() => {
     if (props.state.isLogin) {
-      getUserBoards(props.state.dataUser.user)
-        .then(boards => {
-          props.setBoards(boards);
-        })
-        .catch(error => console.log(error));
+      getUserBoards(props.state.dataUser.user).then(boards => {
+        props.setBoards(boards);
+        setLoad(false);
+      });
     }
   }, []);
 
   /**
-   * Creamos/cerramos el modal 
+   * Creamos/cerramos el modal
    */
 
-  const handleCreateBoard = () => {
+  const handleCreateBoard = e => {
+    e.preventDefault();
+
     if (newBoard.name.length !== 0 && newBoard.description.length !== 0) {
-      createBoard(props.state.dataUser.user, newBoard.name, newBoard.errorMessage)
+      createBoard(props.state.dataUser.user, newBoard.name, newBoard.description)
         .then(() => {
           setNewBoard({ ...newBoard, isValid: true, name: "", description: "" });
           props.hideModal();
-          
+
           // obtenemos la lista de boards actualziadas
           getUserBoards(props.state.dataUser.user).then(boards => {
             props.setBoards(boards);
@@ -58,11 +63,12 @@ const Dashboard = props => {
 
   const handleCloseNewBoard = () => {
     setNewBoard({ ...newBoard, name: "", description: "", isValid: true });
-    props.hideModal();
   };
 
   if (!props.state.isLogin) {
     return <Redirect from="/" to="/login" />;
+  } else if (isLoading) {
+    return <Loader />;
   } else {
     return (
       <div className="dashboard">
@@ -70,34 +76,36 @@ const Dashboard = props => {
         <div className="dashboard__table">
           {props.state.boards &&
             props.state.boards.map((e, i) => {
-              return <div key={i}>Card</div>;
+              return <BoardCard key={i} name={props.state.boards[i].name} description={props.state.boards[i].description} />;
             })}
 
-          <Button type="primary" text="New Board" icon="columns" onClick={() => props.showModal("new-board")} />
+          <div>
+            <Button type="primary" text="New Board" icon="columns" onClick={() => props.showModal("new-board")} />
+          </div>
 
           {props.state.modal === "new-board" && (
             <Modal>
               <ModalContent modalTitle="Add new board" type="small" onClose={() => handleCloseNewBoard()}>
-                <InputText
-                  type="text"
-                  id="newBoardName"
-                  placeholder="Board Name"
-                  icon="columns"
-                  extraClass="margin-bottom-10"
-                  onKeyUp={e => setNewBoard({ ...newBoard, name: e.target.value })}
-                  error={newBoard.isValid === false && !newBoard.name.length ? true : false}
-                />
-
-                <Textarea
-                  placeholder="Description"
-                  noResize={true}
-                  extraClass="margin-bottom-20"
-                  onKeyUp={e => setNewBoard({ ...newBoard, description: e.target.value })}
-                  error={newBoard.isValid === false && !newBoard.description.length ? true : false}
-                />
-
-                <Button text="Create Board" icon="columns" onClick={() => handleCreateBoard()} />
-                {newBoard.isValid === false && <p className="color-orange bold padding-top-20">{newBoard.errorMessage}</p>}
+                <form>
+                  <InputText
+                    type="text"
+                    id="newBoardName"
+                    placeholder="Board Name"
+                    icon="columns"
+                    extraClass="margin-bottom-10"
+                    onKeyUp={e => setNewBoard({ ...newBoard, name: e.target.value })}
+                    error={newBoard.isValid === false && !newBoard.name.length ? true : false}
+                  />
+                  <Textarea
+                    placeholder="Description"
+                    noResize={true}
+                    extraClass="margin-bottom-20"
+                    onKeyUp={e => setNewBoard({ ...newBoard, description: e.target.value })}
+                    error={newBoard.isValid === false && !newBoard.description.length ? true : false}
+                  />
+                  <Button text="Create Board" icon="columns" onClick={e => handleCreateBoard(e)} />
+                  {newBoard.isValid === false && <p className="color-orange bold padding-top-20">{newBoard.errorMessage}</p>}
+                </form>
               </ModalContent>
             </Modal>
           )}

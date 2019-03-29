@@ -1,0 +1,14 @@
+.c-board-card {
+  background-color: white;
+  border: 1px solid $lightGrey;
+  border-radius: 2px;
+  padding: 15px;
+  display: inline-block;
+
+  &__name {
+    padding-bottom: 15px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: $darkBlue;
+  }
+}
