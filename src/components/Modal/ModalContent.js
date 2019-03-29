@@ -23,10 +23,8 @@ export const ModalContent = props => {
   const hideModalComponent = () => {
     modalRef.current.style.setProperty("--modal-opacity", 0);
     setTimeout(() => props.hideModal(), 100);
-    props.onClose();
+    if (props.onClose) props.onClose();
   };
-  
-  
 
   return (
     <div className="c-modal" ref={modalRef}>
@@ -38,8 +36,6 @@ export const ModalContent = props => {
     </div>
   );
 };
-
-
 
 const mapStateToProps = state => ({ state });
 const mapDispatchToProps = dispatch => ({
