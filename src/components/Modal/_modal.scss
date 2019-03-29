@@ -3,6 +3,7 @@
 .c-modal {
   --modal-width: 90vh;
   --modal-max-width: 900px;
+  --modal-opacity: 0;
 
   display: flex;
   justify-content: center;
@@ -16,7 +17,9 @@
 
   padding: 20px;
   background-color: rgba(236, 236, 236, 0.8);
-  z-index: 2;
+  opacity: var(--modal-opacity);
+  z-index: 10;
+  transition: .3s all ease;
 
   &__container {
     width: var(--modal-width);

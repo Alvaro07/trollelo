@@ -18,9 +18,11 @@ const Header = props => {
 
   return (
     <header className="c-header">
-      <h1 className="c-header__logo">Trollelo</h1>
-      <div className="c-header__actions">
-        <Button type="secondary" text="logOut" size="small" icon="sign-in-alt" onClick={() => logOut()} />
+      <div className="c-header__wrap">
+        <h1 className="c-header__logo">Trollelo</h1>
+        <div className="c-header__actions">
+          <Button type="secondary" text="logOut" size="small" icon="sign-in-alt" onClick={() => logOut()} />
+        </div>
       </div>
     </header>
   );

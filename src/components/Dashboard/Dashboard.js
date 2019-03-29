@@ -12,6 +12,7 @@ import ModalContent from "../Modal/ModalContent";
 import InputText from "../InputText/InputText";
 import Textarea from "../Textarea/Textarea";
 import BoardCard from "../BoardCard/BoardCard";
+import Loader from "../Loader/Loader";
 
 const Dashboard = props => {
   const [newBoard, setNewBoard] = useState({
@@ -21,17 +22,18 @@ const Dashboard = props => {
     isValid: true
   });
 
+  const [isLoading, setLoad] = useState(true);
+
   /**
    * Obtenemos todos los usuarios
    */
 
   useEffect(() => {
     if (props.state.isLogin) {
-      getUserBoards(props.state.dataUser.user)
-        .then(boards => {
-          props.setBoards(boards);
-        })
-        .catch(error => console.log(error));
+      getUserBoards(props.state.dataUser.user).then(boards => {
+        props.setBoards(boards);
+        setLoad(false);
+      });
     }
   }, []);
 
@@ -43,7 +45,7 @@ const Dashboard = props => {
     e.preventDefault();
 
     if (newBoard.name.length !== 0 && newBoard.description.length !== 0) {
-      createBoard(props.state.dataUser.user, newBoard.name, newBoard.errorMessage)
+      createBoard(props.state.dataUser.user, newBoard.name, newBoard.description)
         .then(() => {
           setNewBoard({ ...newBoard, isValid: true, name: "", description: "" });
           props.hideModal();
@@ -61,11 +63,12 @@ const Dashboard = props => {
 
   const handleCloseNewBoard = () => {
     setNewBoard({ ...newBoard, name: "", description: "", isValid: true });
-    props.hideModal();
   };
 
   if (!props.state.isLogin) {
     return <Redirect from="/" to="/login" />;
+  } else if (isLoading) {
+    return <Loader />;
   } else {
     return (
       <div className="dashboard">
@@ -76,13 +79,14 @@ const Dashboard = props => {
               return <BoardCard key={i} name={props.state.boards[i].name} description={props.state.boards[i].description} />;
             })}
 
-          <Button type="primary" text="New Board" icon="columns" onClick={() => props.showModal("new-board")} />
+          <div>
+            <Button type="primary" text="New Board" icon="columns" onClick={() => props.showModal("new-board")} />
+          </div>
 
           {props.state.modal === "new-board" && (
             <Modal>
               <ModalContent modalTitle="Add new board" type="small" onClose={() => handleCloseNewBoard()}>
                 <form>
-                  {" "}
                   <InputText
                     type="text"
                     id="newBoardName"

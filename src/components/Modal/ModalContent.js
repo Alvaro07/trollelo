@@ -1,23 +1,45 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { hideModal } from "../../redux/reducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// Modal Content component
 export const ModalContent = props => {
   const title = props.modalTitle ? <h2 className="c-modal__title">{props.modalTitle}</h2> : "";
   const typeClass = props.type === "small" ? "c-modal__container--small" : "";
 
+  const modalRef = useRef();
+
+  /**
+   * Efecto de opacidad al aparecer
+   */
+
+  useEffect(() => {
+    setTimeout(() => modalRef.current.style.setProperty("--modal-opacity", 1), 100);
+    return () => {
+      modalRef.current.style.setProperty("--modal-opacity", 0);
+    };
+  }, []);
+
+  const hideModalComponent = () => {
+    modalRef.current.style.setProperty("--modal-opacity", 0);
+    setTimeout(() => props.hideModal(), 100);
+    props.onClose();
+  };
+  
+  
+
   return (
-    <div className="c-modal">
+    <div className="c-modal" ref={modalRef}>
       <div className={`c-modal__container ${typeClass}`}>
         {title}
         {props.children}
-        <FontAwesomeIcon icon="times" className="c-modal__button-close" onClick={props.onClose ? props.onClose : () => props.hideModal()} />
+        <FontAwesomeIcon icon="times" className="c-modal__button-close" onClick={() => hideModalComponent()} />
       </div>
     </div>
   );
 };
+
+
 
 const mapStateToProps = state => ({ state });
 const mapDispatchToProps = dispatch => ({

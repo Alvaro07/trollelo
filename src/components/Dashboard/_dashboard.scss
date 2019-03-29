@@ -3,6 +3,24 @@
   height: 100%;
 
   &__table {
+    --dashboard-columns: repeat(2, 1fr);
+
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: var(--dashboard-columns);
+
+    max-width: 1480px;
+    margin: 0 auto;
     padding: 30px;
+
+    @include mediaTablet {
+      --dashboard-columns: repeat(3, 1fr);
+    }
+    @include mediaDesktop {
+      --dashboard-columns: repeat(5, 1fr);
+    }
+    @include mediaLarge {
+      --dashboard-columns: repeat(7, 1fr);
+    }
   }
 }
