@@ -22,7 +22,7 @@
   &__logo {
     font-size: var(--logo-size);
     color: $skyBlue;
-    font-family: $pacificoFont;
+    font-family: $pacifico;
 
     @include mediaTablet {
       margin-left: auto;

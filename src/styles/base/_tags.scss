@@ -18,7 +18,6 @@ html {
 body {
   min-width: 320px;
   height: 100%;
-  
   font-family: "Roboto", sans-serif;
   font-size: 1.4rem;
   color: $darkGrey;
@@ -31,6 +30,10 @@ textarea {
   font-family: "Roboto", sans-serif;
   font-size: 1.3rem;
   color: $darkGrey;
+}
+
+p {
+  line-height: normal;
 }
 
 a,

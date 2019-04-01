@@ -20,11 +20,18 @@ const BoardCard = props => {
     });
   };
 
+  let descriptionText = null;
+  if (props.description.length >= 250) {
+    descriptionText = `${props.description.slice(0, 250)}...`;
+  } else {
+    descriptionText = props.description;
+  }
+
   return (
     <React.Fragment>
       <figure className="c-board-card">
         <h3 className="c-board-card__name">{props.name}</h3>
-        <p className="c-board-card__desc">{props.description}</p>
+        <p className="c-board-card__description">{descriptionText}</p>
         <div className="c-board-card__delete" onClick={() => props.showModal("modal-remove-board")}>
           <FontAwesomeIcon icon="trash" />
           Delete Board
