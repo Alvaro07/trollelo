@@ -9,7 +9,7 @@ import { auth, database } from "../firebase";
  * @callback callback
  */
 
-export const createUser = (user, email, password, callback) => {
+export function createUser(user, email, password, callback) {
   let userExist = false;
 
   // Accedemos a la colección de usuarios
@@ -55,7 +55,7 @@ export const createUser = (user, email, password, callback) => {
           callback(error);
         });
     });
-};
+}
 
 /**
  * Funcion para autentificar
@@ -64,7 +64,7 @@ export const createUser = (user, email, password, callback) => {
  * @returns {promise}
  */
 
-export const authUser = (email, password) => {
+export function authUser(email, password) {
   return new Promise((resolve, reject) => {
     auth
       .signInWithEmailAndPassword(email, password)
@@ -75,7 +75,7 @@ export const authUser = (email, password) => {
         return reject(error);
       });
   });
-};
+}
 
 /**
  * Funcion para obtener userPath a traves del userName
@@ -83,7 +83,7 @@ export const authUser = (email, password) => {
  * @returns {promise}
  */
 
-export const getUserByUserName = userName => {
+export function getUserByUserName(userName) {
   // Accedemos a la colección de usuarios
   return new Promise((resolve, reject) => {
     database
@@ -98,4 +98,4 @@ export const getUserByUserName = userName => {
         return reject(error);
       });
   });
-};
+}

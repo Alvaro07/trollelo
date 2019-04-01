@@ -93,7 +93,7 @@ const Dashboard = props => {
           {props.state.modal === "new-board" && (
             <Modal>
               <ModalContent modalTitle="Add new board" type="small" onClose={() => handleCloseNewBoard()}>
-                <form>
+                <form method="POST">
                   <InputText
                     type="text"
                     id="newBoardName"
@@ -102,6 +102,7 @@ const Dashboard = props => {
                     extraClass="margin-bottom-10"
                     onKeyUp={e => setNewBoard({ ...newBoard, name: e.target.value })}
                     error={newBoard.isValid === false && !newBoard.name.length ? true : false}
+                    required={true}
                   />
                   <Textarea
                     placeholder="Description"
@@ -109,8 +110,9 @@ const Dashboard = props => {
                     extraClass="margin-bottom-20"
                     onKeyUp={e => setNewBoard({ ...newBoard, description: e.target.value })}
                     error={newBoard.isValid === false && !newBoard.description.length ? true : false}
+                    required={true}
                   />
-                  <Button text="Create Board" icon="columns" onClick={e => handleCreateBoard(e)} />
+                  <Button text="Create Board" icon="columns" onClick={e => handleCreateBoard(e)} submit={true} />
                   {newBoard.isValid === false && <p className="color-orange bold padding-top-20">{newBoard.errorMessage}</p>}
                 </form>
               </ModalContent>

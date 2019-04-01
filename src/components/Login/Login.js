@@ -144,7 +144,7 @@ const Login = props => {
         </header>
 
         <main className={`login ${shake === true ? "login--shake" : ""}`}>
-          <form className="login__form">
+          <form className="login__form" method="POST">
             <h2 className="login__title">Sign in</h2>
             <InputText
               type="text"
@@ -154,6 +154,7 @@ const Login = props => {
               icon="user"
               onKeyUp={e => setDataLogin({ ...dataLogin, user: e.target.value })}
               error={dataLogin.isValid === false && !dataLogin.user.length ? true : false}
+              required={true}
             />
             <InputText
               type="password"
@@ -163,13 +164,14 @@ const Login = props => {
               icon="key"
               onKeyUp={e => setDataLogin({ ...dataLogin, password: e.target.value })}
               error={dataLogin.isValid === false && !dataLogin.password.length ? true : false}
+              required={true}
             />
 
-            <Button text="Log in" onClick={e => handleAuth(e)} />
+            <Button text="Log in" onClick={e => handleAuth(e)} submit={true} />
 
             {dataLogin.isValid === false && <p className="color-orange bold padding-top-20">{dataLogin.errorMessage}</p>}
           </form>
-          <form className="login__form">
+          <form className="login__form" method="POST">
             <h2 className="login__title">Register</h2>
             <InputText
               type="text"
@@ -179,6 +181,7 @@ const Login = props => {
               extraClass="margin-bottom-10"
               onKeyUp={e => setDataRegister({ ...dataRegister, user: e.target.value })}
               error={dataRegister.isValid === false && !dataRegister.user.length ? true : false}
+              required={true}
             />
             <InputText
               type="email"
@@ -188,6 +191,7 @@ const Login = props => {
               extraClass="margin-bottom-10"
               onKeyUp={e => setDataRegister({ ...dataRegister, email: e.target.value })}
               error={!dataRegister.isValid && !dataRegister.email.length ? true : false}
+              required={true}
             />
             <InputText
               type="password"
@@ -197,8 +201,9 @@ const Login = props => {
               extraClass="margin-bottom-20"
               onKeyUp={e => setDataRegister({ ...dataRegister, password: e.target.value })}
               error={dataRegister.isValid === false && !dataRegister.password.length ? true : false}
+              required={true}
             />
-            <Button text="Register" type="secondary" onClick={e => handleRegister(e)} />
+            <Button text="Register" type="secondary" onClick={e => handleRegister(e)} submit={true} />
 
             {dataRegister.isValid === false && <p className="color-orange bold padding-top-20">{dataRegister.errorMessage}</p>}
           </form>

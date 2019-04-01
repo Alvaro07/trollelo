@@ -1,6 +1,6 @@
 import { database } from "../firebase";
 
-export const createBoard = (user, name, description) => {
+export function createBoard(user, name, description) {
   return new Promise((resolve, reject) => {
     const ref = database.collection("boards").doc();
     ref
@@ -17,9 +17,9 @@ export const createBoard = (user, name, description) => {
         return reject(error);
       });
   });
-};
+}
 
-export const getUserBoards = user => {
+export function getUserBoards(user) {
   return new Promise((resolve, reject) => {
     database
       .collection("boards")
@@ -36,10 +36,9 @@ export const getUserBoards = user => {
         return reject(error);
       });
   });
-};
+}
 
-export const removeBoard = id => {
-
+export function removeBoard(id) {
   return new Promise((resolve, reject) => {
     database
       .collection("boards")
@@ -52,4 +51,4 @@ export const removeBoard = id => {
         return reject(error);
       });
   });
-};
+}
