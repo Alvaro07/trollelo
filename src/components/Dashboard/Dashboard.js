@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { showModal, hideModal, setBoards } from "../../redux/reducer";
+import { getUserData } from "../../firebase/functions/user";
 import { createBoard, getUserBoards } from "../../firebase/functions/board";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -31,10 +32,19 @@ const Dashboard = props => {
 
   useEffect(() => {
     if (props.state.isLogin) {
-      getUserBoards(props.state.dataUser.user).then(boards => {
-        props.setBoards(boards);
+      // getUserData(props.state.dataUser.user).then(data => {
+      //   props.setBoards(data.boards);
+      //   setLoad(false);
+      // });
+
+      getUserBoards(props.state.dataUser.user).then(data => {
+        props.setBoards(data);
+        setLoad(false);
+      }).catch(error => {
         setLoad(false);
       });
+
+      
     }
   }, []);
 
@@ -46,17 +56,19 @@ const Dashboard = props => {
     e.preventDefault();
 
     if (newBoard.name.length !== 0 && newBoard.description.length !== 0) {
-      createBoard(props.state.dataUser.user, newBoard.name, newBoard.description)
-        .then(() => {
-          setNewBoard({ ...newBoard, isValid: true, name: "", description: "" });
-          props.hideModal();
+      // Creamos un 'board' con el usuario de redux y los datos del formulario local.
+      // Seteamos el 'board' en el state local y cerramos el modal
 
-          // obtenemos la lista de boards actualziadas
-          getUserBoards(props.state.dataUser.user).then(boards => {
-            props.setBoards(boards);
-          });
-        })
-        .catch(error => console.log(error));
+      createBoard(props.state.dataUser.user, newBoard.name, newBoard.description).then(() => {
+        setNewBoard({ ...newBoard, isValid: true, name: "", description: "" });
+        props.hideModal();
+
+        // obtenemos la lista de 'boards' actualizadas
+        // Seteamos el 'board' en redux
+        getUserData(props.state.dataUser.user).then(data => {
+          props.setBoards(data.boards);
+        });
+      });
     } else {
       setNewBoard({ ...newBoard, isValid: false });
     }
@@ -78,13 +90,21 @@ const Dashboard = props => {
         <main className="dashboard">
           <header className="dashboard__header">
             <span className="dashboard__header__icon">
-              <FontAwesomeIcon icon="star" />
+              <FontAwesomeIcon icon="align-left" />
             </span>
 
-            <div>
-              <h2 className="dashboard__header__title">My Dashboard</h2>
+            <div className="dashboard__header__title">
+              <h2>My Dashboard</h2>
               <span className="dashboard__header__user">{props.state.dataUser.user}</span>
             </div>
+
+            <Button
+              type="primary"
+              text="New Board"
+              icon="columns"
+              extraClass="margin-left-auto"
+              onClick={() => props.showModal("new-board")}
+            />
           </header>
           <section className="dashboard__table">
             {props.state.boards &&
@@ -97,11 +117,7 @@ const Dashboard = props => {
                     id={props.state.boards[i].id}
                   />
                 );
-              })}
-
-            <div>
-              <Button type="primary" text="New Board" icon="columns" onClick={() => props.showModal("new-board")} />
-            </div>
+              })} 
 
             {props.state.modal === "new-board" && (
               <Modal>

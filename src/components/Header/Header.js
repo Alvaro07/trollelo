@@ -20,7 +20,7 @@ const Header = props => {
     <header className="c-header">
       <div className="c-header__wrap">
         <h1 className="c-header__logo">Trollelo</h1>
-        <div className="c-header__actions">
+        <div className="margin-left-auto">
           <Button type="secondary" text="logOut" size="small" icon="sign-in-alt" onClick={() => logOut()} />
         </div>
       </div>

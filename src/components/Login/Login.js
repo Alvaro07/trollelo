@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { setLogin, setUser } from "../../redux/reducer";
-import { createUser, getUserByUserName, authUser } from "../../firebase/functions/user";
+import { createUser, getUserData, authUser } from "../../firebase/functions/user";
 
 // Components
 import InputText from "../InputText/InputText";
@@ -42,7 +42,7 @@ const Login = props => {
 
   useEffect(() => {
     if (localStorage.user) {
-      getUserByUserName(localStorage.user).then(data => {
+      getUserData(localStorage.user).then(data => {
         authUser(data.email, localStorage.password).then(() => {
           props.setUser(data);
           props.setLogin(true);
@@ -80,7 +80,7 @@ const Login = props => {
     } else {
       setDataLogin({ ...dataLogin, isValid: true });
 
-      getUserByUserName(dataLogin.user)
+      getUserData(dataLogin.user)
         .then(data => {
           authUser(data.email, dataLogin.password)
             .then(() => {
@@ -156,6 +156,7 @@ const Login = props => {
               error={dataLogin.isValid === false && !dataLogin.user.length ? true : false}
               required={true}
             />
+            
             <InputText
               type="password"
               id="signInPassword"
