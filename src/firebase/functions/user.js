@@ -9,7 +9,11 @@ import { auth, database } from "../firebase";
  * @callback callback
  */
 
-export const createUser = (user, email, password, callback) => {
+/**
+ // Refactor a uan promesa //
+*/
+
+export function createUser(user, email, password, callback) {
   let userExist = false;
 
   // Accedemos a la colección de usuarios
@@ -40,7 +44,8 @@ export const createUser = (user, email, password, callback) => {
               uid: result.user.uid,
               user: user,
               email: email,
-              password: password
+              password: password,
+              boards: []
             })
             .then(docRef => {
               localStorage.setItem("user", user);
@@ -55,7 +60,7 @@ export const createUser = (user, email, password, callback) => {
           callback(error);
         });
     });
-};
+}
 
 /**
  * Funcion para autentificar
@@ -64,38 +69,34 @@ export const createUser = (user, email, password, callback) => {
  * @returns {promise}
  */
 
-export const authUser = (email, password) => {
+export function authUser(email, password) {
   return new Promise((resolve, reject) => {
     auth
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         return resolve();
       })
-      .catch(error => {
-        return reject(error);
-      });
+      .catch(error => reject(error));
   });
-};
+}
 
 /**
  * Funcion para obtener userPath a traves del userName
- * @param {string} userName
+ * @param {string} user
  * @returns {promise}
  */
 
-export const getUserByUserName = userName => {
+export function getUserData(user) {
   // Accedemos a la colección de usuarios
   return new Promise((resolve, reject) => {
     database
       .collection("users")
-      .where("user", "==", userName)
+      .where("user", "==", user)
       .get()
       .then(querySnapshot => {
         // Filtrar mediante firestore para conseguir saber si hay usuario o no, y devolver la promesa fallida
         return !querySnapshot.empty ? querySnapshot.forEach(doc => resolve(doc.data())) : reject("The user not exists");
       })
-      .catch(error => {
-        return reject(error);
-      });
+      .catch(error => reject(error));
   });
-};
+}

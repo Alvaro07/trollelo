@@ -1,6 +1,45 @@
 .dashboard {
   width: 100%;
-  height: 100%;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 30px 15px;
+
+  @include mediaTablet {
+    padding: 30px;
+  }
+
+  &__header {
+    display: flex;
+    border-bottom: 1px dashed rgba($lightGrey, 0.7);
+    padding-bottom: 20px;
+
+    &__icon {
+      font-size: 2.4rem;
+      display: flex;
+      align-items: center;
+      background-color: $skyBlue;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 3px;
+      margin-right: 10px;
+    }
+
+    &__title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &__user {
+      display: block;
+      padding-top: 2px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: $grey;
+    }
+  }
 
   &__table {
     --dashboard-columns: repeat(2, 1fr);
@@ -9,18 +48,17 @@
     grid-gap: 15px;
     grid-template-columns: var(--dashboard-columns);
 
-    max-width: 1480px;
     margin: 0 auto;
-    padding: 30px;
+    padding: 25px 0;
 
     @include mediaTablet {
       --dashboard-columns: repeat(3, 1fr);
     }
     @include mediaDesktop {
-      --dashboard-columns: repeat(5, 1fr);
+      --dashboard-columns: repeat(4, 1fr);
     }
     @include mediaLarge {
-      --dashboard-columns: repeat(7, 1fr);
+      --dashboard-columns: repeat(5, 1fr);
     }
   }
 }

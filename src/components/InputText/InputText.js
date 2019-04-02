@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const InputText = ({ type, id, labelText, placeholder, onKeyUp, extraClass, error, icon }) => {
+const InputText = ({ type, id, labelText, placeholder, onKeyUp, extraClass, error, icon, required }) => {
   const extra = extraClass ? extraClass : "";
   const errorClass = error ? "c-input-text--error" : "";
 
@@ -15,10 +15,10 @@ const InputText = ({ type, id, labelText, placeholder, onKeyUp, extraClass, erro
       <div className="c-input-text__field">
         {icon && (
           <div className="c-input-text__icon">
-            <FontAwesomeIcon icon={icon}  />
+            <FontAwesomeIcon icon={icon} />
           </div>
         )}
-        <input type={type} id={id} placeholder={placeholder} onKeyUp={onKeyUp} />
+        <input type={type} id={id} placeholder={placeholder} onKeyUp={onKeyUp} required={required ? "required" : null} />
       </div>
     </div>
   );
