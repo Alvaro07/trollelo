@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getUserData } from "../../firebase/functions/user";
-import { removeBoard } from "../../firebase/functions/board";
+import { removeBoard, getUserBoards } from "../../firebase/functions/board";
 import { showModal, hideModal, setBoards } from "../../redux/reducer";
 
 // Components
@@ -13,10 +12,10 @@ import Button from "../Button/Button";
 const BoardCard = props => {
   const handleRemove = e => {
     e.preventDefault();
-    removeBoard(props.id).then(() => {
-      getUserData(props.state.dataUser.user).then(data => {
+    removeBoard(props.id, props.state.dataUser.user).then(() => {
+      getUserBoards(props.state.dataUser.user).then(data => {
         props.hideModal();
-        props.setBoards(data.boards);
+        props.setBoards(data);
       });
     });
   };
