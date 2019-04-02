@@ -37,6 +37,7 @@ const Dashboard = props => {
           setLoad(false);
         })
         .catch(error => {
+          props.setBoards([]);
           setLoad(false);
         });
     }
@@ -60,9 +61,11 @@ const Dashboard = props => {
         // obtenemos la lista de 'boards' actualizadas
         // Seteamos el 'board' en redux
 
-        getUserBoards(props.state.dataUser.user).then(data => {
-          props.setBoards(data);
-        });
+        getUserBoards(props.state.dataUser.user)
+          .then(data => {
+            props.setBoards(data);
+          })
+          .catch(() => props.setBoards([]));
       });
     } else {
       setNewBoard({ ...newBoard, isValid: false });

@@ -13,10 +13,12 @@ const BoardCard = props => {
   const handleRemove = e => {
     e.preventDefault();
     removeBoard(props.id, props.state.dataUser.user).then(() => {
-      getUserBoards(props.state.dataUser.user).then(data => {
-        props.hideModal();
-        props.setBoards(data);
-      });
+      getUserBoards(props.state.dataUser.user)
+        .then(data => {
+          props.hideModal();
+          props.setBoards(data);
+        })
+        .catch(() => props.setBoards([]));
     });
   };
 
@@ -34,7 +36,7 @@ const BoardCard = props => {
         <p className="c-board-card__description">{descriptionText}</p>
         <div className="c-board-card__delete" onClick={() => props.showModal(`modal-remove-board${props.id}`)}>
           <FontAwesomeIcon icon="trash" />
-          Delete Board
+          Remove
         </div>
       </figure>
 

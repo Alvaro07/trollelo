@@ -13,7 +13,6 @@ export function createBoard(user, name, description) {
   return new Promise((resolve, reject) => {
     const userRef = database.collection("users").doc(user);
     const ref = database.collection("boards").doc();
-
     // Creamos y seteamos la board
     ref
       .set({
@@ -62,17 +61,19 @@ export function getBoard(id) {
  * @returns {promise}
  */
 
+// Refactor de rendimiento
 export function getUserBoards(user) {
   return new Promise((resolve, reject) => {
+    // Obtenemos todas las 'boards'
     database
       .collection("boards")
       .get()
       .then(querySnapshot => {
+        // Las filtramos para obtener solo las de el usuario
         let boards = [];
         querySnapshot.forEach(doc => {
           boards.push(doc.data());
         });
-        // Filtrar mediante firestore para conseguir saber si hay usuario o no, y devolver la promesa fallida
         return !querySnapshot.empty ? resolve(boards.filter(e => e.owner === user)) : reject("no boards");
       })
       .catch(error => reject(error));
@@ -82,14 +83,14 @@ export function getUserBoards(user) {
 /**
  * Funcion para Borrar un 'board' del usuario
  * @param {string} id
+ * @param {string} user
  * @returns {promise}
  */
 
 export function removeBoard(id, user) {
   const userRef = database.collection("users").doc(user);
-  
-
   return new Promise((resolve, reject) => {
+    // Borramos la 'board' en la 'board collection'
     database
       .collection("boards")
       .doc(id)
@@ -104,8 +105,6 @@ export function removeBoard(id, user) {
             })
             .catch(error => reject(error));
         });
-
-        // return resolve();
       })
       .catch(error => reject(error));
   });
