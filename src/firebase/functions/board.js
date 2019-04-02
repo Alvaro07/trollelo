@@ -1,5 +1,5 @@
 import { database } from "../firebase";
-// import { getUserData } from "./user";
+import { getUserData } from "./user";
 
 /**
  * Funcion para Crear un board a partir del userName.
@@ -23,10 +23,13 @@ export function createBoard(user, name, description) {
         id: ref.id
       })
       .then(() => {
-        getUserBoards(user).then(data => {
+        // Asociamos el board al usuario
+        getUserData(user).then(data => {
           userRef
-            .update({ boards: data })
-            .then(() => resolve())
+            .update({ boards: [...data.boards, ref.id] })
+            .then(() => {
+              return resolve();
+            })
             .catch(error => reject(error));
         });
       })
@@ -82,35 +85,28 @@ export function getUserBoards(user) {
  * @returns {promise}
  */
 
-export function removeBoard(id) {
+export function removeBoard(id, user) {
+  const userRef = database.collection("users").doc(user);
+  
+
   return new Promise((resolve, reject) => {
     database
       .collection("boards")
       .doc(id)
       .delete()
       .then(() => {
-        return resolve();
+        // Asociamos el board al usuario
+        getUserData(user).then(data => {
+          userRef
+            .update({ boards: data.boards.filter(e => e !== id) })
+            .then(() => {
+              return resolve();
+            })
+            .catch(error => reject(error));
+        });
+
+        // return resolve();
       })
       .catch(error => reject(error));
   });
 }
-
-// export function removeBoard(id, user) {
-//   const userRef = database.collection("users").doc(user);
-//   let arrayBoards = [];
-
-//   return new Promise((resolve, reject) => {
-//     getUserBoards(user).then(data => {
-//       arrayBoards = data.filter(e => e !== id);
-//       userRef
-//         .update({
-//           boards: arrayBoards
-//         })
-//         .then(() => {
-//           console.log("llego");
-//           return resolve();
-//         })
-//         .catch(error => reject(error));
-//     });
-//   });
-// }
