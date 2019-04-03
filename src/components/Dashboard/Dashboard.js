@@ -16,6 +16,10 @@ import BoardCard from "../BoardCard/BoardCard";
 import Loader from "../Loader/Loader";
 
 const Dashboard = props => {
+  /**
+   * Local State
+   */
+
   const [newBoard, setNewBoard] = useState({
     name: "",
     description: "",

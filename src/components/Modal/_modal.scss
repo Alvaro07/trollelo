@@ -1,4 +1,6 @@
-/* Modal component */
+/**
+  * Modal component
+  */
 
 .c-modal {
   --modal-width: 90vh;
@@ -19,7 +21,11 @@
   background-color: rgba(236, 236, 236, 0.8);
   opacity: var(--modal-opacity);
   z-index: 10;
-  transition: .3s all ease;
+  transition: 0.3s all ease;
+
+  /**
+  * Modal container
+  */
 
   &__container {
     width: var(--modal-width);
@@ -39,12 +45,16 @@
   }
 
   &__title {
-    padding-right:40px;
+    padding-right: 40px;
     margin-bottom: 30px;
     font-size: 2rem;
     color: $grey;
     font-weight: 700;
   }
+
+  /**
+  * Icon close button
+  */
 
   &__button-close {
     position: absolute;

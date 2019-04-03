@@ -1,3 +1,7 @@
+/**
+  * Dashboard Page
+  */
+
 .dashboard {
   width: 100%;
   max-width: 1480px;
@@ -7,6 +11,10 @@
   @include mediaTablet {
     padding: 30px;
   }
+
+  /**
+  * Header styles
+  */
 
   &__header {
     display: flex;
@@ -40,6 +48,10 @@
       color: $grey;
     }
   }
+
+  /**
+  * boards table
+  */
 
   &__table {
     --dashboard-columns: repeat(2, 1fr);

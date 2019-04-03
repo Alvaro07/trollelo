@@ -1,7 +1,12 @@
+/**
+  * Header component
+  */
+
 .c-header {
   --bg-header-color: white;
   --logo-size: 3.2rem;
   --header-padding: 1.5rem;
+  --header-grid-template: 1fr 1fr;
 
   width: 100%;
   height: 6rem;
@@ -12,21 +17,46 @@
     --header-padding: 1.5rem 3rem;
   }
 
+  /**
+  * header center wrap
+  */
+
   &__wrap {
-    display: flex;
+    display: grid;
+    grid-template-columns: var(--header-grid-template);
     max-width: 1480px;
     margin: 0 auto;
     padding: var(--header-padding);
+
+    @include mediaDesktop {
+      --header-grid-template: 1fr 1fr 1fr;
+    }
   }
+
+  /**
+  * Trollelo logo
+  */
 
   &__logo {
     font-size: var(--logo-size);
     color: $skyBlue;
     font-family: $pacifico;
 
-    @include mediaTablet {
-      margin-left: auto;
+    @include mediaDesktop {
+      text-align: center;
+      grid-column: 2 / span 1;
     }
   }
 
+  /**
+  * Header actions section
+  */
+
+  &__actions {
+    text-align: right;
+
+    @include mediaDesktop {
+      grid-column: 3 / span 1;
+    }
+  }
 }

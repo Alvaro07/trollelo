@@ -38,9 +38,11 @@ p {
 
 a,
 .link {
-  // color: var(--darkGreen);
+  color: $skyBlue;
+  transition: 0.3s all ease;
+  text-decoration: none;
 
   &:hover {
-    // color: var(--lightGreen);
+    color: $pink;
   }
 }
