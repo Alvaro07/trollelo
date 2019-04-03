@@ -1,3 +1,7 @@
+/**
+ * Board Component
+ */
+
 .c-board-card {
   background-color: white;
   border: 1px solid $lightGrey;
@@ -6,22 +10,19 @@
   display: inline-block;
   position: relative;
 
+  /**
+  * Board's title
+  */
+
   &__name {
     padding-bottom: 15px;
     font-size: 1.6rem;
     font-weight: 700;
-    color: $skyBlue;
-    transition: 0.3s all ease;
-    cursor: pointer;
-
-    &:hover {
-      color: rgba($skyBlue, 0.8);
-    }
   }
 
-  &__description {
-    
-  }
+  /**
+  * Remove action
+  */
 
   &__delete {
     position: absolute;

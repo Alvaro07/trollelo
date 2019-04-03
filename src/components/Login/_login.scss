@@ -1,5 +1,5 @@
 /**
- * Login component
+ * Login Page
  */
 
 /* Login wrap page */
@@ -44,12 +44,20 @@
     padding: 30px;
   }
 
+  /**
+  * Login error animation
+  */
+
   &--shake {
     animation-name: shake-movement;
     animation-duration: 0.4s;
     transform-origin: 50% 50%;
     animation-timing-function: linear;
   }
+
+  /**
+  * Form styles
+  */
 
   &__form {
     @include mediaTablet {
@@ -84,7 +92,9 @@
   }
 }
 
-/* Shake animation */
+/**
+  * Shake animation
+  */
 
 @keyframes shake-movement {
   0% {
