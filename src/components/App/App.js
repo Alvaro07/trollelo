@@ -16,7 +16,7 @@ const App = props => {
   return (
     <React.Fragment>
       <Switch>
-        <Route exact path="/login" render={() => <Login />} />
+        <Route exact path="/login" render={props => <Login {...props}/>} />
         <Route exact path="/dashboard" render={() => <Dashboard />} />
         <Route path="/taskBoard/:board" render={props => <TaskBoard {...props} />} />
 

@@ -11,6 +11,7 @@ import "./styles/index.scss";
 
 const root = document.getElementById("root");
 
+
 // Principal render
 ReactDOM.render(
   <Provider store={store}>
