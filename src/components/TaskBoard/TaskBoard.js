@@ -15,13 +15,17 @@ const TaskBoard = props => {
 
   useEffect(() => {
     setLoad(false);
-    console.log(props);
   }, []);
 
   if (!props.state.isLogin) {
     return <Redirect from="/" to="/login" />;
   } else if (isLoading) {
-    return <Loader />;
+    return (
+      <React.Fragment>
+        <Header />
+        <Loader />
+      </React.Fragment>
+    );
   } else {
     return (
       <React.Fragment>
