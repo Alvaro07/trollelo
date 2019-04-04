@@ -62,6 +62,7 @@ const Dashboard = props => {
       // Seteamos el 'board' en el state local y cerramos el modal
 
       setModalLoading(true);
+      setNewBoard({ ...newBoard, errorMessage: "" });
 
       createBoard(props.state.dataUser.user, newBoard.name, newBoard.description).then(data => {
         setNewBoard({ ...newBoard, isValid: true, name: "", description: "" });
