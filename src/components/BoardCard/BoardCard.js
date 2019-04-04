@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -12,11 +12,17 @@ import ModalContent from "../Modal/ModalContent";
 import Button from "../Button/Button";
 
 const BoardCard = props => {
+  // State para setear el loader del modal
+  const [modalLoading, setModalLoading] = useState(false);
+
   const handleRemove = e => {
     e.preventDefault();
+    setModalLoading(true);
+
     removeBoard(props.id, props.state.dataUser.user).then(() => {
       getUserBoards(props.state.dataUser.user)
         .then(data => {
+          setModalLoading(false);
           props.hideModal();
           props.setBoards(data);
         })
@@ -51,7 +57,7 @@ const BoardCard = props => {
               <p className="margin-bottom-20">
                 <span className="bold">Are you sure</span> to remove this Board?
               </p>
-              <Button text="Remove Board" icon="columns" onClick={e => handleRemove(e)} />
+              <Button text="Remove Board" icon="columns" onClick={e => handleRemove(e)} isLoading={modalLoading} />
             </form>
           </ModalContent>
         </Modal>

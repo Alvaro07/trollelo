@@ -12,6 +12,7 @@
   height: 60px;
   background-color: var(--bg-header-color);
   box-shadow: 10px -3px 10px rgba(133, 133, 133, 0.2);
+  z-index: 1;
 
   @include mediaTablet {
     --header-padding: 1.5rem 3rem;
