@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -58,6 +59,19 @@ const BoardCard = props => {
     </React.Fragment>
   );
 };
+
+/**
+ * PropTypes
+ */
+
+BoardCard.propTypes = {
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
+};
+
+/**
+ * Redux connection
+ */
 
 const mapStateToProps = state => ({ state });
 const mapDispatchToProps = dispatch => ({
