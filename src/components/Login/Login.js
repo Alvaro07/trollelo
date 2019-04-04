@@ -31,6 +31,8 @@ const Login = props => {
 
   const [shake, setShake] = useState(false);
   const [isLoading, setLoad] = useState(true);
+  const [signInLoading, setSignInLoading] = useState(false);
+  const [registerLoading, setRegisterLoading] = useState(false);
 
   /**
    * Effect
@@ -70,11 +72,13 @@ const Login = props => {
 
   const handleAuth = e => {
     e.preventDefault();
+    setSignInLoading(true);
 
     // Comprobamos que los datos sean correctos
     if (!dataLogin.user.length || !dataLogin.password.length) {
       setDataLogin({ ...dataLogin, isValid: false });
       setShake(true);
+      setSignInLoading(false);
 
       // Si los datos son correctos nos logueamos
     } else {
@@ -90,11 +94,13 @@ const Login = props => {
               props.setLogin(true);
             })
             .catch(error => {
+              setSignInLoading(false);
               setDataLogin({ ...dataLogin, isValid: false, errorMessage: error.message });
               setShake(true);
             });
         })
         .catch(error => {
+          setSignInLoading(false);
           setDataLogin({ ...dataLogin, isValid: false, errorMessage: error });
           setShake(true);
         });
@@ -107,11 +113,13 @@ const Login = props => {
 
   const handleRegister = e => {
     e.preventDefault();
+    setRegisterLoading(true);
 
     // Comprobamos que los datos sean correctos, si no lo son mostramos el error
     if (!dataRegister.user.length || !dataRegister.email.length || !dataRegister.password.length) {
       setDataRegister({ ...dataRegister, isValid: false });
       setShake(true);
+      setRegisterLoading(false);
 
       // Si los datos son correctos registramos, antes comporbando si el usuario ya existe
     } else {
@@ -120,6 +128,7 @@ const Login = props => {
         if (userResult.message) {
           setDataRegister({ ...dataRegister, isValid: false, errorMessage: userResult.message });
           setShake(true);
+          setRegisterLoading(false);
 
           // Si no existe accedemos
         } else {
@@ -173,7 +182,7 @@ const Login = props => {
               required={true}
             />
 
-            <Button text="Log in" onClick={e => handleAuth(e)} submit={true} />
+            <Button text="Log in" onClick={e => handleAuth(e)} submit={true} isLoading={signInLoading} />
 
             {dataLogin.isValid === false && <p className="color-orange bold padding-top-20">{dataLogin.errorMessage}</p>}
           </form>
@@ -209,7 +218,7 @@ const Login = props => {
               error={dataRegister.isValid === false && !dataRegister.password.length ? true : false}
               required={true}
             />
-            <Button text="Register" type="secondary" onClick={e => handleRegister(e)} submit={true} />
+            <Button text="Register" type="secondary" onClick={e => handleRegister(e)} submit={true} isLoading={registerLoading} />
 
             {dataRegister.isValid === false && <p className="color-orange bold padding-top-20">{dataRegister.errorMessage}</p>}
           </form>
