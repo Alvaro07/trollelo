@@ -29,6 +29,9 @@ const Dashboard = props => {
 
   const [isLoading, setLoad] = useState(true);
 
+  // State para setear el loader del modal
+  const [modalLoading, setModalLoading] = useState(false);
+
   /**
    * Obtenemos todos los usuarios
    */
@@ -58,9 +61,12 @@ const Dashboard = props => {
       // Creamos un 'board' con el usuario de redux y los datos del formulario local.
       // Seteamos el 'board' en el state local y cerramos el modal
 
-      createBoard(props.state.dataUser.user, newBoard.name, newBoard.description).then(() => {
+      setModalLoading(true);
+
+      createBoard(props.state.dataUser.user, newBoard.name, newBoard.description).then(data => {
         setNewBoard({ ...newBoard, isValid: true, name: "", description: "" });
         props.hideModal();
+        setModalLoading(false);
 
         // obtenemos la lista de 'boards' actualizadas
         // Seteamos el 'board' en redux
@@ -72,6 +78,7 @@ const Dashboard = props => {
           .catch(() => props.setBoards([]));
       });
     } else {
+      setModalLoading(false);
       setNewBoard({ ...newBoard, isValid: false });
     }
   };
@@ -148,7 +155,7 @@ const Dashboard = props => {
                       error={newBoard.isValid === false && !newBoard.description.length ? true : false}
                       required={true}
                     />
-                    <Button text="Create Board" icon="columns" onClick={e => handleCreateBoard(e)} submit={true} />
+                    <Button text="Create Board" icon="columns" onClick={e => handleCreateBoard(e)} submit={true} isLoading={modalLoading} />
                     {newBoard.isValid === false && <p className="color-orange bold padding-top-20">{newBoard.errorMessage}</p>}
                   </form>
                 </ModalContent>

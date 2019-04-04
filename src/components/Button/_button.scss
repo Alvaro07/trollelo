@@ -22,10 +22,6 @@
     background-color: var(--btn-bg-hover-color);
   }
 
-  &__icon {
-    margin-right: 10px;
-  }
-
   /**
   * Modifiers
   */
@@ -38,5 +34,33 @@
   &--secondary {
     --btn-bg-color: #{$pink};
     --btn-bg-hover-color: #{rgba($pink, 0.8)};
+  }
+
+  &--loading {
+    pointer-events: none;
+    cursor: default;
+    outline: none;
+  }
+
+  /**
+  * Icons
+  */
+
+  &__icon {
+    margin-right: 10px;
+  }
+
+  &__load-icon {
+    margin-right: 10px;
+    animation: spinner 1.5s linear infinite;
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

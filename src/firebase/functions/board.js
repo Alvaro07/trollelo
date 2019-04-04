@@ -24,14 +24,18 @@ export async function createBoard(user, name, description) {
  */
 
 function setBoard(user, name, description) {
-  const ref = database.collection("boards").doc();
-  ref.set({
-    owner: user,
-    name: name,
-    description: description,
-    id: ref.id
+  return new Promise((resolve, reject) => {
+    const ref = database.collection("boards").doc();
+    ref
+      .set({
+        owner: user,
+        name: name,
+        description: description,
+        id: ref.id
+      })
+      .then(() => resolve(ref.id))
+      .catch(error => reject(error));
   });
-  return ref.id;
 }
 
 /**
@@ -43,8 +47,13 @@ function setBoard(user, name, description) {
  */
 
 function setUserBoardId(data, id, user) {
-  const userRef = database.collection("users").doc(user);
-  userRef.update({ boards: [...data, id] });
+  return new Promise((resolve, reject) => {
+    const userRef = database.collection("users").doc(user);
+    userRef
+      .update({ boards: [...data, id] })
+      .then(() => resolve())
+      .catch(error => reject(error));
+  });
 }
 
 /**
