@@ -4,38 +4,12 @@
 
 .taskboard {
   width: 100%;
+  max-width: 1480px;
+  margin: 0 auto;
   padding: 30px 15px;
 
   @include mediaTablet {
     padding: 30px;
   }
 
-  /**
-  * Header title
-  */
-
-  &__header {
-    max-width: 1480px;
-    margin: 0 auto;
-    
-    border-bottom: 1px dashed rgba($lightGrey, 0.7);
-    padding-bottom: 20px;
-    text-align: center;
-
-    &__title {
-      font-size: 2.2rem;
-      font-weight: 700;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    &__user {
-      display: block;
-      padding-top: 2px;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: $grey;
-    }
-  }
 }

@@ -13,43 +13,6 @@
   }
 
   /**
-  * Header styles
-  */
-
-  &__header {
-    display: flex;
-    border-bottom: 1px dashed rgba($lightGrey, 0.7);
-    padding-bottom: 20px;
-
-    &__icon {
-      font-size: 2.4rem;
-      display: flex;
-      align-items: center;
-      background-color: $skyBlue;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 3px;
-      margin-right: 10px;
-    }
-
-    &__title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    &__user {
-      display: block;
-      padding-top: 2px;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: $grey;
-    }
-  }
-
-  /**
   * boards table
   */
 

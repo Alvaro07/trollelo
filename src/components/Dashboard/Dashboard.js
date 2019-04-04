@@ -103,23 +103,21 @@ const Dashboard = props => {
         <Header />
 
         <main className="dashboard">
-          <header className="dashboard__header">
-            <span className="dashboard__header__icon">
-              <FontAwesomeIcon icon="align-left" />
-            </span>
+          <header className="subheader">
+            <div className="subheader__content">
+              <span className="subheader__icon">
+                <FontAwesomeIcon icon="align-left" />
+              </span>
 
-            <div className="dashboard__header__title">
-              <h2>My Dashboard</h2>
-              <span className="dashboard__header__user">{props.state.dataUser.user}</span>
+              <div className="subheader__title">
+                <h2>My Dashboard</h2>
+                <span className="subheader__title__user">User: {props.state.dataUser.user}</span>
+              </div>
             </div>
 
-            <Button
-              type="primary"
-              text="New Board"
-              icon="columns"
-              extraClass="margin-left-auto"
-              onClick={() => props.showModal("new-board")}
-            />
+            <div className="subheader__actions">
+              <Button text="New Board" onClick={() => props.showModal("new-board")} />
+            </div>
           </header>
           <section className="dashboard__table">
             {props.state.boards &&
@@ -156,7 +154,7 @@ const Dashboard = props => {
                       error={newBoard.isValid === false && !newBoard.description.length ? true : false}
                       required={true}
                     />
-                    <Button text="Create Board" icon="columns" onClick={e => handleCreateBoard(e)} submit={true} isLoading={modalLoading} />
+                    <Button text="Create Board" onClick={e => handleCreateBoard(e)} submit={true} isLoading={modalLoading} />
                     {newBoard.isValid === false && <p className="color-orange bold padding-top-20">{newBoard.errorMessage}</p>}
                   </form>
                 </ModalContent>

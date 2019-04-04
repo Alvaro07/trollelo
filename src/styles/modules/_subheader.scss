@@ -1,0 +1,58 @@
+/**
+  * Subheader 
+  */
+
+.subheader {
+  --subheader-columns: repeat(2, 1fr);
+
+  width: 100%;
+  display: grid;
+  grid-template-columns: var(--subheader-columns);
+  border-bottom: 1px dashed rgba($lightGrey, 0.7);
+  padding-bottom: 20px;
+
+  @include mediaDesktop {
+    --subheader-columns: repeat(3, 1fr);
+  }
+
+  &__content {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  &__actions {
+    grid-column: 2 / span 1;
+    text-align: right;
+
+    @include mediaDesktop {
+      grid-column: 3 / span 1;
+    }
+  }
+
+  /**
+    * Subheader elements
+    */
+
+  &__icon {
+    font-size: 2.4rem;
+    background-color: $skyBlue;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 3px;
+    margin-right: 10px;
+  }
+
+  &__title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    height: 100%;
+    padding-top: 5px;
+
+    &__user {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: $grey;
+    }
+  }
+}
