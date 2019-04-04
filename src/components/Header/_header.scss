@@ -6,7 +6,7 @@
   --bg-header-color: white;
   --logo-size: 3.2rem;
   --header-padding: 1.5rem;
-  --header-grid-template: 1fr 1fr;
+  --header-grid-template: 1fr 1fr 1fr;
 
   width: 100%;
   height: 60px;
@@ -28,10 +28,6 @@
     max-width: 1480px;
     margin: 0 auto;
     padding: var(--header-padding);
-
-    @include mediaDesktop {
-      --header-grid-template: 1fr 1fr 1fr;
-    }
   }
 
   /**
@@ -42,11 +38,8 @@
     font-size: var(--logo-size);
     color: $skyBlue;
     font-family: $pacifico;
-
-    @include mediaDesktop {
-      text-align: center;
-      grid-column: 2 / span 1;
-    }
+    text-align: center;
+    grid-column: 2 / span 1;
   }
 
   /**
@@ -55,9 +48,15 @@
 
   &__actions {
     text-align: right;
+    grid-column: 3 / span 1;
+  }
 
-    @include mediaDesktop {
-      grid-column: 3 / span 1;
-    }
+  /**
+  * Return button
+  */
+
+  &__return-btn {
+    grid-column: 1 / span 1;
+    font-size: 2.6rem;
   }
 }
