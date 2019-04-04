@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { hideModal } from "../../redux/reducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -36,6 +37,21 @@ export const ModalContent = props => {
     </div>
   );
 };
+
+/**
+ * PropTypes
+ */
+
+ModalContent.propTypes = {
+  children: PropTypes.element.isRequired,
+  modalTitle: PropTypes.string,
+  onClose: PropTypes.func,
+  type: PropTypes.oneOf(["small"])
+};
+
+/**
+ * Redux connection
+ */
 
 const mapStateToProps = state => ({ state });
 const mapDispatchToProps = dispatch => ({

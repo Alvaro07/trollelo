@@ -115,14 +115,19 @@ const Login = props => {
 
       // Si los datos son correctos registramos, antes comporbando si el usuario ya existe
     } else {
-      createUser(dataRegister.user, dataRegister.email, dataRegister.password, result => {
-        if (!result) {
+      createUser(dataRegister.user, dataRegister.email, dataRegister.password).then(userResult => {
+        // Si el usuario ya existe
+        if (userResult.message) {
+          setDataRegister({ ...dataRegister, isValid: false, errorMessage: userResult.message });
+          setShake(true);
+
+          // Si no existe accedemos
+        } else {
           setDataRegister({ ...dataRegister, isValid: true });
           props.setUser({ user: dataRegister.user, email: dataRegister.email });
           props.setLogin(true);
-        } else {
-          setDataRegister({ ...dataRegister, isValid: false, errorMessage: result.message });
-          setShake(true);
+          localStorage.setItem("user", dataRegister.user);
+          localStorage.setItem("password", dataRegister.password);
         }
       });
     }
@@ -156,7 +161,7 @@ const Login = props => {
               error={dataLogin.isValid === false && !dataLogin.user.length ? true : false}
               required={true}
             />
-            
+
             <InputText
               type="password"
               id="signInPassword"

@@ -1,5 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PropTypes from "prop-types";
 
 const InputText = ({ type, id, labelText, placeholder, onKeyUp, extraClass, error, icon, required }) => {
   const extra = extraClass ? extraClass : "";
@@ -22,6 +23,22 @@ const InputText = ({ type, id, labelText, placeholder, onKeyUp, extraClass, erro
       </div>
     </div>
   );
+};
+
+/**
+ * PropTypes
+ */
+
+InputText.propTypes = {
+  type: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  labelText: PropTypes.string,
+  placeholder: PropTypes.string,
+  onKeyUp: PropTypes.func,
+  extraClass: PropTypes.string,
+  error: PropTypes.bool,
+  icon: PropTypes.string,
+  required: PropTypes.bool
 };
 
 export default InputText;

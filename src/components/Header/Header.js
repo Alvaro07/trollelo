@@ -24,7 +24,7 @@ const Header = props => {
           <Link to={`/dashboard`}>Trollelo</Link>
         </h1>
         <div className="c-header__actions">
-          <Button type="secondary" text="logOut" size="small" icon="sign-in-alt" onClick={() => logOut()} />
+          <Button variant="secondary" text="logOut" size="small" icon="sign-in-alt" onClick={() => logOut()} />
         </div>
       </div>
     </header>
