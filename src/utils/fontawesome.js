@@ -11,9 +11,22 @@ import {
   faTrash,
   faAlignLeft,
   faSpinner,
-  faPencilAlt
+  faPencilAlt,
+  faCircleNotch
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faSignInAlt, faColumns, faTimes, faUser, faKey, faEnvelope, faTrash, faAlignLeft, faSpinner, faPencilAlt);
+library.add(
+  faSignInAlt,
+  faColumns,
+  faTimes,
+  faUser,
+  faKey,
+  faEnvelope,
+  faTrash,
+  faAlignLeft,
+  faSpinner,
+  faPencilAlt,
+  faCircleNotch
+);
 
 export default library;

@@ -1,3 +1,7 @@
+/**
+  * Tasklist component
+  */
+
 .c-tasklist {
   --taskList-width: 100%;
 
@@ -5,7 +9,7 @@
   background-color: white;
   border: 1px solid $lightGrey;
   border-radius: 2px;
-  padding: 15px 15px 40px 15px;
+  padding: 30px 15px 15px 15px;
   display: inline-block;
   position: relative;
   margin-bottom: 15px;
@@ -18,6 +22,51 @@
 
     &:last-child {
       margin-right: 0;
+    }
+  }
+
+  /**
+  * Title of the tasklist
+  */
+
+  &__title {
+    display: flex;
+    align-items: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    padding-bottom: 30px;
+
+    &::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid $darkGrey;
+      margin-right: 5px;
+    }
+  }
+
+  /**
+  * Add new task
+  */
+
+  &__add-task {
+    font-weight: 700;
+    font-size: 1.4rem;
+    text-align: center;
+
+    padding-top: 15px;
+    margin-top: 15px;
+    border-top: 1px dashed $lightGrey;
+
+    &__link {
+      color: $grey;
+      cursor: pointer;
+      transition: 0.3s all ease;
+
+      &:hover {
+        color: $pink;
+      }
     }
   }
 }
