@@ -38,3 +38,20 @@ export function setTasklist(user, board, title, data) {
       .catch(error => reject(error));
   });
 }
+
+/**
+ * Funcion para Borrar un 'tasklist'
+ * @param {string} id
+ * @param {string} user
+ * @returns {promise}
+ */
+
+export async function removeTasklist(dataId, board) {
+  const boardRef = database.collection("boards").doc(board);
+
+  let boardData = await getBoard(board);
+  await boardRef.update({ tasklists: boardData.tasklists.filter((e, i) => i !== dataId) });
+  boardData = await getBoard(board);
+  
+  return boardData.tasklists;
+}

@@ -8,6 +8,7 @@ export const setUser = data => ({ type: "SET_USER", data });
 export const showModal = modal => ({ type: "SHOW_MODAL", modal });
 export const hideModal = () => ({ type: "HIDE_MODAL" });
 export const setBoards = boards => ({ type: "SET_BOARDS", boards });
+export const setDataBoard = data => ({ type: "SET_DATA_BOARD", data });
 
 /**
  * Reducer
@@ -33,7 +34,10 @@ export const reducer = (state, action) => {
       return { ...newState, modal: null };
 
     case "SET_BOARDS":
-      return { ...newState, boards: action.boards };
+      return { ...newState, userBoards: action.boards };
+    
+    case "SET_DATA_BOARD":
+      return { ...newState, boardData: action.data };
 
     default:
       return newState;

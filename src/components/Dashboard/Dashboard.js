@@ -120,14 +120,14 @@ const Dashboard = props => {
             </div>
           </header>
           <section className="dashboard__table">
-            {props.state.boards &&
-              props.state.boards.map((e, i) => {
+            {props.state.userBoards &&
+              props.state.userBoards.map((e, i) => {
                 return (
                   <BoardCard
                     key={i}
-                    name={props.state.boards[i].name}
-                    description={props.state.boards[i].description}
-                    id={props.state.boards[i].id}
+                    name={props.state.userBoards[i].name}
+                    description={props.state.userBoards[i].description}
+                    id={props.state.userBoards[i].id}
                   />
                 );
               })}
