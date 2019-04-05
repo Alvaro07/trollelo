@@ -4,12 +4,19 @@
 
 .subheader {
   --subheader-columns: repeat(2, 1fr);
+  --subheader-padding: 20px 15px;
 
   width: 100%;
+  max-width: 1480px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: var(--subheader-columns);
   border-bottom: 1px dashed rgba($lightGrey, 0.7);
-  padding-bottom: 20px;
+  padding: var(--subheader-padding);
+
+  @include mediaTablet {
+    --subheader-padding: 20px 30px;
+  }
 
   @include mediaDesktop {
     --subheader-columns: repeat(3, 1fr);

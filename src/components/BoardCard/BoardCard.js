@@ -57,7 +57,7 @@ const BoardCard = props => {
               <p className="margin-bottom-20">
                 <span className="bold">Are you sure</span> to remove this Board?
               </p>
-              <Button text="Remove Board" icon="columns" onClick={e => handleRemove(e)} isLoading={modalLoading} />
+              <Button text="Remove Board" onClick={e => handleRemove(e)} isLoading={modalLoading} />
             </form>
           </ModalContent>
         </Modal>

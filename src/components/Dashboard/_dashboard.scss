@@ -6,11 +6,6 @@
   width: 100%;
   max-width: 1480px;
   margin: 0 auto;
-  padding: 30px 15px;
-
-  @include mediaTablet {
-    padding: 30px;
-  }
 
   /**
   * boards table
@@ -18,16 +13,17 @@
 
   &__table {
     --dashboard-columns: repeat(2, 1fr);
+    --dashboard-padding: 30px 15px;
 
     display: grid;
     grid-gap: 15px;
     grid-template-columns: var(--dashboard-columns);
-
     margin: 0 auto;
-    padding: 25px 0;
+    padding: var(--dashboard-padding);
 
     @include mediaTablet {
       --dashboard-columns: repeat(3, 1fr);
+      --dashboard-padding: 30px;
     }
     @include mediaDesktop {
       --dashboard-columns: repeat(4, 1fr);

@@ -3,13 +3,38 @@
   */
 
 .taskboard {
-  width: 100%;
-  max-width: 1480px;
-  margin: 0 auto;
-  padding: 30px 15px;
+  --taskboard-padding: 30px 15px;
 
-  @include mediaTablet {
-    padding: 30px;
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  // @include mediaTablet {
+  //   padding: 30px;
+  // }
+
+  &__table {
+    position: relative;
+    flex-grow: 1;
+
+    &__scroll-wrap {
+      padding: var(--taskboard-padding);
+
+      @include mediaTablet {
+        --taskboard-padding: 30px;
+
+        user-select: none;
+        white-space: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 30px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+    }
   }
-
 }

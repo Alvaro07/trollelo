@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getBoard } from "../../firebase/functions/board";
+import { createTasklist } from "../../firebase/functions/tasklist";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showModal, hideModal } from "../../redux/reducer";
 
@@ -12,6 +13,7 @@ import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import ModalContent from "../Modal/ModalContent";
 import InputText from "../InputText/InputText";
+import TaskList from "../TaskList/TaskList";
 
 const TaskBoard = props => {
   /**
@@ -23,7 +25,8 @@ const TaskBoard = props => {
     name: null,
     description: null,
     id: null,
-    owner: null
+    owner: null,
+    tasklists: []
   });
 
   // estado local del task list a crear
@@ -44,7 +47,13 @@ const TaskBoard = props => {
   useEffect(() => {
     if (props.state.isLogin) {
       getBoard(props.match.params.board).then(data => {
-        setBoard({ description: data.description, id: data.id, name: data.name, owner: data.owner });
+        setBoard({
+          description: data.description,
+          id: data.id,
+          name: data.name,
+          owner: data.owner,
+          tasklists: data.tasklists
+        });
         setLoad(false);
       });
     }
@@ -60,14 +69,16 @@ const TaskBoard = props => {
     if (taskList.name.length !== 0) {
       setModalLoading(true);
       setTaskList({ ...taskList, errorMessage: "" });
-      
-      // Create taskList
-      props.hideModal();
 
+      // Create taskList
+      createTasklist(props.state.dataUser.user, board.id, taskList.name).then(data => {
+        setBoard({ ...board, tasklists: [...board.tasklists, data] });
+        setModalLoading(false);
+        props.hideModal();
+      });
     } else {
       setModalLoading(false);
       setTaskList({ ...taskList, isValid: false });
-      
     }
   };
 
@@ -104,6 +115,12 @@ const TaskBoard = props => {
               <Button text="New Task List" onClick={() => props.showModal("new-task-list")} />
             </div>
           </header>
+
+          <section className="taskboard__table">
+            <div className="taskboard__table__scroll-wrap">
+              {board.tasklists && board.tasklists.map((e, i) => <TaskList key={i} name={e.title} />)}
+            </div>
+          </section>
 
           {props.state.modal === "new-task-list" && (
             <Modal>
