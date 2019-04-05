@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import { getBoard } from "../../firebase/functions/board";
 import { createTasklist } from "../../firebase/functions/tasklist";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { showModal, hideModal } from "../../redux/reducer";
+import { showModal, hideModal, setDataBoard } from "../../redux/reducer";
 
 // Components
 import Header from "../Header/Header";
@@ -20,17 +20,8 @@ const TaskBoard = props => {
    * Local State
    */
 
-  // estado local del board en el que estamos
-  const [board, setBoard] = useState({
-    name: null,
-    description: null,
-    id: null,
-    owner: null,
-    tasklists: []
-  });
-
   // estado local del task list a crear
-  const [taskList, setTaskList] = useState({
+  const [newTaskList, setNewTasklist] = useState({
     name: "",
     errorMessage: "Complete all the fields",
     isValid: true
@@ -47,13 +38,8 @@ const TaskBoard = props => {
   useEffect(() => {
     if (props.state.isLogin) {
       getBoard(props.match.params.board).then(data => {
-        setBoard({
-          description: data.description,
-          id: data.id,
-          name: data.name,
-          owner: data.owner,
-          tasklists: data.tasklists
-        });
+        props.setDataBoard(data);
+
         setLoad(false);
       });
     }
@@ -66,19 +52,19 @@ const TaskBoard = props => {
   const handleCreateTaskList = e => {
     e.preventDefault();
 
-    if (taskList.name.length !== 0) {
+    if (newTaskList.name.length !== 0) {
       setModalLoading(true);
-      setTaskList({ ...taskList, errorMessage: "" });
+      setNewTasklist({ ...newTaskList, errorMessage: "" });
 
       // Create taskList
-      createTasklist(props.state.dataUser.user, board.id, taskList.name).then(data => {
-        setBoard({ ...board, tasklists: [...board.tasklists, data] });
+      createTasklist(props.state.dataUser.user, props.state.boardData.id, newTaskList.name).then(data => {
+        props.setDataBoard({ ...props.state.boardData, tasklists: [...props.state.boardData.tasklists, data] });
         setModalLoading(false);
         props.hideModal();
       });
     } else {
       setModalLoading(false);
-      setTaskList({ ...taskList, isValid: false });
+      setNewTasklist({ ...newTaskList, isValid: false });
     }
   };
 
@@ -107,8 +93,8 @@ const TaskBoard = props => {
               </span>
 
               <div className="subheader__title">
-                <h2>Board: {board.name}</h2>
-                <span className="subheader__title__user">Owner: {board.owner}</span>
+                <h2>Board: {props.state.boardData.name}</h2>
+                <span className="subheader__title__user">Owner: {props.state.boardData.owner}</span>
               </div>
             </div>
             <div className="subheader__actions">
@@ -118,7 +104,8 @@ const TaskBoard = props => {
 
           <section className="taskboard__table">
             <div className="taskboard__table__scroll-wrap">
-              {board.tasklists && board.tasklists.map((e, i) => <TaskList key={i} id={i} name={e.title} />)}
+              {props.state.boardData.tasklists &&
+                props.state.boardData.tasklists.map((e, i) => <TaskList key={i} id={i} name={e.title} />)}
             </div>
           </section>
 
@@ -132,13 +119,15 @@ const TaskBoard = props => {
                     placeholder="Task list Name"
                     icon="pencil-alt"
                     extraClass="margin-bottom-20"
-                    onKeyUp={e => setTaskList({ ...taskList, name: e.target.value })}
-                    error={taskList.isValid === false && !taskList.name.length ? true : false}
+                    onKeyUp={e => setNewTasklist({ ...newTaskList, name: e.target.value })}
+                    error={newTaskList.isValid === false && !newTaskList.name.length ? true : false}
                     required={true}
                   />
 
                   <Button text="Create Task list" onClick={e => handleCreateTaskList(e)} submit={true} isLoading={modalLoading} />
-                  {taskList.isValid === false && <p className="color-orange bold padding-top-20">{taskList.errorMessage}</p>}
+                  {newTaskList.isValid === false && (
+                    <p className="color-orange bold padding-top-20">{newTaskList.errorMessage}</p>
+                  )}
                 </form>
               </ModalContent>
             </Modal>
@@ -152,7 +141,8 @@ const TaskBoard = props => {
 const mapStateToProps = state => ({ state });
 const mapDispatchToProps = dispatch => ({
   showModal: modal => dispatch(showModal(modal)),
-  hideModal: () => dispatch(hideModal())
+  hideModal: () => dispatch(hideModal()),
+  setDataBoard: data => dispatch(setDataBoard(data))
 });
 
 export default connect(
