@@ -10,10 +10,6 @@
   display: flex;
   flex-direction: column;
 
-  // @include mediaTablet {
-  //   padding: 30px;
-  // }
-
   &__table {
     position: relative;
     flex-grow: 1;
@@ -24,7 +20,6 @@
       @include mediaTablet {
         --taskboard-padding: 30px;
 
-        user-select: none;
         white-space: nowrap;
         overflow-x: auto;
         overflow-y: hidden;

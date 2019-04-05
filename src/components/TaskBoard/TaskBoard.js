@@ -118,7 +118,7 @@ const TaskBoard = props => {
 
           <section className="taskboard__table">
             <div className="taskboard__table__scroll-wrap">
-              {board.tasklists && board.tasklists.map((e, i) => <TaskList key={i} name={e.title} />)}
+              {board.tasklists && board.tasklists.map((e, i) => <TaskList key={i} id={i} name={e.title} />)}
             </div>
           </section>
 
