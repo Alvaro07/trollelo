@@ -22,9 +22,11 @@ const Header = props => {
   let returnButton = null;
   if (props.location !== undefined && props.location.pathname.match("TaskBoard")) {
     returnButton = (
-      <Link className="c-header__return-btn" to={`/dashboard`}>
-        <FontAwesomeIcon icon="align-left" />
-      </Link>
+      <div className="c-header__return-btn">
+        <Link to={`/dashboard`}>
+          <FontAwesomeIcon icon="align-left" />
+        </Link>
+      </div>
     );
   }
 

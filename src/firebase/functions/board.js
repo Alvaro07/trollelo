@@ -31,7 +31,8 @@ function setBoard(user, name, description) {
         owner: user,
         name: name,
         description: description,
-        id: ref.id
+        id: ref.id,
+        tasklists: []
       })
       .then(() => resolve(ref.id))
       .catch(error => reject(error));

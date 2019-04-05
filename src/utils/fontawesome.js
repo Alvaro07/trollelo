@@ -10,9 +10,10 @@ import {
   faEnvelope,
   faTrash,
   faAlignLeft,
-  faSpinner
+  faSpinner,
+  faPencilAlt
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faSignInAlt, faColumns, faTimes, faUser, faKey, faEnvelope, faTrash, faAlignLeft, faSpinner);
+library.add(faSignInAlt, faColumns, faTimes, faUser, faKey, faEnvelope, faTrash, faAlignLeft, faSpinner, faPencilAlt);
 
 export default library;

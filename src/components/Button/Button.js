@@ -15,7 +15,7 @@ const Button = ({ text, variant, size, extraClass, onClick, icon, submit, isLoad
       type={submit ? "submit" : null}>
       {!isLoading && iconElement}
       {isLoading ? <FontAwesomeIcon icon="spinner" className="c-button__load-icon" /> : null}
-      {isLoading ? "loading" : text}
+      {isLoading ? "Loading" : text}
     </button>
   );
 };
