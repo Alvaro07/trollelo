@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showModal, hideModal, setDataBoard } from "../../redux/reducer";
 import { removeTasklist } from "../../firebase/functions/tasklist";
+import { createTask } from "../../firebase/functions/task";
 
 // Components
 import Modal from "../Modal/Modal";
@@ -23,7 +24,7 @@ const TaskList = props => {
   // State para setear el loader del modal
   const [modalLoading, setModalLoading] = useState(false);
   const [newTask, setNewTask] = useState({
-    name: "",
+    title: "",
     description: "",
     errorMessage: "Complete all the fields",
     isValid: true
@@ -41,21 +42,28 @@ const TaskList = props => {
   };
 
   const handleCloseNewTask = () => {
-    setNewTask({ ...newTask, name: "", description: "", isValid: true });
+    setNewTask({ ...newTask, title: "", description: "", isValid: true });
   };
 
-  const handleCreateNewTask = e => {
+  const handleCreateNewTask = (e, index) => {
     e.preventDefault();
     setModalLoading(true);
 
-    if (newTask.name.length !== 0 && newTask.description.length !== 0) {
+    if (newTask.title.length !== 0 && newTask.description.length !== 0) {
       setModalLoading(true);
       setNewTask({ ...newTask, errorMessage: "" });
 
       // create task --------
-      setModalLoading(false);
-      props.hideModal();
-
+      createTask(
+        newTask.title,
+        newTask.description,
+        props.state.dataUser.user,
+        props.state.boardData.id,
+        index
+      ).then(data => {
+        setModalLoading(false);
+        props.hideModal();
+      });
       // ----------------------
     } else {
       setModalLoading(false);
@@ -70,6 +78,11 @@ const TaskList = props => {
         <span className="c-tasklist__remove" onClick={() => props.showModal(`remove-tasklist-${props.id}`)}>
           <FontAwesomeIcon icon="trash-alt" />
         </span>
+
+        <div className="c-tasklist__tasks">
+        
+        
+        </div>
 
         <div className="c-tasklist__add-task">
           <span className="c-tasklist__add-task__link" onClick={() => props.showModal(`add-task-${props.id}`)}>
@@ -100,8 +113,8 @@ const TaskList = props => {
                 placeholder="Task title"
                 icon="columns"
                 extraClass="margin-bottom-10"
-                onKeyUp={e => setNewTask({ ...newTask, name: e.target.value })}
-                error={newTask.isValid === false && !newTask.name.length ? true : false}
+                onKeyUp={e => setNewTask({ ...newTask, title: e.target.value })}
+                error={newTask.isValid === false && !newTask.title.length ? true : false}
                 required={true}
               />
 
@@ -114,7 +127,12 @@ const TaskList = props => {
                 required={true}
               />
 
-              <Button text="Create new task" onClick={e => handleCreateNewTask(e)} submit={true} isLoading={modalLoading} />
+              <Button
+                text="Create new task"
+                onClick={e => handleCreateNewTask(e, props.id)}
+                submit={true}
+                isLoading={modalLoading}
+              />
               {newTask.isValid === false && <p className="color-orange bold padding-top-20">{newTask.errorMessage}</p>}
             </form>
           </ModalContent>
