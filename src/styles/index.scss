@@ -9,19 +9,5 @@
 /* Modules */
 @import "modules/subheader";
 
-/* Components */
-@import "../components/App/app";
-@import "../components/Login/login";
-@import "../components/InputText/inputText";
-@import "../components/Textarea/textarea";
-@import "../components/Button/button";
-@import "../components/Dashboard/dashboard";
-@import "../components/Loader/loader";
-@import "../components/Header/header";
-@import "../components/Modal/modal";
-@import "../components/BoardCard/boardCard";
-@import "../components/TaskBoard/taskBoard";
-@import "../components/TaskList/taskList";
-
 /* Helper classes */
-@import "base/helpers";
+@import "base/helpers"; 

@@ -1,5 +1,12 @@
 import React from "react";
 
+// Styles
+import './loader.scss';
+
+/**
+ * Loader
+ */
+
 const Loader = () => {
   return (
     <div className="loader-wrap">

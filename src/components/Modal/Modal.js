@@ -2,6 +2,10 @@ import { createPortal } from "react-dom";
 import usePortal from "../../hooks/usePortal/usePortal";
 import PropTypes from "prop-types";
 
+/**
+ * Modal
+ */
+
 const Modal = ({ children }) => {
   const target = usePortal("modal");
   return createPortal(children, target);
@@ -12,7 +16,7 @@ const Modal = ({ children }) => {
  */
 
 Modal.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element.isRequired
 };
 
 export default Modal;

@@ -7,6 +7,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Components
 import Button from "../Button/Button";
 
+// Styles
+import "./header.scss";
+
+/**
+ * Header
+ */
+
 const Header = props => {
   /**
    * Logout function
@@ -38,7 +45,7 @@ const Header = props => {
           <Link to={`/dashboard`}>Trollelo</Link>
         </h1>
         <div className="c-header__actions">
-          <Button variant="secondary" text="logOut" size="small" icon="sign-in-alt" onClick={() => logOut()} />
+          <Button secondary text="logOut" size="small" icon="sign-in-alt" onClick={() => logOut()} />
         </div>
       </div>
     </header>

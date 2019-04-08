@@ -2,6 +2,13 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 
+// Styles
+import './inputText.scss';
+
+/**
+ * InputText
+ */
+
 const InputText = ({ type, id, labelText, placeholder, onKeyUp, extraClass, error, icon, required }) => {
   const extra = extraClass ? extraClass : "";
   const errorClass = error ? "c-input-text--error" : "";

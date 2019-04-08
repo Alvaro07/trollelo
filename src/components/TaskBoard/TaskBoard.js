@@ -15,6 +15,13 @@ import ModalContent from "../Modal/ModalContent";
 import InputText from "../InputText/InputText";
 import TaskList from "../TaskList/TaskList";
 
+// Styles
+import "./taskBoard.scss";
+
+/**
+ * TaskBoard
+ */
+
 const TaskBoard = props => {
   /**
    * Local State

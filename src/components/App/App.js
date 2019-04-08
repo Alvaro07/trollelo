@@ -2,10 +2,17 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 
+// Styles
+import './app.scss';
+
 // Components
 import Login from "../Login/Login";
 import Dashboard from "../Dashboard/Dashboard";
 import TaskBoard from "../TaskBoard/TaskBoard";
+
+/**
+ * App
+ */
 
 const App = props => {
 

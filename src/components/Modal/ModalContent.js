@@ -4,6 +4,13 @@ import { connect } from "react-redux";
 import { hideModal } from "../../redux/reducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+// Styles
+import "./modal.scss";
+
+/**
+ * ModalContent
+ */
+
 export const ModalContent = props => {
   const title = props.modalTitle ? <h2 className="c-modal__title">{props.modalTitle}</h2> : "";
   const typeClass = props.type === "small" ? "c-modal__container--small" : "";

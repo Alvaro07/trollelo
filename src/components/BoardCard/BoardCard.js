@@ -6,10 +6,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { removeBoard, getUserBoards } from "../../firebase/functions/board";
 import { showModal, hideModal, setBoards } from "../../redux/reducer";
 
+// Styles
+import "./boardCard.scss";
+
 // Components
 import Modal from "../Modal/Modal";
 import ModalContent from "../Modal/ModalContent";
 import Button from "../Button/Button";
+
+/**
+ * BoardCard
+ */
 
 const BoardCard = props => {
   // State para setear el loader del modal
