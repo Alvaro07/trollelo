@@ -9,6 +9,8 @@ import { removeTasklist } from "../../firebase/functions/tasklist";
 import Modal from "../Modal/Modal";
 import ModalContent from "../Modal/ModalContent";
 import Button from "../Button/Button";
+import InputText from "../InputText/InputText";
+import Textarea from "../Textarea/Textarea";
 
 // Styles
 import "./taskList.scss";
@@ -20,6 +22,12 @@ import "./taskList.scss";
 const TaskList = props => {
   // State para setear el loader del modal
   const [modalLoading, setModalLoading] = useState(false);
+  const [newTask, setNewTask] = useState({
+    name: "",
+    description: "",
+    errorMessage: "Complete all the fields",
+    isValid: true
+  });
 
   const handleRemove = e => {
     e.preventDefault();
@@ -32,6 +40,29 @@ const TaskList = props => {
     });
   };
 
+  const handleCloseNewTask = () => {
+    setNewTask({ ...newTask, name: "", description: "", isValid: true });
+  };
+
+  const handleCreateNewTask = e => {
+    e.preventDefault();
+    setModalLoading(true);
+
+    if (newTask.name.length !== 0 && newTask.description.length !== 0) {
+      setModalLoading(true);
+      setNewTask({ ...newTask, errorMessage: "" });
+
+      // create task --------
+      setModalLoading(false);
+      props.hideModal();
+
+      // ----------------------
+    } else {
+      setModalLoading(false);
+      setNewTask({ ...newTask, isValid: false });
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="c-tasklist" data-id={props.id}>
@@ -41,7 +72,9 @@ const TaskList = props => {
         </span>
 
         <div className="c-tasklist__add-task">
-          <span className="c-tasklist__add-task__link">+ Add task</span>
+          <span className="c-tasklist__add-task__link" onClick={() => props.showModal(`add-task-${props.id}`)}>
+            + Add task
+          </span>
         </div>
       </div>
       {props.state.modal === `remove-tasklist-${props.id}` && (
@@ -52,6 +85,37 @@ const TaskList = props => {
                 <span className="bold">Are you sure</span> to remove this tasklist?
               </p>
               <Button text="Remove Board" onClick={e => handleRemove(e)} isLoading={modalLoading} />
+            </form>
+          </ModalContent>
+        </Modal>
+      )}
+
+      {props.state.modal === `add-task-${props.id}` && (
+        <Modal>
+          <ModalContent modalTitle="Add new task" type="small" onClose={() => handleCloseNewTask()}>
+            <form method="POST">
+              <InputText
+                type="text"
+                id="newTaskTitle"
+                placeholder="Task title"
+                icon="columns"
+                extraClass="margin-bottom-10"
+                onKeyUp={e => setNewTask({ ...newTask, name: e.target.value })}
+                error={newTask.isValid === false && !newTask.name.length ? true : false}
+                required={true}
+              />
+
+              <Textarea
+                placeholder="Description"
+                noResize={true}
+                extraClass="margin-bottom-20"
+                onKeyUp={e => setNewTask({ ...newTask, description: e.target.value })}
+                error={newTask.isValid === false && !newTask.description.length ? true : false}
+                required={true}
+              />
+
+              <Button text="Create new task" onClick={e => handleCreateNewTask(e)} submit={true} isLoading={modalLoading} />
+              {newTask.isValid === false && <p className="color-orange bold padding-top-20">{newTask.errorMessage}</p>}
             </form>
           </ModalContent>
         </Modal>
