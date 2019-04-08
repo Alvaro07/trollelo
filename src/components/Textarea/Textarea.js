@@ -1,12 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+// Styles
+import "./textarea.scss";
+
+/**
+ * Textarea
+ */
+
 const Textarea = ({ extraClass, noResize, placeholder, onKeyUp, error }) => {
   const noResizeClass = noResize ? "c-textarea--no-resize" : "";
   const extra = extraClass ? extraClass : "";
   const errorClass = error ? "c-textarea--error" : "";
 
-  return <textarea className={`c-textarea ${errorClass} ${noResizeClass} ${extra}`} placeholder={placeholder} onKeyUp={onKeyUp} />;
+  return (
+    <textarea className={`c-textarea ${errorClass} ${noResizeClass} ${extra}`} placeholder={placeholder} onKeyUp={onKeyUp} />
+  );
 };
 
 /**

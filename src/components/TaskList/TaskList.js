@@ -10,6 +10,13 @@ import Modal from "../Modal/Modal";
 import ModalContent from "../Modal/ModalContent";
 import Button from "../Button/Button";
 
+// Styles
+import "./taskList.scss";
+
+/**
+ * TaskList
+ */
+
 const TaskList = props => {
   // State para setear el loader del modal
   const [modalLoading, setModalLoading] = useState(false);

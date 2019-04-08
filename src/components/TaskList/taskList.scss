@@ -1,3 +1,6 @@
+@import "../../styles/settings/variables";
+@import "../../styles/settings/mixins";
+
 /**
   * Tasklist component
   */
@@ -13,6 +16,8 @@
   display: inline-block;
   position: relative;
   margin-bottom: 15px;
+  vertical-align: top;
+  white-space: initial;
 
   @include mediaTablet {
     --taskList-width: 300px;
@@ -30,20 +35,11 @@
   */
 
   &__title {
-    display: flex;
-    align-items: center;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    line-height: normal;
     font-weight: 700;
     padding-bottom: 30px;
-
-    &::before {
-      content: "";
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      border: 2px solid $darkGrey;
-      margin-right: 5px;
-    }
+    text-align: left;
   }
 
   /**

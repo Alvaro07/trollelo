@@ -1,3 +1,6 @@
+@import "../../styles/settings/variables";
+@import "../../styles/settings/mixins";
+
 /**
   * Taskboard page
   */
@@ -29,6 +32,7 @@
         right: 0;
         bottom: 0;
         left: 0;
+        text-align: center;
       }
     }
   }

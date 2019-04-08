@@ -9,6 +9,13 @@ import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
 import Loader from "../Loader/Loader";
 
+// Styles
+import './login.scss';
+
+/**
+ * Login
+ */
+
 const Login = props => {
   /**
    * Component State

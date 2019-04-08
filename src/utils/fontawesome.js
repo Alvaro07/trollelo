@@ -12,7 +12,6 @@ import {
   faAlignLeft,
   faSpinner,
   faPencilAlt,
-  faCircleNotch,
   faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -27,7 +26,6 @@ library.add(
   faAlignLeft,
   faSpinner,
   faPencilAlt,
-  faCircleNotch,
   faTrashAlt
 );
 
