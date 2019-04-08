@@ -2,7 +2,7 @@ import { database } from "../firebase";
 import { getBoard } from "./board";
 
 /**
- * Funcion para Crear un board a partir del userName.
+ * Funcion para Crear una taskList a partir del userName.
  * @param {string} user
  * @param {string} board
  * @param {string} tasklistName
@@ -52,6 +52,6 @@ export async function removeTasklist(dataId, board) {
   let boardData = await getBoard(board);
   await boardRef.update({ tasklists: boardData.tasklists.filter((e, i) => i !== dataId) });
   boardData = await getBoard(board);
-  
+
   return boardData.tasklists;
 }
