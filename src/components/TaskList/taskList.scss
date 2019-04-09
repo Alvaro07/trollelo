@@ -7,81 +7,110 @@
 
 .c-tasklist {
   --taskList-width: 100%;
+  --taskList-padding: 30px 15px 15px 15px;
 
+  display: inline-flex;
+  flex-direction: column;
+  max-height: 100%;
   width: var(--taskList-width);
+  position: relative;
+
   background-color: white;
   border: 1px solid $lightGrey;
   border-radius: 2px;
-  padding: 30px 15px 15px 15px;
-  display: inline-block;
-  position: relative;
+  padding: var(--taskList-padding);
   margin-bottom: 15px;
   vertical-align: top;
   white-space: initial;
 
   @include mediaTablet {
     --taskList-width: 300px;
+    --taskList-padding: 30px 10px 15px 15px;
 
-    margin-right: 20px;
     margin-bottom: 0;
-
-    &:last-child {
-      margin-right: 0;
+    &:not(:last-child) {
+      margin-right: 20px;
     }
   }
 
   /**
-  * Title of the tasklist
+  * Header
   */
 
-  &__title {
-    font-size: 1.6rem;
-    line-height: normal;
-    font-weight: 700;
-    padding-bottom: 20px;
-    text-align: left;
+  &__header {
+    @include mediaTablet {
+      padding-right: 10px;
+    }
+
+    &__title {
+      font-size: 1.6rem;
+      line-height: normal;
+      font-weight: 700;
+      padding-bottom: 20px;
+      text-align: left;
+    }
+
+    &__remove {
+      width: 25px;
+      height: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      position: absolute;
+
+      top: -8px;
+      right: -8px;
+      background-color: $grey;
+      color: white;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.3s all ease;
+
+      &:hover {
+        background-color: $pink;
+      }
+    }
   }
 
-  /**
-  * Remove icon
-  */
+  &__tasks {
+    flex: 1;
+    overflow-y: auto;
 
-  &__remove {
-    width: 25px;
-    height: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    position: absolute;
+    @include mediaTablet {
+      padding-right: 10px;
+    }
 
-    top: -8px;
-    right: -8px;
-    background-color: $grey;
-    color: white;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: 0.3s all ease;
+    &::-webkit-scrollbar-track {
+      background-color: rgba($lightGrey, 0.3);
+      border-radius: 10px;
+    }
 
-    &:hover {
-      background-color: $pink;
+    &::-webkit-scrollbar {
+      width: 10px;
+      background-color: #fff;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba($lightGrey, 0.9);
+      border-radius: 10px;
     }
   }
 
   /**
-  * Add new task
+  * Footer
   */
 
-  &__add-task {
-    font-weight: 700;
-    font-size: 1.4rem;
-    text-align: center;
-
-    padding-top: 15px;
+  &__footer {
     margin-top: 15px;
+    padding-top: 15px;
+    margin-right: 10px;
     border-top: 1px dashed $lightGrey;
 
-    &__link {
+    &__add-task {
+      font-weight: 700;
+      font-size: 1.4rem;
+      text-align: center;
       color: $grey;
       cursor: pointer;
       transition: 0.3s all ease;

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showModal, hideModal, setDataBoard } from "../../redux/reducer";
 import { removeTasklist } from "../../firebase/functions/tasklist";
 import { createTask } from "../../firebase/functions/task";
+import { splitString } from "../../utils/utilsFunctions";
 
 // Components
 import Modal from "../Modal/Modal";
@@ -22,7 +23,6 @@ import "./taskList.scss";
  */
 
 const TaskList = props => {
-  
   // State para setear el loader del modal
   const [modalLoading, setModalLoading] = useState(false);
   const [newTask, setNewTask] = useState({
@@ -81,24 +81,28 @@ const TaskList = props => {
 
   return (
     <React.Fragment>
-      <div className="c-tasklist" data-id={props.id}>
-        <h2 className="c-tasklist__title">{props.name}</h2>
-        <span className="c-tasklist__remove" onClick={() => props.showModal(`remove-tasklist-${props.id}`)}>
-          <FontAwesomeIcon icon="trash-alt" />
-        </span>
+      <section className="c-tasklist" data-id={props.id}>
+        <header className="c-tasklist__header">
+          <h2 className="c-tasklist__header__title" title={props.name}>
+            {splitString(props.name, 140)}
+          </h2>
+          <span className="c-tasklist__header__remove" onClick={() => props.showModal(`remove-tasklist-${props.id}`)}>
+            <FontAwesomeIcon icon="trash-alt" />
+          </span>
+        </header>
 
-        <div className="c-tasklist__tasks">
+        <main className="c-tasklist__tasks">
           {props.state.boardData.tasklists[props.id].tasks.map((e, i) => (
             <Task title={e.title} key={i} idTask={i} idTaskList={props.id} />
           ))}
-        </div>
+        </main>
 
-        <div className="c-tasklist__add-task">
-          <span className="c-tasklist__add-task__link" onClick={() => props.showModal(`add-task-${props.id}`)}>
+        <footer className="c-tasklist__footer">
+          <span className="c-tasklist__footer__add-task" onClick={() => props.showModal(`add-task-${props.id}`)}>
             + Add task
           </span>
-        </div>
-      </div>
+        </footer>
+      </section>
 
       {/* ---------------------
        Modal remove tasklist */}

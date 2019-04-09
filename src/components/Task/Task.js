@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { showModal, hideModal, setDataBoard } from "../../redux/reducer";
 import { updateTask, removeTask } from "../../firebase/functions/task";
+import { splitString } from "../../utils/utilsFunctions";
 
 // Components
 import Modal from "../Modal/Modal";
@@ -67,17 +68,10 @@ const Task = props => {
     e.preventDefault();
     setModalRemoveLoading(true);
 
-    removeTask(
-      task.title,
-      task.description,
-      props.state.dataUser.user,
-      props.state.boardData.id,
-      props.idTaskList,
-      props.idTask
-    ).then(data => {
-      props.setDataBoard(data);
+    removeTask(props.state.boardData.id, props.idTaskList, props.idTask).then(data => {
       setModalRemoveLoading(false);
       props.hideModal();
+      props.setDataBoard(data);
     });
   };
 
@@ -85,7 +79,7 @@ const Task = props => {
     <React.Fragment>
       <div className="c-task">
         <h3 className="c-task__title" onClick={() => props.showModal(`task-${props.idTask}${props.idTaskList}`)}>
-          {props.title}
+          {splitString(props.title, 150)}
         </h3>
       </div>
 
@@ -110,7 +104,6 @@ const Task = props => {
 
               <Textarea
                 labelText="Description:"
-                noResize={true}
                 extraClass="margin-bottom-20"
                 onKeyUp={e => setTask({ ...task, description: e.target.value })}
                 value={props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].description}
