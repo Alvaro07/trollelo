@@ -12,6 +12,7 @@ import ModalContent from "../Modal/ModalContent";
 import Button from "../Button/Button";
 import InputText from "../InputText/InputText";
 import Textarea from "../Textarea/Textarea";
+import Task from "../Task/Task";
 
 // Styles
 import "./taskList.scss";
@@ -21,14 +22,19 @@ import "./taskList.scss";
  */
 
 const TaskList = props => {
+  
   // State para setear el loader del modal
   const [modalLoading, setModalLoading] = useState(false);
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",
-    errorMessage: "Complete all the fields",
+    errorMessage: "Complete the title field",
     isValid: true
   });
+
+  /**
+   * Remove task
+   */
 
   const handleRemove = e => {
     e.preventDefault();
@@ -41,30 +47,32 @@ const TaskList = props => {
     });
   };
 
+  /**
+   * Close task
+   */
+
   const handleCloseNewTask = () => {
     setNewTask({ ...newTask, title: "", description: "", isValid: true });
   };
+
+  /**
+   * Create new task
+   */
 
   const handleCreateNewTask = (e, index) => {
     e.preventDefault();
     setModalLoading(true);
 
-    if (newTask.title.length !== 0 && newTask.description.length !== 0) {
+    if (newTask.title.length) {
       setModalLoading(true);
       setNewTask({ ...newTask, errorMessage: "" });
 
-      // create task --------
-      createTask(
-        newTask.title,
-        newTask.description,
-        props.state.dataUser.user,
-        props.state.boardData.id,
-        index
-      ).then(data => {
+      createTask(newTask.title, newTask.description, props.state.dataUser.user, props.state.boardData.id, index).then(data => {
+        props.setDataBoard(data);
         setModalLoading(false);
+        setNewTask({ ...newTask, title: "", description: "", isValid: true });
         props.hideModal();
       });
-      // ----------------------
     } else {
       setModalLoading(false);
       setNewTask({ ...newTask, isValid: false });
@@ -80,8 +88,9 @@ const TaskList = props => {
         </span>
 
         <div className="c-tasklist__tasks">
-        
-        
+          {props.state.boardData.tasklists[props.id].tasks.map((e, i) => (
+            <Task title={e.title} key={i} idTask={i} idTaskList={props.id} />
+          ))}
         </div>
 
         <div className="c-tasklist__add-task">
@@ -90,6 +99,10 @@ const TaskList = props => {
           </span>
         </div>
       </div>
+
+      {/* ---------------------
+       Modal remove tasklist */}
+
       {props.state.modal === `remove-tasklist-${props.id}` && (
         <Modal>
           <ModalContent modalTitle="Remove task" type="small">
@@ -102,6 +115,9 @@ const TaskList = props => {
           </ModalContent>
         </Modal>
       )}
+
+      {/* ------------------
+       Modal add tasklist */}
 
       {props.state.modal === `add-task-${props.id}` && (
         <Modal>
@@ -117,16 +133,12 @@ const TaskList = props => {
                 error={newTask.isValid === false && !newTask.title.length ? true : false}
                 required={true}
               />
-
               <Textarea
                 placeholder="Description"
                 noResize={true}
                 extraClass="margin-bottom-20"
                 onKeyUp={e => setNewTask({ ...newTask, description: e.target.value })}
-                error={newTask.isValid === false && !newTask.description.length ? true : false}
-                required={true}
               />
-
               <Button
                 text="Create new task"
                 onClick={e => handleCreateNewTask(e, props.id)}
