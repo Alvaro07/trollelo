@@ -28,7 +28,12 @@ const App = props => {
 
         <Redirect from="/" to="/trollelo/login" />
         <Redirect from="/" to={!props.state.isLogin ? "/trollelo/login" : "/trollelo/dashboard"} />
-        <Redirect from="https://alvaro07.github.io/trollelo/" to="https://alvaro07.github.io/trollelo/login" />
+
+        
+        <Redirect from="https://alvaro07.github.io/trollelo/" to="https://alvaro07.github.io/trollelo/" />
+        <Redirect from="https://alvaro07.github.io/trollelo/login" to="https://alvaro07.github.io/trollelo/" />
+        <Redirect from="https://alvaro07.github.io/trollelo/dashboard" to="https://alvaro07.github.io/trollelo/" />
+        <Redirect from="https://alvaro07.github.io/trollelo/taskBoard/:board" to="https://alvaro07.github.io/trollelo/" />
 
         <Route render={() => <div>Page not found</div>} />
       </Switch>
