@@ -28,6 +28,8 @@ const App = props => {
 
         <Redirect from="/" to="/trollelo/login" />
         <Redirect from="/" to={!props.state.isLogin ? "/trollelo/login" : "/trollelo/dashboard"} />
+        <Redirect from="https://alvaro07.github.io/trollelo/" to="https://alvaro07.github.io/trollelo/login" />
+
         <Route render={() => <div>Page not found</div>} />
       </Switch>
     </React.Fragment>
