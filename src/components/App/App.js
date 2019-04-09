@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 // Styles
-import './app.scss';
+import "./app.scss";
 
 // Components
 import Login from "../Login/Login";
@@ -15,19 +15,19 @@ import TaskBoard from "../TaskBoard/TaskBoard";
  */
 
 const App = props => {
-
-  useEffect(()=> {
-    document.title = 'Trollelo'
-  }, [])
+  useEffect(() => {
+    document.title = "Trollelo";
+  }, []);
 
   return (
     <React.Fragment>
       <Switch>
-        <Route exact path="/login" render={props => <Login {...props}/>} />
-        <Route exact path="/dashboard" render={() => <Dashboard />} />
-        <Route path="/taskBoard/:board" render={props => <TaskBoard {...props} />} />
+        <Route exact path="/trollelo/login" render={props => <Login {...props} />} />
+        <Route exact path="/trollelo/dashboard" render={() => <Dashboard />} />
+        <Route path="/trollelo/taskBoard/:board" render={props => <TaskBoard {...props} />} />
 
-        <Redirect from="/" to={!props.state.isLogin ? "/login" : "dashboard"} />
+        <Redirect from="/" to="/trollelo/login" />
+        <Redirect from="/" to={!props.state.isLogin ? "/trollelo/login" : "/trollelo/dashboard"} />
         <Route render={() => <div>Page not found</div>} />
       </Switch>
     </React.Fragment>
