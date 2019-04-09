@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/trollelo/static/js/runtime~main.bc9131e5.js"
   },
   {
-    "revision": "075a89cd13164861f2c1",
+    "revision": "1e5305799d6f83d89f6e",
     "url": "/trollelo/static/js/main.7f8d1559.chunk.js"
   },
   {
@@ -12,11 +12,11 @@ self.__precacheManifest = [
     "url": "/trollelo/static/js/2.cb2a07b3.chunk.js"
   },
   {
-    "revision": "075a89cd13164861f2c1",
-    "url": "/trollelo/static/css/main.78b00de8.chunk.css"
+    "revision": "1e5305799d6f83d89f6e",
+    "url": "/trollelo/static/css/main.2a6c5a2f.chunk.css"
   },
   {
-    "revision": "72fdf0c4e7e9894b46c204f2f2f80ce9",
+    "revision": "6ee5f3140e13adffbd8f3a523440096c",
     "url": "/trollelo/index.html"
   }
 ];

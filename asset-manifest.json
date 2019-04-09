@@ -1,5 +1,5 @@
 {
-  "main.css": "/trollelo/static/css/main.78b00de8.chunk.css",
+  "main.css": "/trollelo/static/css/main.2a6c5a2f.chunk.css",
   "main.js": "/trollelo/static/js/main.7f8d1559.chunk.js",
   "main.js.map": "/trollelo/static/js/main.7f8d1559.chunk.js.map",
   "runtime~main.js": "/trollelo/static/js/runtime~main.bc9131e5.js",
@@ -7,7 +7,7 @@
   "static/js/2.cb2a07b3.chunk.js": "/trollelo/static/js/2.cb2a07b3.chunk.js",
   "static/js/2.cb2a07b3.chunk.js.map": "/trollelo/static/js/2.cb2a07b3.chunk.js.map",
   "index.html": "/trollelo/index.html",
-  "precache-manifest.2e58b7412eab0bf181ba71d831f102c9.js": "/trollelo/precache-manifest.2e58b7412eab0bf181ba71d831f102c9.js",
+  "precache-manifest.82d8a63913cc69bf97d7bfe00775018a.js": "/trollelo/precache-manifest.82d8a63913cc69bf97d7bfe00775018a.js",
   "service-worker.js": "/trollelo/service-worker.js",
-  "static/css/main.78b00de8.chunk.css.map": "/trollelo/static/css/main.78b00de8.chunk.css.map"
+  "static/css/main.2a6c5a2f.chunk.css.map": "/trollelo/static/css/main.2a6c5a2f.chunk.css.map"
 }
