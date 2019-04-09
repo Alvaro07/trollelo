@@ -3,30 +3,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 
 // Styles
-import './inputText.scss';
+import "./inputText.scss";
 
 /**
  * InputText
  */
 
-const InputText = ({ type, id, labelText, placeholder, onKeyUp, extraClass, error, icon, required }) => {
-  const extra = extraClass ? extraClass : "";
-  const errorClass = error ? "c-input-text--error" : "";
+const InputText = props => {
+  const extra = props.extraClass ? props.extraClass : "";
+  const errorClass = props.error ? "c-input-text--error" : "";
 
   return (
     <div className={`c-input-text ${errorClass} ${extra}`}>
-      {labelText && (
-        <label className="c-input-text__label" htmlFor={id}>
-          {labelText}
+      {props.labelText && (
+        <label className="c-input-text__label" htmlFor={props.id}>
+          {props.labelText}
         </label>
       )}
       <div className="c-input-text__field">
-        {icon && (
+        {props.icon && (
           <div className="c-input-text__icon">
-            <FontAwesomeIcon icon={icon} />
+            <FontAwesomeIcon icon={props.icon} />
           </div>
         )}
-        <input type={type} id={id} placeholder={placeholder} onKeyUp={onKeyUp} required={required ? "required" : null} />
+        <input
+          type={props.type}
+          id={props.id}
+          placeholder={props.placeholder}
+          onKeyUp={props.onKeyUp}
+          required={props.required ? "required" : null}
+          defaultValue={props.value ? props.value : ""}
+        />
       </div>
     </div>
   );
@@ -41,6 +48,7 @@ InputText.propTypes = {
   id: PropTypes.string,
   labelText: PropTypes.string,
   placeholder: PropTypes.string,
+  value: PropTypes.string,
   onKeyUp: PropTypes.func,
   extraClass: PropTypes.string,
   error: PropTypes.bool,
