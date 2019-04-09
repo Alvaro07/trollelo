@@ -156,7 +156,7 @@ const Login = props => {
   if (isLoading) {
     return <Loader />;
   } else if (props.state.isLogin) {
-    return <Redirect from="/" to="/dashboard" />;
+    return <Redirect from="/trollelo/" to="/trollelo/dashboard" />;
   } else {
     return (
       <section className="login-wrap">

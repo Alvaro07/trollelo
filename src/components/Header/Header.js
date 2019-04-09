@@ -30,7 +30,7 @@ const Header = props => {
   if (props.location !== undefined && props.location.pathname.match("TaskBoard")) {
     returnButton = (
       <div className="c-header__return-btn">
-        <Link to={`/dashboard`}>
+        <Link to={`/trollelo/dashboard`}>
           <FontAwesomeIcon icon="align-left" />
         </Link>
       </div>
@@ -42,7 +42,7 @@ const Header = props => {
       <div className="c-header__wrap">
         {returnButton}
         <h1 className="c-header__logo">
-          <Link to={`/dashboard`}>Trollelo</Link>
+          <Link to={`/trollelo/dashboard`}>Trollelo</Link>
         </h1>
         <div className="c-header__actions">
           <Button secondary text="logOut" size="small" icon="sign-in-alt" onClick={() => logOut()} />

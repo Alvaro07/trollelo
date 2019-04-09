@@ -42,7 +42,7 @@ const BoardCard = props => {
     <React.Fragment>
       <figure className="c-board-card">
         <h3 className="c-board-card__name">
-          <Link to={`/TaskBoard/${props.id}`}>{props.name}</Link>
+          <Link to={`/trollelo/TaskBoard/${props.id}`}>{props.name}</Link>
         </h3>
         <p> {splitString(props.description, 250)} </p>
         <div className="c-board-card__delete" onClick={() => props.showModal(`modal-remove-board${props.id}`)}>
