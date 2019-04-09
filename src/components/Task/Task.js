@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { showModal, hideModal, setDataBoard } from "../../redux/reducer";
+import { updateTask, removeTask } from "../../firebase/functions/task";
 
 // Components
 import Modal from "../Modal/Modal";
@@ -21,9 +22,9 @@ const Task = props => {
   // State para setear el loader del modal
   const [modalLoading, setModalLoading] = useState(false);
   const [modalRemoveLoading, setModalRemoveLoading] = useState(false);
-  const [updateTask, setUpdateTask] = useState({
-    title: "",
-    description: "",
+  const [task, setTask] = useState({
+    title: props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].title,
+    description: props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].description,
     errorMessage: "Complete the title field",
     isValid: true
   });
@@ -36,19 +37,25 @@ const Task = props => {
     e.preventDefault();
     setModalLoading(true);
 
-    if (updateTask.title.length) {
+    if (task.title.length) {
       setModalLoading(true);
-      setUpdateTask({ ...updateTask, errorMessage: "" });
 
-      // createTask(newTask.title, newTask.description, props.state.dataUser.user, props.state.boardData.id, index).then(data => {
-      //   props.setDataBoard(data);
-      //   setModalLoading(false);
-      //   setNewTask({ ...newTask, title: "", description: "", isValid: true });
-      //   props.hideModal();
-      // });
+      updateTask(
+        task.title,
+        task.description,
+        props.state.dataUser.user,
+        props.state.boardData.id,
+        props.idTaskList,
+        props.idTask
+      ).then(data => {
+        props.setDataBoard(data);
+        setModalLoading(false);
+        setTask({ ...task, title: "", description: "", isValid: true });
+        props.hideModal();
+      });
     } else {
       setModalLoading(false);
-      setUpdateTask({ ...updateTask, isValid: false });
+      setTask({ ...task, isValid: false });
     }
   };
 
@@ -59,19 +66,25 @@ const Task = props => {
   const handleRemoveTask = e => {
     e.preventDefault();
     setModalRemoveLoading(true);
-    props.hideModal();
+
+    removeTask(
+      task.title,
+      task.description,
+      props.state.dataUser.user,
+      props.state.boardData.id,
+      props.idTaskList,
+      props.idTask
+    ).then(data => {
+      props.setDataBoard(data);
+      setModalRemoveLoading(false);
+      props.hideModal();
+    });
   };
 
   return (
     <React.Fragment>
       <div className="c-task">
-        <h3
-          className="c-task__title"
-          onClick={() => {
-            console.log("props.idTask", props.idTask);
-            console.log("props.idTaskList", props.idTaskList);
-            props.showModal(`task-${props.idTask}${props.idTaskList}`);
-          }}>
+        <h3 className="c-task__title" onClick={() => props.showModal(`task-${props.idTask}${props.idTaskList}`)}>
           {props.title}
         </h3>
       </div>
@@ -89,18 +102,20 @@ const Task = props => {
                 labelText="Title:"
                 icon="columns"
                 extraClass="margin-bottom-20"
-                onKeyUp={e => setUpdateTask({ ...updateTask, title: e.target.value })}
-                error={updateTask.isValid === false && !updateTask.title.length ? true : false}
+                onKeyUp={e => setTask({ ...task, title: e.target.value })}
+                error={task.isValid === false && !task.title.length ? true : false}
                 required={true}
                 value={props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].title}
               />
+
               <Textarea
                 labelText="Description:"
                 noResize={true}
                 extraClass="margin-bottom-20"
-                onKeyUp={e => setUpdateTask({ ...updateTask, description: e.target.value })}
+                onKeyUp={e => setTask({ ...task, description: e.target.value })}
                 value={props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].description}
               />
+
               <Button text="Update task" onClick={e => handleUpdateTask(e)} submit={true} isLoading={modalLoading} />
               <Button
                 text="Remove task"
@@ -109,7 +124,7 @@ const Task = props => {
                 secondary
                 isLoading={modalRemoveLoading}
               />
-              {updateTask.isValid === false && <p className="color-orange bold padding-top-20">{updateTask.errorMessage}</p>}
+              {task.isValid === false && <p className="color-orange bold padding-top-20">{task.errorMessage}</p>}
             </form>
           </ModalContent>
         </Modal>
