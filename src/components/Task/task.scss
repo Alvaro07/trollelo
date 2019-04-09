@@ -7,7 +7,11 @@
   border-radius: 3px;
   padding: 15px;
   text-align: left;
-  margin-bottom: 10px;
+  
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
 
   &__title {
     font-size: 1.3rem;

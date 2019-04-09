@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { removeBoard, getUserBoards } from "../../firebase/functions/board";
 import { showModal, hideModal, setBoards } from "../../redux/reducer";
+import { splitString } from "../../utils/utilsFunctions";
 
 // Styles
 import "./boardCard.scss";
@@ -37,20 +38,13 @@ const BoardCard = props => {
     });
   };
 
-  let descriptionText = null;
-  if (props.description.length >= 250) {
-    descriptionText = `${props.description.slice(0, 250)}...`;
-  } else {
-    descriptionText = props.description;
-  }
-
   return (
     <React.Fragment>
       <figure className="c-board-card">
         <h3 className="c-board-card__name">
           <Link to={`/TaskBoard/${props.id}`}>{props.name}</Link>
         </h3>
-        <p>{descriptionText}</p>
+        <p> {splitString(props.description, 250)} </p>
         <div className="c-board-card__delete" onClick={() => props.showModal(`modal-remove-board${props.id}`)}>
           <FontAwesomeIcon icon="trash" />
           Remove

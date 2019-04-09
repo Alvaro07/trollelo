@@ -112,19 +112,11 @@ export async function updateTask(title, description, user, board, indexTasklist,
  * @returns {promise}
  */
 
-export function removeFirebaseTask(title, description, user, boardData, indexTasklist, indexTask) {
+export function removeFirebaseTask(boardData, indexTasklist, indexTask) {
   const ref = database.collection("boards").doc(boardData.id);
   let updateBoard = boardData;
 
   return new Promise((resolve, reject) => {
-    const task = {
-      title: title,
-      description: description,
-      owner: user,
-      images: [],
-      tags: [],
-      comments: []
-    };
     updateBoard.tasklists[indexTasklist].tasks = updateBoard.tasklists[indexTasklist].tasks.filter((e, i) => i !== indexTask);
 
     ref
@@ -145,8 +137,8 @@ export function removeFirebaseTask(title, description, user, boardData, indexTas
  * @returns {promise}
  */
 
-export async function removeTask(title, description, user, board, indexTasklist, indexTask) {
+export async function removeTask(board, indexTasklist, indexTask) {
   const boardData = await getBoard(board);
-  const task = await removeFirebaseTask(title, description, user, boardData, indexTasklist, indexTask);
+  const task = await removeFirebaseTask(boardData, indexTasklist, indexTask);
   return task;
 }
