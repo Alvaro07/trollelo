@@ -13,6 +13,8 @@ const InputText = props => {
   const extra = props.extraClass ? props.extraClass : "";
   const errorClass = props.error ? "c-input-text--error" : "";
 
+
+  
   return (
     <div className={`c-input-text ${errorClass} ${extra}`}>
       {props.labelText && (
@@ -31,6 +33,7 @@ const InputText = props => {
           id={props.id}
           placeholder={props.placeholder}
           onKeyUp={props.onKeyUp}
+          onChange={props.onChange}
           required={props.required ? "required" : null}
           defaultValue={props.value ? props.value : ""}
         />
@@ -50,6 +53,7 @@ InputText.propTypes = {
   placeholder: PropTypes.string,
   value: PropTypes.string,
   onKeyUp: PropTypes.func,
+  onChange: PropTypes.func,
   extraClass: PropTypes.string,
   error: PropTypes.bool,
   icon: PropTypes.string,

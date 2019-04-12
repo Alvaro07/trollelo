@@ -29,7 +29,8 @@ const TaskList = props => {
     title: "",
     description: "",
     errorMessage: "Complete the title field",
-    isValid: true
+    isValid: true,
+    picture: null
   });
 
   /**
@@ -67,7 +68,15 @@ const TaskList = props => {
       setModalLoading(true);
       setNewTask({ ...newTask, errorMessage: "" });
 
-      createTask(newTask.title, newTask.description, props.state.dataUser.user, props.state.boardData.id, index).then(data => {
+      // Creamos la tarea en firestore
+      createTask(
+        newTask.title,
+        newTask.description,
+        newTask.picture,
+        props.state.dataUser.user,
+        props.state.boardData.id,
+        index
+      ).then(data => {
         props.setDataBoard(data);
         setModalLoading(false);
         setNewTask({ ...newTask, title: "", description: "", isValid: true });
@@ -76,6 +85,21 @@ const TaskList = props => {
     } else {
       setModalLoading(false);
       setNewTask({ ...newTask, isValid: false });
+    }
+  };
+
+  /**
+   * Uplaod image
+   */
+
+  const handleUpload = e => {
+    const file = e.target.files[0];
+    if (file.type === "image/png" || file.type === "image/jpeg") {
+      const reader = new FileReader();
+      reader.onloadend = () => setNewTask({ ...newTask, picture: file });
+      reader.readAsDataURL(file);
+    } else {
+      setNewTask({ ...newTask, errorMessage: "Invalid file format" });
     }
   };
 
@@ -93,7 +117,7 @@ const TaskList = props => {
 
         <main className="c-tasklist__tasks">
           {props.state.boardData.tasklists[props.id].tasks.map((e, i) => (
-            <Task title={e.title} key={i} idTask={i} idTaskList={props.id} />
+            <Task title={e.title} imageUrl={e.taskImage} key={i} idTask={i} idTaskList={props.id} />
           ))}
         </main>
 
@@ -143,6 +167,19 @@ const TaskList = props => {
                 extraClass="margin-bottom-20"
                 onKeyUp={e => setNewTask({ ...newTask, description: e.target.value })}
               />
+
+              <InputText
+                type="file"
+                id="imageTask"
+                labelText="Image:"
+                icon="columns"
+                extraClass="margin-bottom-20"
+                onChange={e => handleUpload(e)}
+                // error={task.isValid === false && !task.title.length ? true : false}
+                // required={true}
+                // value={props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].title}
+              />
+
               <Button
                 text="Create new task"
                 onClick={e => handleCreateNewTask(e, props.id)}
