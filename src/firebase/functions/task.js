@@ -71,7 +71,7 @@ export function updateFirebaseTask(title, description, image, user, boardData, i
       title: title,
       description: description,
       owner: user,
-      images: image,
+      taskImage: image,
       tags: [],
       comments: []
     };
@@ -98,7 +98,7 @@ export function updateFirebaseTask(title, description, image, user, boardData, i
 
 export async function updateTask(title, description, picture, user, board, indexTasklist, indexTask) {
   const boardData = await getBoard(board);
-  const imageUrl = await uploadImage(user, picture);
+  const imageUrl = picture !== null ? await uploadImage(user, picture) : null;
   const task = await updateFirebaseTask(title, description, imageUrl, user, boardData, indexTasklist, indexTask);
   return task;
 }

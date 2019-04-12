@@ -39,6 +39,11 @@
     --btn-bg-hover-color: #{rgba($pink, 0.8)};
   }
 
+  &--terciary {
+    --btn-bg-color: #{$yellow};
+    --btn-bg-hover-color: #{rgba($yellow, 0.8)};
+  }
+
   &--loading {
     pointer-events: none;
     cursor: default;

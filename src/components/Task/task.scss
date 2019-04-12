@@ -41,4 +41,24 @@
       opacity: 0.8;
     }
   }
+
+
+  /*/ Modal update styles /*/
+  &__update {
+    &__image {
+      position: relative;
+
+      img {
+        margin: 10px 0 20px 0;
+        max-width: 100%;
+        border: 1px solid $lightGrey;
+      }
+
+      &__remove {
+        position: absolute;
+        left: 10px;
+        top: 35px;
+      }
+    }
+  }
 }
