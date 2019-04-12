@@ -20,9 +20,17 @@ import "./task.scss";
  */
 
 const Task = props => {
-  // State para setear el loader del modal
+  /**
+   * State para setear el loader del modal
+   */
+
   const [modalLoading, setModalLoading] = useState(false);
   const [modalRemoveLoading, setModalRemoveLoading] = useState(false);
+
+  /**
+   * Creamos el estado local de la task para pintarla y que se actualice
+   */
+
   const [task, setTask] = useState({
     title: props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].title,
     description: props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].description,
@@ -44,6 +52,7 @@ const Task = props => {
       updateTask(
         task.title,
         task.description,
+        task.picture,
         props.state.dataUser.user,
         props.state.boardData.id,
         props.idTaskList,
@@ -75,12 +84,25 @@ const Task = props => {
     });
   };
 
+  /**
+   * Uplaod image
+   */
+
+  const handleUpload = e => {
+    const file = e.target.files[0];
+    if (file.type === "image/png" || file.type === "image/jpeg") {
+      const reader = new FileReader();
+      reader.onloadend = () => setTask({ ...task, picture: file });
+      reader.readAsDataURL(file);
+    } else {
+      setTask({ ...task, errorMessage: "Invalid file format" });
+    }
+  };
   return (
     <React.Fragment>
-      <div className="c-task">
-        <h3 className="c-task__title" onClick={() => props.showModal(`task-${props.idTask}${props.idTaskList}`)}>
-          {splitString(props.title, 150)}
-        </h3>
+      <div className="c-task" onClick={() => props.showModal(`task-${props.idTask}${props.idTaskList}`)}>
+        {props.imageUrl && <img className="c-task__picture" src={props.imageUrl} alt="alt" />}
+        <h3 className="c-task__title">{splitString(props.title, 150)}</h3>
       </div>
 
       {/* ------------------
@@ -107,6 +129,15 @@ const Task = props => {
                 extraClass="margin-bottom-20"
                 onKeyUp={e => setTask({ ...task, description: e.target.value })}
                 value={props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].description}
+              />
+
+              <InputText
+                type="file"
+                id="imageTask"
+                labelText="Image:"
+                icon="columns"
+                extraClass="margin-bottom-20"
+                onChange={e => handleUpload(e)}
               />
 
               <Button text="Update task" onClick={e => handleUpdateTask(e)} submit={true} isLoading={modalLoading} />

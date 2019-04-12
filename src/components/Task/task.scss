@@ -3,25 +3,42 @@
 
 .c-task {
   background-color: white;
-  border: 1px solid $lightGrey;
   border-radius: 3px;
-  padding: 15px;
+  display: flex;
+  flex-direction: column;
   text-align: left;
-  
 
   &:not(:last-child) {
     margin-bottom: 10px;
   }
 
+  &__picture {
+    max-width: 100%;
+    object-fit: cover;
+    max-height: 200px;
+    transition: 0.3s all ease;
+    border: 1px solid $lightGrey;
+    
+    & + .c-task__title {
+      border-top: none;
+    }
+  }
+
   &__title {
+    border: 1px solid $lightGrey;
+    padding: 15px;
     font-size: 1.3rem;
     line-height: 1.3;
-    cursor: pointer;
-    transition: 0.1s all ease;
     display: inline-block;
+    transition: 0.3s all ease;
+  }
 
-    &:hover {
-      color: $skyBlue;
+  &:hover {
+    cursor: pointer;
+    color: $skyBlue;
+
+    .c-task__picture {
+      opacity: 0.8;
     }
   }
 }

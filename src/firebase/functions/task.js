@@ -1,5 +1,6 @@
 import { database } from "../firebase";
 import { getBoard } from "./board";
+import { uploadImage } from "./utils";
 
 /**
  * Funcion para setear la task dentro de su tasklist
@@ -11,25 +12,24 @@ import { getBoard } from "./board";
  * @returns {promise}
  */
 
-export function setTask(title, description, user, boardData, indexTasklist) {
+export function setTask(title, description, image, user, boardData, indexTasklist) {
   const ref = database.collection("boards").doc(boardData.id);
-  let updateBoard = boardData;
 
   return new Promise((resolve, reject) => {
     const task = {
       title: title,
       description: description,
       owner: user,
-      images: [],
+      taskImage: image,
       tags: [],
       comments: []
     };
 
-    updateBoard.tasklists[indexTasklist].tasks = [...updateBoard.tasklists[indexTasklist].tasks, task];
+    boardData.tasklists[indexTasklist].tasks = [...boardData.tasklists[indexTasklist].tasks, task];
 
     ref
-      .set(updateBoard)
-      .then(() => resolve(updateBoard))
+      .set(boardData)
+      .then(() => resolve(boardData))
       .catch(error => reject(error));
   });
 }
@@ -44,9 +44,10 @@ export function setTask(title, description, user, boardData, indexTasklist) {
  * @returns {promise}
  */
 
-export async function createTask(title, description, user, board, indexTasklist) {
+export async function createTask(title, description, picture, user, board, indexTasklist) {
   const boardData = await getBoard(board);
-  const task = await setTask(title, description, user, boardData, indexTasklist);
+  const imageUrl = await uploadImage(user, picture);
+  const task = await setTask(title, description, imageUrl, user, boardData, indexTasklist);
   return task;
 }
 
@@ -61,7 +62,7 @@ export async function createTask(title, description, user, board, indexTasklist)
  * @returns {promise}
  */
 
-export function updateFirebaseTask(title, description, user, boardData, indexTasklist, indexTask) {
+export function updateFirebaseTask(title, description, image, user, boardData, indexTasklist, indexTask) {
   const ref = database.collection("boards").doc(boardData.id);
   let updateBoard = boardData;
 
@@ -70,7 +71,7 @@ export function updateFirebaseTask(title, description, user, boardData, indexTas
       title: title,
       description: description,
       owner: user,
-      images: [],
+      images: image,
       tags: [],
       comments: []
     };
@@ -95,9 +96,10 @@ export function updateFirebaseTask(title, description, user, boardData, indexTas
  * @returns {promise}
  */
 
-export async function updateTask(title, description, user, board, indexTasklist, indexTask) {
+export async function updateTask(title, description, picture, user, board, indexTasklist, indexTask) {
   const boardData = await getBoard(board);
-  const task = await updateFirebaseTask(title, description, user, boardData, indexTasklist, indexTask);
+  const imageUrl = await uploadImage(user, picture);
+  const task = await updateFirebaseTask(title, description, imageUrl, user, boardData, indexTasklist, indexTask);
   return task;
 }
 
