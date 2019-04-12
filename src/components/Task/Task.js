@@ -31,9 +31,12 @@ const Task = props => {
    * Creamos el estado local de la task para pintarla y que se actualice
    */
 
+  const oldTask = props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask];
   const [task, setTask] = useState({
-    title: props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].title,
-    description: props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].description,
+    title: oldTask.title,
+    description: oldTask.description,
+    picture: null,
+    imageUrl: oldTask.taskImage,
     errorMessage: "Complete the title field",
     isValid: true
   });
@@ -60,7 +63,6 @@ const Task = props => {
       ).then(data => {
         props.setDataBoard(data);
         setModalLoading(false);
-        setTask({ ...task, title: "", description: "", isValid: true });
         props.hideModal();
       });
     } else {
@@ -98,6 +100,21 @@ const Task = props => {
       setTask({ ...task, errorMessage: "Invalid file format" });
     }
   };
+
+  /**
+   * Remove Image
+   */
+
+  const handleRemoveImage = e => {
+    e.preventDefault();
+    setTask({ ...task, imageUrl: null });
+  };
+
+  /**
+   * Render
+   */
+  
+
   return (
     <React.Fragment>
       <div className="c-task" onClick={() => props.showModal(`task-${props.idTask}${props.idTaskList}`)}>
@@ -131,14 +148,31 @@ const Task = props => {
                 value={props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].description}
               />
 
-              <InputText
-                type="file"
-                id="imageTask"
-                labelText="Image:"
-                icon="columns"
-                extraClass="margin-bottom-20"
-                onChange={e => handleUpload(e)}
-              />
+              {task.imageUrl && (
+                <div className="c-task__update__image">
+                  <p className="bold">Image:</p>
+                  <img src={task.imageUrl} alt={task.title} />
+                  <Button
+                    extraClass="c-task__update__image__remove"
+                    text="Remove Image"
+                    secondary
+                    size="small"
+                    onClick={e => handleRemoveImage(e)}
+                    submit={true}
+                  />
+                </div>
+              )}
+
+              {!task.imageUrl && (
+                <InputText
+                  type="file"
+                  id="imageTask"
+                  labelText="Image:"
+                  icon="columns"
+                  extraClass="margin-bottom-20"
+                  onChange={e => handleUpload(e)}
+                />
+              )}
 
               <Button text="Update task" onClick={e => handleUpdateTask(e)} submit={true} isLoading={modalLoading} />
               <Button
