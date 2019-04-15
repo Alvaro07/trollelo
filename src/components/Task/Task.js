@@ -77,7 +77,15 @@ const Task = props => {
   const handleRemoveTask = e => {
     e.preventDefault();
     setModalRemoveLoading(true);
+
     removeTask(props.state.boardData.id, props.idTaskList, props.idTask).then(data => {
+      props.setDataBoard(data);
+      // setEditTask({
+      //   ...editTask,
+      //   imageUrl: data.tasklists[props.idTaskList].tasks[props.idTask].taskImage
+      //     ? data.tasklists[props.idTaskList].tasks[props.idTask].taskImage
+      //     : null
+      // });
       setModalRemoveLoading(false);
       props.hideModal();
       props.setDataBoard(data);
@@ -113,14 +121,14 @@ const Task = props => {
    */
 
   const handleCloseEditTask = () => {
-    // setEditTask({
-    //   ...editTask,
-    //   title: props.task.title,
-    //   description: props.task.description,
-    //   picture: null,
-    //   imageUrl: props.task.taskImage,
-    //   isValid: true
-    // });
+    setEditTask({
+      ...editTask,
+      title: props.task.title,
+      description: props.task.description,
+      picture: null,
+      imageUrl: props.task.taskImage,
+      isValid: true
+    });
   };
 
   /**

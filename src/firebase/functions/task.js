@@ -140,6 +140,7 @@ export function removeFirebaseTask(boardData, indexTasklist, indexTask) {
  */
 
 export async function removeTask(board, indexTasklist, indexTask) {
+  console.log(board, indexTasklist, indexTask)
   const boardData = await getBoard(board);
   const task = await removeFirebaseTask(boardData, indexTasklist, indexTask);
   return task;
