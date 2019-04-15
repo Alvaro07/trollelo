@@ -12,7 +12,7 @@ export function uploadImage(user, file) {
     const hash = generateHash();
     const storageRef = storage.ref(`images/${user}/${hash}${file.name}`);
     const task = storageRef.put(file);
-
+    
     task.on(
       "state_changed",
       loading => {},

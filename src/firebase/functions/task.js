@@ -46,7 +46,7 @@ export function setTask(title, description, image, user, boardData, indexTasklis
 
 export async function createTask(title, description, picture, user, board, indexTasklist) {
   const boardData = await getBoard(board);
-  const imageUrl = await uploadImage(user, picture);
+  const imageUrl = picture !== null ? await uploadImage(user, picture) : null;
   const task = await setTask(title, description, imageUrl, user, boardData, indexTasklist);
   return task;
 }
@@ -99,8 +99,8 @@ export function updateFirebaseTask(title, description, image, user, boardData, i
 export async function updateTask(title, description, picture, user, board, indexTasklist, indexTask) {
   const boardData = await getBoard(board);
   const imageUrl = picture !== null ? await uploadImage(user, picture) : null;
-  const task = await updateFirebaseTask(title, description, imageUrl, user, boardData, indexTasklist, indexTask);
-  return task;
+  const boardUpdate = await updateFirebaseTask(title, description, imageUrl, user, boardData, indexTasklist, indexTask);
+  return { boardUpdate, imageUrl };
 }
 
 /**

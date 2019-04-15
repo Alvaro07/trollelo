@@ -31,12 +31,11 @@ const Task = props => {
    * Creamos el estado local de la task para pintarla y que se actualice
    */
 
-  const oldTask = props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask];
-  const [task, setTask] = useState({
-    title: oldTask.title,
-    description: oldTask.description,
+  const [editTask, setEditTask] = useState({
+    title: props.task.title,
+    description: props.task.description,
     picture: null,
-    imageUrl: oldTask.taskImage,
+    imageUrl: props.task.taskImage,
     errorMessage: "Complete the title field",
     isValid: true
   });
@@ -49,25 +48,25 @@ const Task = props => {
     e.preventDefault();
     setModalLoading(true);
 
-    if (task.title.length) {
+    if (editTask.title.length) {
       setModalLoading(true);
-
       updateTask(
-        task.title,
-        task.description,
-        task.picture,
+        editTask.title,
+        editTask.description,
+        editTask.picture,
         props.state.dataUser.user,
         props.state.boardData.id,
         props.idTaskList,
         props.idTask
       ).then(data => {
-        props.setDataBoard(data);
+        props.setDataBoard(data.boardUpdate);
+        setEditTask({ ...editTask, imageUrl: data.imageUrl });
         setModalLoading(false);
         props.hideModal();
       });
     } else {
       setModalLoading(false);
-      setTask({ ...task, isValid: false });
+      setEditTask({ ...editTask, isValid: false });
     }
   };
 
@@ -78,7 +77,6 @@ const Task = props => {
   const handleRemoveTask = e => {
     e.preventDefault();
     setModalRemoveLoading(true);
-
     removeTask(props.state.boardData.id, props.idTaskList, props.idTask).then(data => {
       setModalRemoveLoading(false);
       props.hideModal();
@@ -94,10 +92,10 @@ const Task = props => {
     const file = e.target.files[0];
     if (file.type === "image/png" || file.type === "image/jpeg") {
       const reader = new FileReader();
-      reader.onloadend = () => setTask({ ...task, picture: file });
+      reader.onloadend = () => setEditTask({ ...editTask, picture: file });
       reader.readAsDataURL(file);
     } else {
-      setTask({ ...task, errorMessage: "Invalid file format" });
+      setEditTask({ ...editTask, errorMessage: "Invalid file format" });
     }
   };
 
@@ -107,27 +105,40 @@ const Task = props => {
 
   const handleRemoveImage = e => {
     e.preventDefault();
-    setTask({ ...task, imageUrl: null });
+    setEditTask({ ...editTask, imageUrl: null, picture: null });
+  };
+
+  /**
+   * Cierre without save
+   */
+
+  const handleCloseEditTask = () => {
+    // setEditTask({
+    //   ...editTask,
+    //   title: props.task.title,
+    //   description: props.task.description,
+    //   picture: null,
+    //   imageUrl: props.task.taskImage,
+    //   isValid: true
+    // });
   };
 
   /**
    * Render
    */
-  
 
   return (
     <React.Fragment>
-      <div className="c-task" onClick={() => props.showModal(`task-${props.idTask}${props.idTaskList}`)}>
-        {props.imageUrl && <img className="c-task__picture" src={props.imageUrl} alt="alt" />}
-        <h3 className="c-task__title">{splitString(props.title, 150)}</h3>
+      <div className="c-task" onClick={e => props.showModal(`task-${props.idTask}${props.idTaskList}`)}>
+        {editTask.imageUrl && <img className="c-task__picture" src={editTask.imageUrl} alt="alt" />}
+        <h3 className="c-task__title">{splitString(props.task.title, 150)}</h3>
       </div>
 
-      {/* ------------------
-       Modal edit tasklist */}
+      {/* Modal edit tasklist */}
 
       {props.state.modal === `task-${props.idTask}${props.idTaskList}` && (
         <Modal>
-          <ModalContent modalTitle="Edit task">
+          <ModalContent modalTitle="Edit task" onClose={() => handleCloseEditTask()}>
             <form method="POST">
               <InputText
                 type="text"
@@ -135,35 +146,34 @@ const Task = props => {
                 labelText="Title:"
                 icon="columns"
                 extraClass="margin-bottom-20"
-                onKeyUp={e => setTask({ ...task, title: e.target.value })}
-                error={task.isValid === false && !task.title.length ? true : false}
                 required={true}
-                value={props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].title}
+                error={editTask.isValid === false && !editTask.title.length ? true : false}
+                value={editTask.title}
+                onKeyUp={e => setEditTask({ ...editTask, title: e.target.value })}
               />
 
               <Textarea
                 labelText="Description:"
                 extraClass="margin-bottom-20"
-                onKeyUp={e => setTask({ ...task, description: e.target.value })}
-                value={props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].description}
+                value={editTask.description}
+                onKeyUp={e => setEditTask({ ...editTask, description: e.target.value })}
               />
 
-              {task.imageUrl && (
+              {editTask.imageUrl && (
                 <div className="c-task__update__image">
                   <p className="bold">Image:</p>
-                  <img src={task.imageUrl} alt={task.title} />
+                  <img src={editTask.imageUrl} alt={editTask.title} />
                   <Button
                     extraClass="c-task__update__image__remove"
                     text="Remove Image"
                     secondary
                     size="small"
                     onClick={e => handleRemoveImage(e)}
-                    submit={true}
                   />
                 </div>
               )}
 
-              {!task.imageUrl && (
+              {!editTask.imageUrl && (
                 <InputText
                   type="file"
                   id="imageTask"
@@ -174,15 +184,16 @@ const Task = props => {
                 />
               )}
 
-              <Button text="Update task" onClick={e => handleUpdateTask(e)} submit={true} isLoading={modalLoading} />
+              <Button text="Update task" onClick={e => handleUpdateTask(e)} isLoading={modalLoading} />
               <Button
                 text="Remove task"
                 extraClass="margin-left-10"
-                onClick={e => handleRemoveTask(e)}
                 secondary
+                onClick={e => handleRemoveTask(e)}
                 isLoading={modalRemoveLoading}
               />
-              {task.isValid === false && <p className="color-orange bold padding-top-20">{task.errorMessage}</p>}
+
+              {editTask.isValid === false && <p className="color-orange bold padding-top-20">{editTask.errorMessage}</p>}
             </form>
           </ModalContent>
         </Modal>
@@ -196,10 +207,7 @@ const Task = props => {
  */
 
 Task.propTypes = {
-  title: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
-  idTask: PropTypes.number,
-  idTaskList: PropTypes.number
+  task: PropTypes.object
 };
 
 const mapStateToProps = state => ({ state });

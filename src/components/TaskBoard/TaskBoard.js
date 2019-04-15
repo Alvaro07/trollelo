@@ -131,7 +131,7 @@ const TaskBoard = props => {
                     required={true}
                   />
 
-                  <Button text="Create Task list" onClick={e => handleCreateTaskList(e)} submit={true} isLoading={modalLoading} />
+                  <Button text="Create Task list" onClick={e => handleCreateTaskList(e)}  isLoading={modalLoading} />
                   {newTaskList.isValid === false && (
                     <p className="color-orange bold padding-top-20">{newTaskList.errorMessage}</p>
                   )}
