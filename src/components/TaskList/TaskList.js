@@ -123,7 +123,7 @@ const TaskList = props => {
 
         <main className="c-tasklist__tasks">
           {props.state.boardData.tasklists[props.id].tasks.map((e, i) => (
-            <Task key={i} task={e} idTaskList={props.id} idTask={i} {...props} />
+            <Task key={i} task={e} idTaskList={props.id} idTask={i}/>
           ))}
         </main>
 

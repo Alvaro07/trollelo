@@ -127,11 +127,12 @@ const Task = props => {
   /**
    * Render
    */
+  const pictureUrl = props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].taskImage;
 
   return (
     <React.Fragment>
       <div className="c-task" onClick={e => props.showModal(`task-${props.idTask}${props.idTaskList}`)}>
-        {editTask.imageUrl && <img className="c-task__picture" src={editTask.imageUrl} alt="alt" />}
+        {pictureUrl && <img className="c-task__picture" src={pictureUrl} alt="alt" />}
         <h3 className="c-task__title">{splitString(props.task.title, 150)}</h3>
       </div>
 
