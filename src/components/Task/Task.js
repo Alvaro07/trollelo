@@ -79,16 +79,9 @@ const Task = props => {
     setModalRemoveLoading(true);
 
     removeTask(props.state.boardData.id, props.idTaskList, props.idTask).then(data => {
-      props.setDataBoard(data);
-      // setEditTask({
-      //   ...editTask,
-      //   imageUrl: data.tasklists[props.idTaskList].tasks[props.idTask].taskImage
-      //     ? data.tasklists[props.idTaskList].tasks[props.idTask].taskImage
-      //     : null
-      // });
       setModalRemoveLoading(false);
-      props.hideModal();
       props.setDataBoard(data);
+      props.hideModal();
     });
   };
 

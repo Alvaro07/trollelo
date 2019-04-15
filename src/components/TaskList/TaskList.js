@@ -57,6 +57,12 @@ const TaskList = props => {
   };
 
   /**
+   * Update tasks
+   */
+
+  
+
+  /**
    * Create new task
    */
 
@@ -81,7 +87,6 @@ const TaskList = props => {
         setModalLoading(false);
         setNewTask({ ...newTask, title: "", description: "", isValid: true, picture: null });
         props.hideModal();
-
       });
     } else {
       setModalLoading(false);
@@ -118,7 +123,7 @@ const TaskList = props => {
 
         <main className="c-tasklist__tasks">
           {props.state.boardData.tasklists[props.id].tasks.map((e, i) => (
-            <Task key={i} task={e} idTaskList={props.id} idTask={i} />
+            <Task key={i} task={e} idTaskList={props.id} idTask={i} {...props} />
           ))}
         </main>
 

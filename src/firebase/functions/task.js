@@ -120,7 +120,6 @@ export function removeFirebaseTask(boardData, indexTasklist, indexTask) {
 
   return new Promise((resolve, reject) => {
     updateBoard.tasklists[indexTasklist].tasks = updateBoard.tasklists[indexTasklist].tasks.filter((e, i) => i !== indexTask);
-
     ref
       .set(updateBoard)
       .then(() => resolve(updateBoard))
@@ -140,7 +139,6 @@ export function removeFirebaseTask(boardData, indexTasklist, indexTask) {
  */
 
 export async function removeTask(board, indexTasklist, indexTask) {
-  console.log(board, indexTasklist, indexTask)
   const boardData = await getBoard(board);
   const task = await removeFirebaseTask(boardData, indexTasklist, indexTask);
   return task;
