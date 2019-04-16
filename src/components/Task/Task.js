@@ -77,8 +77,9 @@ const Task = props => {
   const handleRemoveTask = e => {
     e.preventDefault();
     setModalRemoveLoading(true);
+    const fileName = props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].taskImageName;
 
-    removeTask(props.state.boardData.id, props.idTaskList, props.idTask).then(data => {
+    removeTask(props.state.boardData.id, props.idTaskList, props.idTask, props.state.dataUser.user, fileName).then(data => {
       setModalRemoveLoading(false);
       props.setDataBoard(data);
       props.hideModal();
