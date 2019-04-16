@@ -88,6 +88,26 @@ export function authUser(email, password) {
 }
 
 /**
+ * Funcion para comprobar si esta logueado
+ * @param {string} user
+ * @returns {promise}
+ */
+
+export function checkAuth() {
+  return new Promise((resolve, reject) => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        getUserDataByEmail(user.email).then(data => {
+          resolve(data)
+        })
+      } else {
+        reject('No user is signed in')
+      }
+    });
+  });
+}
+
+/**
  * Funcion para obtener userPath a traves del userName
  * @param {string} user
  * @returns {promise}
@@ -98,6 +118,26 @@ export function getUserData(user) {
     database
       .collection("users")
       .where("user", "==", user)
+      .get()
+      .then(querySnapshot => {
+        return !querySnapshot.empty ? querySnapshot.forEach(doc => resolve(doc.data())) : reject("The user not exists");
+      })
+      .catch(error => reject(error));
+  });
+}
+
+
+/**
+ * Funcion para obtener userPath a traves del email
+ * @param {string} user
+ * @returns {promise}
+ */
+
+export function getUserDataByEmail(email) {
+  return new Promise((resolve, reject) => {
+    database
+      .collection("users")
+      .where("email", "==", email)
       .get()
       .then(querySnapshot => {
         return !querySnapshot.empty ? querySnapshot.forEach(doc => resolve(doc.data())) : reject("The user not exists");

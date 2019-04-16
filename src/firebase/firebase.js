@@ -2,7 +2,6 @@ import firebase from "firebase/app";
 import "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-// import "firebase/database";
 import "firebase/storage";
 import "firebase/functions";
 import { firebaseData } from "./config";

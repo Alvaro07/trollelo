@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { setLogin, setUser, setBoards } from "../../redux/reducer";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { auth } from "../../firebase/firebase";
 
 // Components
 import Button from "../Button/Button";
@@ -19,10 +20,11 @@ const Header = props => {
    * Logout function
    */
   const logOut = () => {
-    localStorage.clear();
-    props.setLogin(false);
-    props.setUser(null);
-    props.setBoards(null);
+    auth.signOut().then(() => {
+      props.setLogin(false);
+      props.setUser(null);
+      props.setBoards(null);
+    });
   };
 
   // Taskboard return button
