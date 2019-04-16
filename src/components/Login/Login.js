@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { setLogin, setUser } from "../../redux/reducer";
-import { createUser, getUserData, authUser } from "../../firebase/functions/user";
+import { createUser, getUserData, authUser, checkAuth } from "../../firebase/functions/user";
 
 // Components
 import InputText from "../InputText/InputText";
@@ -10,7 +10,7 @@ import Button from "../Button/Button";
 import Loader from "../Loader/Loader";
 
 // Styles
-import './login.scss';
+import "./login.scss";
 
 /**
  * Login
@@ -45,22 +45,16 @@ const Login = props => {
    * Effect
    */
 
-  /**
-   * Comprbamos si hay usuario en localstorage y accedemos
-   */
-
   useEffect(() => {
-    if (localStorage.user) {
-      getUserData(localStorage.user).then(data => {
-        authUser(data.email, localStorage.password).then(() => {
-          props.setUser(data);
-          props.setLogin(true);
-          setLoad(false);
-        });
+    checkAuth()
+      .then(data => {
+        props.setUser(data);
+        props.setLogin(true);
+        setLoad(false);
+      })
+      .catch(() => {
+        setLoad(false);
       });
-    } else {
-      setLoad(false);
-    }
   }, []);
 
   /**
@@ -95,8 +89,6 @@ const Login = props => {
         .then(data => {
           authUser(data.email, dataLogin.password)
             .then(() => {
-              localStorage.setItem("user", dataLogin.user);
-              localStorage.setItem("password", dataLogin.password);
               props.setUser({ user: data.user, email: data.email });
               props.setLogin(true);
             })
@@ -142,8 +134,6 @@ const Login = props => {
           setDataRegister({ ...dataRegister, isValid: true });
           props.setUser({ user: dataRegister.user, email: dataRegister.email });
           props.setLogin(true);
-          localStorage.setItem("user", dataRegister.user);
-          localStorage.setItem("password", dataRegister.password);
         }
       });
     }
