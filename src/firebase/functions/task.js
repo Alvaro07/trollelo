@@ -1,6 +1,6 @@
 import { database } from "../firebase";
 import { getBoard } from "./board";
-import { uploadImage } from "./utils";
+import { uploadImage, deleteImage } from "./utils";
 
 /**
  * Funcion para setear la task dentro de su tasklist
@@ -20,7 +20,8 @@ export function setTask(title, description, image, user, boardData, indexTasklis
       title: title,
       description: description,
       owner: user,
-      taskImage: image,
+      taskImage: image ? image.downloadURL : null,
+      taskImageName: image ? image.name : null,
       tags: [],
       comments: []
     };
@@ -46,7 +47,7 @@ export function setTask(title, description, image, user, boardData, indexTasklis
 
 export async function createTask(title, description, picture, user, board, indexTasklist) {
   const boardData = await getBoard(board);
-  const imageUrl = await uploadImage(user, picture);
+  const imageUrl = picture !== null ? await uploadImage(user, picture) : null;
   const task = await setTask(title, description, imageUrl, user, boardData, indexTasklist);
   return task;
 }
@@ -71,7 +72,8 @@ export function updateFirebaseTask(title, description, image, user, boardData, i
       title: title,
       description: description,
       owner: user,
-      taskImage: image,
+      taskImage: image ? image.downloadURL : null,
+      taskImageName: image ? image.name : null,
       tags: [],
       comments: []
     };
@@ -99,8 +101,8 @@ export function updateFirebaseTask(title, description, image, user, boardData, i
 export async function updateTask(title, description, picture, user, board, indexTasklist, indexTask) {
   const boardData = await getBoard(board);
   const imageUrl = picture !== null ? await uploadImage(user, picture) : null;
-  const task = await updateFirebaseTask(title, description, imageUrl, user, boardData, indexTasklist, indexTask);
-  return task;
+  const boardUpdate = await updateFirebaseTask(title, description, imageUrl, user, boardData, indexTasklist, indexTask);
+  return { boardUpdate, imageUrl };
 }
 
 /**
@@ -120,7 +122,6 @@ export function removeFirebaseTask(boardData, indexTasklist, indexTask) {
 
   return new Promise((resolve, reject) => {
     updateBoard.tasklists[indexTasklist].tasks = updateBoard.tasklists[indexTasklist].tasks.filter((e, i) => i !== indexTask);
-
     ref
       .set(updateBoard)
       .then(() => resolve(updateBoard))
@@ -139,8 +140,9 @@ export function removeFirebaseTask(boardData, indexTasklist, indexTask) {
  * @returns {promise}
  */
 
-export async function removeTask(board, indexTasklist, indexTask) {
+export async function removeTask(board, indexTasklist, indexTask, user, fileName) {
   const boardData = await getBoard(board);
   const task = await removeFirebaseTask(boardData, indexTasklist, indexTask);
+  await deleteImage(user, fileName);
   return task;
 }

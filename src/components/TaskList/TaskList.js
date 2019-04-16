@@ -57,6 +57,12 @@ const TaskList = props => {
   };
 
   /**
+   * Update tasks
+   */
+
+  
+
+  /**
    * Create new task
    */
 
@@ -79,7 +85,7 @@ const TaskList = props => {
       ).then(data => {
         props.setDataBoard(data);
         setModalLoading(false);
-        setNewTask({ ...newTask, title: "", description: "", isValid: true });
+        setNewTask({ ...newTask, title: "", description: "", isValid: true, picture: null });
         props.hideModal();
       });
     } else {
@@ -117,7 +123,7 @@ const TaskList = props => {
 
         <main className="c-tasklist__tasks">
           {props.state.boardData.tasklists[props.id].tasks.map((e, i) => (
-            <Task title={e.title} imageUrl={e.taskImage} key={i} idTask={i} idTaskList={props.id} />
+            <Task key={i} task={e} idTaskList={props.id} idTask={i}/>
           ))}
         </main>
 
@@ -175,17 +181,9 @@ const TaskList = props => {
                 icon="columns"
                 extraClass="margin-bottom-20"
                 onChange={e => handleUpload(e)}
-                // error={task.isValid === false && !task.title.length ? true : false}
-                // required={true}
-                // value={props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].title}
               />
 
-              <Button
-                text="Create new task"
-                onClick={e => handleCreateNewTask(e, props.id)}
-                submit={true}
-                isLoading={modalLoading}
-              />
+              <Button text="Create new task" onClick={e => handleCreateNewTask(e, props.id)} isLoading={modalLoading} />
               {newTask.isValid === false && <p className="color-orange bold padding-top-20">{newTask.errorMessage}</p>}
             </form>
           </ModalContent>

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 
 // Styles
-import './button.scss';
+import "./button.scss";
 
 /**
  * Button
@@ -19,9 +19,9 @@ const Button = ({ text, secondary, terciary, size, extraClass, onClick, icon, su
 
   return (
     <button
+      type="submit"
       className={`c-button ${secondaryClass} ${terciaryClass} ${isLoading ? "c-button--loading" : ""} ${sizeClass} ${extra}`}
-      onClick={onClick}
-      type={submit ? "submit" : null}>
+      onClick={onClick}>
       {!isLoading && iconElement}
       {isLoading ? <FontAwesomeIcon icon="spinner" className="c-button__load-icon" /> : null}
       {isLoading ? "Loading" : text}

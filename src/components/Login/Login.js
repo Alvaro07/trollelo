@@ -189,7 +189,7 @@ const Login = props => {
               required={true}
             />
 
-            <Button text="Log in" onClick={e => handleAuth(e)} submit={true} isLoading={signInLoading} />
+            <Button text="Log in" onClick={e => handleAuth(e)} isLoading={signInLoading} />
 
             {dataLogin.isValid === false && <p className="color-orange bold padding-top-20">{dataLogin.errorMessage}</p>}
           </form>
@@ -225,7 +225,7 @@ const Login = props => {
               error={dataRegister.isValid === false && !dataRegister.password.length ? true : false}
               required={true}
             />
-            <Button text="Register" type="secondary" onClick={e => handleRegister(e)} submit={true} isLoading={registerLoading} />
+            <Button text="Register" type="secondary" onClick={e => handleRegister(e)} isLoading={registerLoading} />
 
             {dataRegister.isValid === false && <p className="color-orange bold padding-top-20">{dataRegister.errorMessage}</p>}
           </form>

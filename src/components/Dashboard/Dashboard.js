@@ -161,7 +161,7 @@ const Dashboard = props => {
                       error={newBoard.isValid === false && !newBoard.description.length ? true : false}
                       required={true}
                     />
-                    <Button text="Create Board" onClick={e => handleCreateBoard(e)} submit={true} isLoading={modalLoading} />
+                    <Button text="Create Board" onClick={e => handleCreateBoard(e)}  isLoading={modalLoading} />
                     {newBoard.isValid === false && <p className="color-orange bold padding-top-20">{newBoard.errorMessage}</p>}
                   </form>
                 </ModalContent>
