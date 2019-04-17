@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/trollelo/precache-manifest.e708f301f38d237eabfe881cb0b46c32.js"
+  "/trollelo/precache-manifest.bac07bb90a75ec72a7355dfc7890990d.js"
 );
 
 workbox.clientsClaim();
