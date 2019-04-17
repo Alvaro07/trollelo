@@ -20,8 +20,10 @@ export function setTask(title, description, image, user, boardData, indexTasklis
       title: title,
       description: description,
       owner: user,
-      taskImage: image ? image.downloadURL : null,
-      taskImageName: image ? image.name : null,
+      image: {
+        taskImage: image ? image.downloadURL : null,
+        taskImageName: image ? image.name : null
+      },
       tags: [],
       comments: []
     };
@@ -72,8 +74,10 @@ export function updateFirebaseTask(title, description, image, user, boardData, i
       title: title,
       description: description,
       owner: user,
-      taskImage: image ? image.downloadURL : null,
-      taskImageName: image ? image.name : null,
+      image: {
+        taskImage: image ? image.downloadURL : null,
+        taskImageName: image ? image.name : null
+      },
       tags: [],
       comments: []
     };
@@ -100,9 +104,9 @@ export function updateFirebaseTask(title, description, image, user, boardData, i
 
 export async function updateTask(title, description, picture, user, board, indexTasklist, indexTask) {
   const boardData = await getBoard(board);
-  const imageUrl = picture !== null ? await uploadImage(user, picture) : null;
-  const boardUpdate = await updateFirebaseTask(title, description, imageUrl, user, boardData, indexTasklist, indexTask);
-  return { boardUpdate, imageUrl };
+  const image = picture !== null ? await uploadImage(user, picture) : null;
+  const boardUpdate = await updateFirebaseTask(title, description, image, user, boardData, indexTasklist, indexTask);
+  return { boardUpdate, image };
 }
 
 /**
@@ -119,12 +123,13 @@ export async function updateTask(title, description, picture, user, board, index
 export function removeFirebaseTask(boardData, indexTasklist, indexTask) {
   const ref = database.collection("boards").doc(boardData.id);
   let updateBoard = boardData;
+  const hasImage = boardData.tasklists[indexTasklist].tasks[indexTask].taskImage ? true : false;
 
   return new Promise((resolve, reject) => {
     updateBoard.tasklists[indexTasklist].tasks = updateBoard.tasklists[indexTasklist].tasks.filter((e, i) => i !== indexTask);
     ref
       .set(updateBoard)
-      .then(() => resolve(updateBoard))
+      .then(() => resolve(updateBoard, hasImage))
       .catch(error => reject(error));
   });
 }
@@ -143,6 +148,6 @@ export function removeFirebaseTask(boardData, indexTasklist, indexTask) {
 export async function removeTask(board, indexTasklist, indexTask, user, fileName) {
   const boardData = await getBoard(board);
   const task = await removeFirebaseTask(boardData, indexTasklist, indexTask);
-  await deleteImage(user, fileName);
+  if (task.hasImage) await deleteImage(user, fileName);
   return task;
 }

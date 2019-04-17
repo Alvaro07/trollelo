@@ -35,7 +35,7 @@ const Task = props => {
     title: props.task.title,
     description: props.task.description,
     picture: null,
-    imageUrl: props.task.taskImage,
+    imageUrl: props.task.image.taskImage,
     errorMessage: "Complete the title field",
     isValid: true
   });
@@ -60,7 +60,7 @@ const Task = props => {
         props.idTask
       ).then(data => {
         props.setDataBoard(data.boardUpdate);
-        setEditTask({ ...editTask, imageUrl: data.imageUrl });
+        setEditTask({ ...editTask, imageUrl: data.image ? data.image.downloadURL : null });
         setModalLoading(false);
         props.hideModal();
       });
@@ -77,7 +77,7 @@ const Task = props => {
   const handleRemoveTask = e => {
     e.preventDefault();
     setModalRemoveLoading(true);
-    const fileName = props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].taskImageName;
+    const fileName = props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].image.taskImageName;
 
     removeTask(props.state.boardData.id, props.idTaskList, props.idTask, props.state.dataUser.user, fileName).then(data => {
       setModalRemoveLoading(false);
@@ -120,7 +120,7 @@ const Task = props => {
       title: props.task.title,
       description: props.task.description,
       picture: null,
-      imageUrl: props.task.taskImage,
+      imageUrl: props.task.image.taskImage,
       isValid: true
     });
   };
@@ -128,7 +128,7 @@ const Task = props => {
   /**
    * Render
    */
-  const pictureUrl = props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].taskImage;
+  const pictureUrl = props.state.boardData.tasklists[props.idTaskList].tasks[props.idTask].image.taskImage;
 
   return (
     <React.Fragment>
@@ -141,7 +141,7 @@ const Task = props => {
 
       {props.state.modal === `task-${props.idTask}${props.idTaskList}` && (
         <Modal>
-          <ModalContent modalTitle="Edit task" onClose={() => handleCloseEditTask()}>
+          <ModalContent modalTitle={editTask.title} onClose={() => handleCloseEditTask()}>
             <form method="POST">
               <InputText
                 type="text"
