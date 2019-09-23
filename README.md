@@ -2,7 +2,7 @@
 
 ### An application similar to Trello Atlassian.
 
-Developed with React + Redux + Firebase + Firestore.
+Developed with React + Redux + Firebase.
 
 --
 
