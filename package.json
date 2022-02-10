@@ -11,7 +11,7 @@
     "eslint-plugin-react-hooks": "^1.5.1",
     "firebase": "^5.9.0",
     "gh-pages": "^2.0.1",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-redux": "^6.0.1",
